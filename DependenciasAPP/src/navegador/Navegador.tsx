@@ -12,11 +12,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const Tab = createBottomTabNavigator();
 
-
 export const Navegador = () => {
-
-  /* const { permisos} = useContext(ContextoPermiso); */
-
 
   return (
     <Tab.Navigator screenOptions={{
@@ -58,21 +54,5 @@ export const Navegador = () => {
       }}
       />
     </Tab.Navigator>
-    /* {/* <Stack.Navigator 
-    
-        screenOptions={{
-            headerShown: false,
-            cardStyle: {
-            backgroundColor: 'green'
-        }
-    }}>
-     
-      {
-        (permisos.EstadoLocalizacion === 'granted')
-        ?<Stack.Screen name="Mapa" component={PantallaMapa} />
-        :<Stack.Screen name="Permisos" component={PantallaPermisos} />
-      }
-        
-    </Stack.Navigator> */
   );
 }

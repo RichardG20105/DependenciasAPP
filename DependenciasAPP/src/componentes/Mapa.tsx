@@ -1,5 +1,4 @@
-import Geolocation from '@react-native-community/geolocation'
-import React, { useRef } from 'react'
+import React, { Children, useContext, useEffect, useRef } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import PantallaCarga from '../paginas/PantallaCarga';
@@ -8,18 +7,49 @@ import { Boton } from './Boton';
 import { Button, PixelRatio, Platform, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { PantallaPermisos } from '../paginas/PantallaPermisos';
+import { ContextoPermiso, ProveedorPermisos } from '../contexto/ContextoPermisos';
 
 interface Props{
-    markers?: Marker[]
+    markers?: Marker[];
 }
+
 export const Mapa = ({markers}: Props) => {
 
-    const { hasLocalizacion, PosicionInicial, getLocalizacionActual } = LocalizacionUso();
+    const { 
+        hasLocalizacion, 
+        PosicionInicial, 
+        getLocalizacionActual,
+        SeguirLocalizacionUsuario,
+        DetenerSeguimientoUsuario,
+        PosicionUsuario
+    } = LocalizacionUso();
 
     const ReferenciaVistaMapa = useRef<MapView>();
+    const SeguirUsuario = useRef<Boolean>(true);
+
+    useEffect(() => {
+        SeguirLocalizacionUsuario();
+        return () => {
+            DetenerSeguimientoUsuario();
+        }
+    }, [])
+
+    useEffect(() => {
+        
+        if(!SeguirUsuario.current) return;
+
+        const {latitud, longitud} = PosicionUsuario;
+        ReferenciaVistaMapa.current?.animateCamera({
+            center:{latitude:latitud,longitude:longitud}
+        });
+    }, [PosicionUsuario])
 
     const PosicionCentral = async() => {
         const {latitud, longitud} = await getLocalizacionActual();
+
+        SeguirUsuario.current = true;
+
         ReferenciaVistaMapa.current?.animateCamera({
             center: {
                 latitude: latitud,
@@ -29,13 +59,6 @@ export const Mapa = ({markers}: Props) => {
         })
     }
 
-    const padding = Platform.OS === 'android'
-        ? PixelRatio.getPixelSizeForLayoutSize(20)
-        : 20;
-    /* if( !hasLocalizacion){
-        return <PantallaCarga/>
-    } */
-
     return (
         <>
             <MapView
@@ -44,21 +67,14 @@ export const Mapa = ({markers}: Props) => {
                 showsMyLocationButton={false}
                 showsUserLocation
                 initialRegion={{
-                latitude: PosicionInicial.latitud,
-                longitude: PosicionInicial.longitud,
-                latitudeDelta: 0.0922,
-                longitudeDelta: 0.0421,
+                    latitude: PosicionInicial.latitud,
+                    longitude: PosicionInicial.longitud,
+                    latitudeDelta: 0.0922,
+                    longitudeDelta: 0.0421,
                 }
-            }
+                }
+                onTouchStart={ () => SeguirUsuario.current = false}
             >
-                {/* <Marker
-                    coordinate={{
-                        latitude: -1.6555740282668656,
-                        longitude: -78.67859671555266,
-                    }}
-                    title="Usuario"
-                    description="Este es el Usuario"
-                /> */}
             </MapView>
             <Fab
                 NombreIcono="locate"

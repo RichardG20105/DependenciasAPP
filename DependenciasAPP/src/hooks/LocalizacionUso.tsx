@@ -1,5 +1,5 @@
 import Geolocation from "@react-native-community/geolocation"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Localizacion } from "../interfaces/appinterfaces";
 
 export const LocalizacionUso = () => {
@@ -9,12 +9,20 @@ export const LocalizacionUso = () => {
         longitud: 0
     });
     
+    const [PosicionUsuario, setPosicionUsuario] = useState<Localizacion>({
+        longitud: 0,
+        latitud: 0
+    });
+
+    const IdSeguimiento = useRef<number>();
+
     useEffect(() => {
         getLocalizacionActual()
             .then(localizacion => {
             setPosicionInicial(localizacion);
+            setPosicionUsuario(localizacion);
             setHasLocalizacion(true);
-            })
+            });
     }, []);
 
     const getLocalizacionActual = (): Promise<Localizacion> => {
@@ -27,14 +35,34 @@ export const LocalizacionUso = () => {
                     });
 
                 },
-                (err)=> reject({err}),{enableHighAccuracy: true})
+                (err)=> reject({err}),{enableHighAccuracy: false})
         })
+    }
+
+    const SeguirLocalizacionUsuario = () => {
+        IdSeguimiento.current = Geolocation.watchPosition(
+            ({coords}) => {
+                setPosicionUsuario({
+                    latitud: coords.latitude,
+                    longitud: coords.longitude
+                })
+            },
+            (err) => console.log(err), {enableHighAccuracy: false, distanceFilter: 10}
+        )
+    }
+
+    const DetenerSeguimientoUsuario = () => {
+        if(IdSeguimiento.current)
+            Geolocation.clearWatch(IdSeguimiento.current);
     }
 
     return {
         hasLocalizacion,
+        getLocalizacionActual,
         PosicionInicial,
-        getLocalizacionActual
+        SeguirLocalizacionUsuario,
+        DetenerSeguimientoUsuario,
+        PosicionUsuario
     }
     
 }
