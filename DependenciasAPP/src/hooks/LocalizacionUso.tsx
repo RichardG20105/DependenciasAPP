@@ -15,13 +15,22 @@ export const LocalizacionUso = () => {
     });
 
     const IdSeguimiento = useRef<number>();
+    const EsEjecutado = useRef(true);
+
+    useEffect(() => {
+        EsEjecutado.current = true;
+        return () => {
+            EsEjecutado.current = false;
+        }
+    }, [])
 
     useEffect(() => {
         getLocalizacionActual()
             .then(localizacion => {
-            setPosicionInicial(localizacion);
-            setPosicionUsuario(localizacion);
-            setHasLocalizacion(true);
+                if(!EsEjecutado.current) return;
+                setPosicionInicial(localizacion);
+                setPosicionUsuario(localizacion);
+                setHasLocalizacion(true);
             });
     }, []);
 
@@ -42,6 +51,8 @@ export const LocalizacionUso = () => {
     const SeguirLocalizacionUsuario = () => {
         IdSeguimiento.current = Geolocation.watchPosition(
             ({coords}) => {
+                if(!EsEjecutado.current) return;
+                
                 setPosicionUsuario({
                     latitud: coords.latitude,
                     longitud: coords.longitude

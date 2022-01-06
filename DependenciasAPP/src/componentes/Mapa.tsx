@@ -54,8 +54,7 @@ export const Mapa = ({markers}: Props) => {
             center: {
                 latitude: latitud,
                 longitude: longitud
-            },
-            zoom: 18
+            }
         })
     }
 
@@ -69,8 +68,8 @@ export const Mapa = ({markers}: Props) => {
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitudeDelta: 0.00922,
+                    longitudeDelta: 0.00421,
                 }
                 }
                 onTouchStart={ () => SeguirUsuario.current = false}
