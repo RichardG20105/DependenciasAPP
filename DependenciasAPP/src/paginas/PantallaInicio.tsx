@@ -1,10 +1,9 @@
 import React from 'react'
-import { View } from 'react-native'
+import { Image, View, StyleSheet, Text } from 'react-native';
 
 export const PantallaInicio = () => {
     return (
-        <View>
-            
+        <View >
         </View>
     )
 }
