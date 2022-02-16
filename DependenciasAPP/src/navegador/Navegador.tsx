@@ -16,11 +16,11 @@ export const Navegador = () => {
 
   return (
     <Tab.Navigator screenOptions={{
-      tabBarStyle: {backgroundColor: '#EAECEE'},
+      tabBarStyle: {backgroundColor: '#3556C4'},
       tabBarActiveTintColor: 'white',
-      tabBarInactiveTintColor: 'grey',
-      tabBarInactiveBackgroundColor:'#EAECEE',
-      tabBarActiveBackgroundColor: '#127CE8',
+      tabBarInactiveTintColor: 'white',
+      tabBarInactiveBackgroundColor:'#3556C4',
+      tabBarActiveBackgroundColor: '#21C437',
       tabBarShowLabel: false,
       headerShown: false
     }}

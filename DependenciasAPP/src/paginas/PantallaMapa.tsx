@@ -18,7 +18,7 @@ const PantallaMapa = () => {
                 ? <Mapa/>
                 : <PantallaPermisos/>
             }
-        </View> 
+        </View>
     )
 }
 

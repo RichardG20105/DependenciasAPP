@@ -1,4 +1,11 @@
 
+export interface Uusario{
+    idUsuario: number;
+    nombre: string;
+    apellidos: string;
+    usuario: string;
+    contrasena: string;
+}
 
 export interface Localizacion{
     latitud: number;

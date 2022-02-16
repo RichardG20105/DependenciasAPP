@@ -1,14 +1,17 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { ComponentType, useEffect, useRef, useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
-import { Dimensions, Image, StyleSheet, Text, TouchableHighlight, View } from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Svg, Image as ImageSvg} from 'react-native-svg';
 import { BaseURL } from '../api/Apis';
 import { Boton } from './Boton';
+import { FlatList, TextInput } from 'react-native-gesture-handler';
+import Icon from 'react-native-vector-icons/Ionicons';
+
 
 export const Mapa = () => {
     const { 
@@ -19,12 +22,16 @@ export const Mapa = () => {
         PosicionUsuario
     } = LocalizacionUso();
 
-    const { Dependencias, 
-            Dependencia, BuscarDependencia,
+    const { Dependencias, DependenciasSugerida, 
+            Dependencia, BuscarDependencia, BuscarDependenciaSugerida,
     } = DependenciaUso();
 
     const ReferenciaVistaMapa = useRef<MapView>();
-    const SeguirUsuario = useRef<Boolean>(true);
+    const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
+
+    const [Texto, setTexto ] = useState<string>('');
+    
+    const [EstadoBusqueda, setEstadoBusqueda] = useState<Boolean>(false);
 
     const [Ruta, setRuta] = useState(false)
     const [TocarDependencia, setTocarDependencia] = useState<Boolean>(false);
@@ -62,7 +69,7 @@ export const Mapa = () => {
 
     useEffect(() => {
         LocalizacionTiempoReal();
-        if(!SeguirUsuario.current) return;
+        if(!SeguirUsuario) return;
 
         const {latitud, longitud} = PosicionUsuario;
         ReferenciaVistaMapa.current?.animateCamera({
@@ -80,7 +87,7 @@ export const Mapa = () => {
     const PosicionCentral = async() => {
         const {latitud, longitud} = await getLocalizacionActual();
 
-        SeguirUsuario.current = true;
+        setSeguirUsuario(true);
 
         ReferenciaVistaMapa.current?.animateCamera({
             center: {
@@ -88,6 +95,31 @@ export const Mapa = () => {
                 longitude: longitud
             }
         })
+    }
+    const PosicionarBusquedaSugerida = async(busqueda: string) => {
+        BuscarDependenciaSugerida(busqueda);
+        DependenciasSugerida.map(elemento => {
+            if(elemento.nombreDependencia === busqueda){
+                setEstadoBusqueda(false);
+                setTexto(busqueda);
+                ReferenciaVistaMapa.current?.animateCamera({
+                    center:{latitude:elemento.latitud,longitude:elemento.longitud},
+                    zoom: 18,
+                });
+            }
+        })
+    }
+
+    const BusquedaSugerida = async(busqueda: string) => {
+        if(busqueda === ''){
+            setEstadoBusqueda(false); 
+            setTexto('')  
+        }
+        else{
+            setTexto(busqueda)
+            setEstadoBusqueda(true);
+            BuscarDependenciaSugerida(busqueda);
+        }
     }
 
     const getMarcador = (id:number) => {
@@ -124,6 +156,7 @@ export const Mapa = () => {
     const TrazarRuta = () => {
         setRuta(true);
         setTocarDependencia(false);
+        setSeguirUsuario(true)
     }
 
     const Tiempo = (tiempo: number, distancia: number) => {
@@ -132,6 +165,12 @@ export const Mapa = () => {
 
     const CancelarRuta = () => {
         setRuta(false);
+        setOrigen({LocalizacionUsuario:{latitude: 0, longitude: 0}});
+        setDestino({LocalizacionDestino:{latitude: 0, longitude: 0}});
+    }
+
+    const getTexto = ():string =>{
+        return Texto;
     }
 
     return (
@@ -149,10 +188,9 @@ export const Mapa = () => {
                     longitudeDelta: 0.00421,
                 }
                 }
-                onTouchStart={ () => [SeguirUsuario.current = false, setTocarDependencia(false)]}
-                
+                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), Keyboard.dismiss()]}
             >
-               {
+                {
                     Dependencias.map((val) => {
                         return(
                             <Marker 
@@ -163,9 +201,8 @@ export const Mapa = () => {
                                 }}
                                 onPress={() => MarkerClic(val.idDependencia,val.latitud, val.longitud)}
                             >
-                            <Image source={getMarcador(val.idTipoDependencia)} style={styles.Marcador} resizeMode="contain"/>
+                            <Image source={ getMarcador(val.idTipoDependencia) } style={styles.Marcador} resizeMode="contain"/>
                             </Marker>
-                            
                         )
                     })
                 }
@@ -176,21 +213,49 @@ export const Mapa = () => {
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={6}
                         strokeColor="red"
+                        mode='WALKING'
                         onReady={result => {
                             Tiempo(result.duration, result.distance)
-                        } }
+                        }}
                     />
                     :<View/>
                 }
             </MapView>
+            <View style={styles.BuscadorCuadro}>
+                <TextInput 
+                    placeholder='Buscador...'
+                    value={ getTexto()}
+                    style={styles.Buscador}
+                    onChangeText={busqueda => BusquedaSugerida(busqueda)}
+                />
+                { EstadoBusqueda
+                    ? <FlatList
+                        style={styles.ListaSugerida} 
+                        data={DependenciasSugerida} 
+                        getItemLayout={(data, index) => {
+                            return{
+                                length: 30,
+                                offset: 30 * index,
+                                index
+                            }
+                        }}
+                        renderItem={({item}) => {
+                        return(
+                            <TouchableOpacity style={styles.ListaTocar}
+                                onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia)}}
+                            >
+                                <Text style={styles.TextoLista}>{item.nombreDependencia}</Text>
+                            </TouchableOpacity>
+                        )
+                        }} 
+                    />
+                    : <View/>
+                }
+            </View>
             { TocarDependencia
                 ?   <View style={styles.Carta}>
                         <Svg>
                             { (Dependencia?.fotos.length != 0)
-                                /* ?<ImageSvg width={'80%'} height={'80%'} 
-                                    preserveAspectRatio="xMidYMid slice" href={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>                                        
-                                :<ImageSvg  width={'100%'} height={'100%'} 
-                                    preserveAspectRatio="xMidYMid slice" href={require('../assets/ImageNotFound.png')}/> */
                                 ?<Image style={styles.CartaContenido} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
                                 :<Image style={styles.CartaContenido} source={require('../assets/ImageNotFound.png')}/>
                             }
@@ -203,11 +268,11 @@ export const Mapa = () => {
                     </View>
                 : <View/>
             }
-            { !Ruta && !TocarDependencia
+            { !TocarDependencia
                 ? <Fab   NombreIcono="locate"
                     onPress={() => PosicionCentral()}
                     style={{
-                        bottom: 150,
+                        bottom: 200,
                         right: -350
                     }}
                 />
@@ -249,7 +314,7 @@ const styles = StyleSheet.create({
         right: 7,
         width: DispositivoWidth - 15,
         height: 250,
-        backgroundColor: 'lightgreen',
+        backgroundColor: '#21C437',
         borderRadius: Radio,
         shadowColor: '#000',
         shadowOffset: {
@@ -306,4 +371,39 @@ const styles = StyleSheet.create({
         width: 40, 
         height: 40
     },
+    BuscadorCuadro:{
+        position: 'absolute',
+        top: 15,
+        right: 20,
+        width: DispositivoWidth - 40,
+        borderRadius: Radio,
+        elevation: 9,
+        shadowColor: '#000',
+        shadowOffset: {
+            width:10,
+            height: 10,
+        },
+        shadowRadius: Radio,
+    },
+    Buscador: {
+        backgroundColor: 'white',
+        color: 'black',
+        borderRadius: Radio,
+    },
+    ListaSugerida:{
+        marginVertical: 5,
+        backgroundColor: 'white',
+        color: 'black',
+        borderRadius: Radio,
+        width: DispositivoWidth - 40,
+        maxHeight: 120,
+    },
+    TextoLista:{
+        marginVertical: 3,
+        marginHorizontal: 10, 
+        color: 'black',
+    },
+    ListaTocar:{
+        height: 30,
+    }
 })
