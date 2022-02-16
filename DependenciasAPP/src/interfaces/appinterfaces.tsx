@@ -12,10 +12,16 @@ export interface Dependencia{
     descripcionDependencia: string;
     latitud: number;
     longitud: number;
+    fotos: Foto[];
 }
 
 export interface Foto{
-    idFoto: string;
+    idFoto: number;
     idDependencia: number;
     nombreFoto: string;
+}
+
+export interface TipoDependencia{
+    idTipoDependencia: number,
+    nombreTipoDependencia: string
 }

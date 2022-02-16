@@ -58,7 +58,7 @@ export const LocalizacionUso = () => {
                     longitud: coords.longitude
                 })
             },
-            (err) => console.log(err), {enableHighAccuracy: false, distanceFilter: 10}
+            (err) => console.log(err), {enableHighAccuracy: false, distanceFilter: 5}
         )
     }
 
