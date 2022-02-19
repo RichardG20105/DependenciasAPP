@@ -1,10 +1,7 @@
 import React, { useContext } from 'react'
-import { ImageBackground, StyleSheet, Text, View} from 'react-native'
+import { StyleSheet, Text, View} from 'react-native'
 import { ContextoPermiso, ProveedorPermisos } from '../contexto/ContextoPermisos';
 import { Boton } from '../componentes/Boton';
-import { createStackNavigator } from '@react-navigation/stack';
-import { PantallaInicio } from './PantallaInicio';
-import { Mapa } from '../componentes/Mapa';
 
 export const PantallaPermisos = () => {
 

@@ -9,9 +9,6 @@ export const DependenciaUso = () => {
 
     const [DependenciasSugerida,setDependenciasSugerida] = useState<Dependencia[]>([]);
 
-    const [TiposDependencia, setTiposDependencia] = useState<TipoDependencia[]>([])
-    
-    
     const CargarDependencias = async() => {
         try {
             const resp = await DependenciasApi.get<Dependencia[]>(BaseURL+'/Dependencia/Listado');
@@ -25,15 +22,6 @@ export const DependenciaUso = () => {
         try {
             const resp = await DependenciasApi.get<Dependencia>(BaseURL+'/Dependencia/ID/'+idDep);
             setDependencia(resp.data);
-        } catch (error) {
-            console.log(error)
-        }
-    }
-
-    const CargarTiposDependencia = async () => {
-        try {
-            const resp = await DependenciasApi.get<TipoDependencia[]>(BaseURL+'/TipoDependencia/Listado')
-            setTiposDependencia(resp.data)
         } catch (error) {
             console.log(error)
         }

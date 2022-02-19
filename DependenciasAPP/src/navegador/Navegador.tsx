@@ -4,11 +4,11 @@ import PantallaCarga from '../paginas/PantallaCarga';
 import PantallaMapa from '../paginas/PantallaMapa';
 import { ContextoPermiso, EstadoPermiso, ProveedorPermisos } from '../contexto/ContextoPermisos';
 import { PantallaFavoritos } from '../paginas/PantallaFavoritos';
-import { PantallaInicio } from '../paginas/PantallaInicio';
 import { PantallaUsuario } from '../paginas/PantallaUsuario';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Fab } from '../componentes/Fab';
 import Icon from 'react-native-vector-icons/Ionicons';
+import PantallaInicio from '../paginas/PantallaInicio';
 
 const Tab = createBottomTabNavigator();
 
