@@ -14,10 +14,8 @@ import { TiposDependenciaUso } from '../hooks/TiposDependenciaUso';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { BaseURL, DependenciasApi } from '../api/Apis';
-import { Dependencia } from '../interfaces/appinterfaces';
+import { BaseURL} from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
-import Svg from 'react-native-svg';
 import { Dimensions } from 'react-native';
 
 
