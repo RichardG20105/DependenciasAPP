@@ -1,4 +1,4 @@
-import React, { ComponentType, useEffect, useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import MapView, { Marker } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
@@ -7,10 +7,10 @@ import MapViewDirections from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
 import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import {Svg, Image as ImageSvg} from 'react-native-svg';
-import { BaseURL } from '../api/Apis';
+import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import Icon from 'react-native-vector-icons/Ionicons';
+import { Dependencia } from '../interfaces/appinterfaces';
 
 
 export const Mapa = () => {
@@ -26,7 +26,7 @@ export const Mapa = () => {
             Dependencia, BuscarDependencia, BuscarDependenciaSugerida,
     } = DependenciaUso();
 
-    const ReferenciaVistaMapa = useRef<MapView>();
+    const [ReferenciaVistaMapa, setReferenciaVistaMapa ]= useState<MapView>();
     const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
 
     const [Texto, setTexto ] = useState<string>('');
@@ -51,7 +51,7 @@ export const Mapa = () => {
     const [DistanciaTiempo, setDistanciaTiempo] = useState({
         tiempo: 0,
         distancia: 0,
-    })
+    })  
 
     useEffect(() => {
         const intervalo = setInterval(() => {
@@ -66,16 +66,19 @@ export const Mapa = () => {
             DetenerSeguimientoUsuario();
         }
     }, [])
+    
 
     useEffect(() => {
         LocalizacionTiempoReal();
         if(!SeguirUsuario) return;
 
         const {latitud, longitud} = PosicionUsuario;
-        ReferenciaVistaMapa.current?.animateCamera({
+    
+        ReferenciaVistaMapa?.animateCamera({
             center:{latitude:latitud,longitude:longitud}
         });
     }, [PosicionUsuario])
+
     
     const LocalizacionTiempoReal = async () => {
         const {latitud, longitud} = PosicionUsuario;
@@ -89,7 +92,7 @@ export const Mapa = () => {
 
         setSeguirUsuario(true);
 
-        ReferenciaVistaMapa.current?.animateCamera({
+        ReferenciaVistaMapa?.animateCamera({
             center: {
                 latitude: latitud,
                 longitude: longitud
@@ -102,7 +105,7 @@ export const Mapa = () => {
             if(elemento.nombreDependencia === busqueda){
                 setEstadoBusqueda(false);
                 setTexto(busqueda);
-                ReferenciaVistaMapa.current?.animateCamera({
+                ReferenciaVistaMapa?.animateCamera({
                     center:{latitude:elemento.latitud,longitude:elemento.longitud},
                     zoom: 18,
                 });
@@ -173,10 +176,17 @@ export const Mapa = () => {
         return Texto;
     }
 
+    const setReferenciaMapa = (referencia: any) =>{
+        if(referencia){
+            setReferenciaVistaMapa(referencia)
+        }
+    }
+    
+
     return (
         <>
-            <MapView 
-                ref={ (el) => ReferenciaVistaMapa.current = el!}
+            <MapView
+                ref={ (el) => setReferenciaMapa(el)}
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
                 showsUserLocation

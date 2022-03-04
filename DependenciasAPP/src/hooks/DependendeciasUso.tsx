@@ -1,21 +1,33 @@
-import { DependenciasApi, BaseURL } from "../api/Apis"
+import axios from 'axios';
 import {useEffect, useState} from 'react';
+import Apis from '../api/Apis';
 import { Dependencia, TipoDependencia } from '../interfaces/appinterfaces';
 
 export const DependenciaUso = () => {
-
+    const {Token, DependenciasApi, BaseURL} = Apis();
     const [Dependencias,setDependencias] = useState<Dependencia[]>([]);
     const [Dependencia, setDependencia] = useState<Dependencia>();
 
     const [DependenciasSugerida,setDependenciasSugerida] = useState<Dependencia[]>([]);
+    
+    const [Recomendados, setRecomendados] = useState<Dependencia[]>([])
 
     const CargarDependencias = async() => {
         try {
             const resp = await DependenciasApi.get<Dependencia[]>(BaseURL+'/Dependencia/Listado');
             setDependencias(resp.data);
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }    
+    }
+
+    const CargarRecomendados = async() => {
+        try{
+            const resp = await DependenciasApi.get<Dependencia[]>(BaseURL + '/Dependencia/Recomendados');
+            setRecomendados(resp.data);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const BuscarDependencia = async (idDep:number) => {
@@ -38,11 +50,13 @@ export const DependenciaUso = () => {
     
     useEffect(() => {
         CargarDependencias();
+        CargarRecomendados();
     }, [])
 
     return{
         Dependencias,
         Dependencia,
+        Recomendados,
         DependenciasSugerida,
         BuscarDependencia,
         BuscarDependenciaSugerida,

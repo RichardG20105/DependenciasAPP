@@ -1,14 +1,11 @@
-import React, { useContext } from 'react'
-import { createStackNavigator } from '@react-navigation/stack';
-import PantallaCarga from '../paginas/PantallaCarga';
+import React from 'react'
 import PantallaMapa from '../paginas/PantallaMapa';
-import { ContextoPermiso, EstadoPermiso, ProveedorPermisos } from '../contexto/ContextoPermisos';
 import { PantallaFavoritos } from '../paginas/PantallaFavoritos';
-import { PantallaUsuario } from '../paginas/PantallaUsuario';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Fab } from '../componentes/Fab';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';
+import PantallaInicioSesion from '../paginas/PantallaSesion';
+import PantallaUsuario from '../paginas/PantallaUsuario';
 
 const Tab = createBottomTabNavigator();
 
@@ -25,7 +22,7 @@ export const Navegador = () => {
       headerShown: false
     }}
     >
-      <Tab.Screen name='Inicio' component={PantallaInicio}
+      <Tab.Screen name='Home' component={PantallaInicio}
         options={{
           tabBarIcon: (props) => (
             <Icon name='home' size={30} color={props.color}/>

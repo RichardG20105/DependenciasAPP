@@ -8,33 +8,43 @@ import {
     Image,
     FlatList
 } from "react-native"
+
 import  Carousel  from '../componentes/Carousel'
 import {icons} from '../../constants'
 import { TiposDependenciaUso } from '../hooks/TiposDependenciaUso';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { BaseURL} from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 import { Dimensions } from 'react-native';
+import Card from '../componentes/Card';
+import PantallaDependencia from './PantallaDependencia';
+import PantallaMapa from './PantallaMapa';
+import Apis from '../api/Apis';
+import BuscadorDependencias from '../componentes/BuscadorDependencias';
 
 
 type RootStackParamList = {
     Inicio: undefined;
     Lista: undefined;
+    Dependencia: {idDependencia: number};
+    Buscador: undefined;
 };
 
 const PantallaInicio = () => {
+    const {BaseURL} = Apis();
     const Stack = createStackNavigator();
 
     const { TiposDependencia, CargarTiposDependencia} = TiposDependenciaUso();
-    const { Dependencias } = DependenciaUso();
+    const { Dependencias, Recomendados } = DependenciaUso();
 
     const [IdTipo, setIdTipo] = useState(0);
 
     useEffect(() => {
       CargarTiposDependencia();
     }, [])
+
+    type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
     
 
     const getIcono = (id:number) => {
@@ -62,8 +72,9 @@ const PantallaInicio = () => {
     }
 
     function renderHeader(){
+        const navigation = useNavigation<homeScreenProp>();
         return (
-            <View style={{flexDirection: 'row', height: 50}}>
+            <View style={{flexDirection: 'row', height: 50, marginBottom: 11}}>
                 <TouchableOpacity
                     style={{
                         width: 50,
@@ -76,8 +87,8 @@ const PantallaInicio = () => {
                         source={icons.nearby}
                         resizeMode="contain"
                         style={{
-                            width: 30,
-                            height: 30
+                            width: 26,
+                            height: 26
                         }}
                     /> 
                 </TouchableOpacity>
@@ -105,9 +116,10 @@ const PantallaInicio = () => {
                         justifyContent: 'center',
                         marginTop: 20
                     }}
+                    onPress={() => {navigation.navigate('Buscador'),console.log('Hola')}}
                 >
                     <Image
-                        source={icons.basket}
+                        source={icons.search}
                         resizeMode="contain"
                         style={{
                             width: 30,
@@ -119,12 +131,12 @@ const PantallaInicio = () => {
             </View>
         )
     }
-    type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
+    
     function  renderMainCategories(){
         const navigation = useNavigation<homeScreenProp>();
         return(
-            <View style={{ padding: 7 * 2, paddingVertical: 97 * 2}}>
-                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 25, lineHeight: 30 }}> Categories </Text>
+            <View style={{ padding: 7 * 2, paddingBottom: 4}}>
+                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26 }}> Categories </Text>
 
                 <FlatList
                     data={TiposDependencia}
@@ -136,12 +148,12 @@ const PantallaInicio = () => {
                             <TouchableOpacity
                                 style={{
                                     padding: 10,
-                                    paddingBottom: 10 * 2,
+                                    paddingBottom: 8 * 2,
                                     backgroundColor: "#0CEF5C",
                                     borderRadius: 35,
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    marginRight: 10,
+                                    marginRight: 6.5,
                                     ...style.shadow
                                 }}
                                 onPress={() => {setIdTipo(item.idTipoDependencia),navigation.navigate('Lista')}}
@@ -149,7 +161,7 @@ const PantallaInicio = () => {
                                 <View   
                                     style={{
                                         width: 50,
-                                        height: 50,
+                                        height: 48,
                                         borderRadius: 25,
                                         alignItems: "center",
                                         justifyContent: "center",
@@ -167,9 +179,10 @@ const PantallaInicio = () => {
                                 </View>
                                 <Text
                                     style={{
-                                        marginTop: 10,
+                                        marginTop: 0,
                                         color: "#FFFFFF",
-                                        fontFamily: "Roboto-Regular", fontSize: 12, lineHeight: 22
+                                        fontFamily: "Roboto-Regular", fontSize: 12, lineHeight: 22,
+                                        textAlign: 'justify'
                                     }}
                                 >
                                     {item.nombreTipoDependencia}
@@ -213,7 +226,7 @@ const PantallaInicio = () => {
                                         }}
                                     >   
                                     { (item?.fotos.length != 0)
-                                        ?<Image style={style.Imagen} source={{uri: `${BaseURL}/imagenes/${item.fotos[0].nombreFoto}`}}/>
+                                        ?<Image style={style.Imagen} source={{uri: BaseURL+`/imagenes/${item.fotos[0].nombreFoto}`}}/>
                                         :<Image style={style.Imagen} source={require('../assets/ImageNotFound.png')}/>
                                     }
                                        <View >
@@ -233,25 +246,58 @@ const PantallaInicio = () => {
         )
     }
 
+    function rendermainCards(){
+        const navigation = useNavigation<homeScreenProp>();
+
+        return(
+            <>
+                <FlatList
+                data={Recomendados}
+                showsVerticalScrollIndicator={false}
+                keyExtractor={item => `${item.idDependencia}`}
+                renderItem = { ({item}) => {
+                    return (
+                        <TouchableOpacity 
+                            style={{marginBottom: 5 * 2}}
+                            onPress={() => navigation.navigate('Dependencia',{idDependencia: item.idDependencia})}
+                        >  
+                            <Card 
+                                title = {item.nombreDependencia}
+                                location = 'ESPOCH'
+                                description = {item.descripcionDependencia}
+                                image = {item.fotos}
+                            />
+                        </TouchableOpacity>
+                    )
+                }}
+                contentContainerStyle={{ paddingVertical: 7 * 2 }}
+            />
+        
+            </>
+        )
+    }
+
     function InicioScreen(){
         return(
             <SafeAreaView style={style.container}>
                 {renderHeader()}
-                <View style={{paddingVertical: 8 * 2}}>
+                <View style={{paddingVertical: 2 * 2}}>
                     <Carousel />
                 </View>
-                {renderMainCategories()}   
+                {renderMainCategories()}
+                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14}}> Recomendados </Text>
+                {rendermainCards()}
             </SafeAreaView>
         )
     }
 
     return (
-        <NavigationContainer independent={true}>
-            <Stack.Navigator initialRouteName='Inicio' screenOptions={{headerShown:false}}>
-                <Stack.Screen name='Inicio' component={InicioScreen}/>
-                <Stack.Screen name='Lista' component={ListaScreen}/>
-            </Stack.Navigator>
-        </NavigationContainer>
+        <Stack.Navigator initialRouteName='Inicio' screenOptions={{headerShown:false}}>
+            <Stack.Screen name='Inicio' component={InicioScreen}/>
+            <Stack.Screen name='Lista' component={ListaScreen}/>
+            <Stack.Screen name='Dependencia' component={PantallaDependencia}/>
+            <Stack.Screen name='Buscador' component={BuscadorDependencias}/>
+        </Stack.Navigator>
     )
 }
 

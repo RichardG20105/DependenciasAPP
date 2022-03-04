@@ -1,10 +1,13 @@
 
-export interface Uusario{
+export interface Usuario{
     idUsuario: number;
-    nombre: string;
+    nombres: string;
     apellidos: string;
     usuario: string;
     contrasena: string;
+    ciudad: string;
+    telefono: string;
+    correo: string;
 }
 
 export interface Localizacion{

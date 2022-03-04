@@ -31,6 +31,7 @@ const Carousel = () => {
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     horizontal
+                    
                     style = {styles.wrap}
                 >
                     {
@@ -65,15 +66,14 @@ const styles = StyleSheet.create({
     
     container: {
         flex: 1,
-
-        marginVertical: 10,
-        marginHorizontal: 18,
-        
+        marginVertical: 2,
+        marginHorizontal: 21,
+        paddingBottom: 158,
     },
 
     wrap: {
-        width: WIDTH - 30,
-        height: HEIGHT * 0.25
+        width: WIDTH - 42,
+        height: HEIGHT * 0.21
     },
 
     wrapDot: {

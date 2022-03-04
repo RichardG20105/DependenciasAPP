@@ -1,18 +1,18 @@
 import React, { useContext } from 'react'
 import { StyleSheet, Text, View} from 'react-native'
-import { ContextoPermiso, ProveedorPermisos } from '../contexto/ContextoPermisos';
+import { ContextoPermiso } from '../contexto/ContextoPermisos';
 import { Boton } from '../componentes/Boton';
 
 export const PantallaPermisos = () => {
 
-    const { permisos, PreguntarPermisoLocalizacion } = useContext( ContextoPermiso );
+    const { PreguntarPermisoLocalizacion } = useContext( ContextoPermiso );
 
 
     return (
         <View style={ styles.container }>
             <Text style={ styles.title }>Para hacer uso del Mapa debe conceder los Permisos de GPS </Text>
 
-            <Boton 
+            <Boton
                 title="Permiso"
                 onPress={ PreguntarPermisoLocalizacion }
             />

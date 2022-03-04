@@ -47,6 +47,7 @@ export const ProveedorPermisos = ({children}: any) => {
             EstadoLocalizacion: estadoPermiso
         });
     }
+    
     const VerificarPermisoLocalizacion = async() => {
         let estadoPermiso: PermissionStatus;
         if(Platform.OS === 'ios'){
