@@ -23,21 +23,10 @@ const PantallaDependencia = (props: any) => {
     useEffect(() => {
       BuscarDependencia(idDependencia)
     }, [])
-
-    type RootStackParamList = {
-        Inicio: undefined;
-        Lista: undefined;
-        Dependencia: {
-            idDependencia: number
-        };
-        Mapa: undefined;
-    };
     
     function renderHeader(){
-        type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
-        const navigation = useNavigation<homeScreenProp>();
         const Regreso = () =>{
-            navigation.goBack()
+            props.navigation.goBack()
         }
         return(
             <View style={{ flexDirection:'row', paddingTop: 15, paddingBottom: 15 }}>
@@ -116,11 +105,11 @@ const PantallaDependencia = (props: any) => {
                             <View style={styles.iconContainer}>
                                 <Icon name="favorite" color= "red" size={30} />
                             </View>
-                            <TouchableOpacity style={styles.iconContainer1}
-                                onPress={() => DirigirMapa(Dependencia?.idDependencia)}
+                            <View style={styles.iconContainer1}
+                                //onPress={() => DirigirMapa(Dependencia?.idDependencia)}
                             >
                                 <Icon name="directions" color= "#777873" size={40} />
-                            </TouchableOpacity>
+                            </View>
                             
                         </View> 
                         

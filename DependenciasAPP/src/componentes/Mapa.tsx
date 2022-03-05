@@ -11,9 +11,12 @@ import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { Dependencia } from '../interfaces/appinterfaces';
+import { getIconoMapa } from './Iconos';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { useNavigation } from '@react-navigation/native';
 
 
-export const Mapa = () => {
+export const Mapa = ({navigation}:any) => {
     const { 
         PosicionInicial, 
         getLocalizacionActual,
@@ -124,31 +127,6 @@ export const Mapa = () => {
             BuscarDependenciaSugerida(busqueda);
         }
     }
-
-    const getMarcador = (id:number) => {
-        let path = '../assets/MapPins/'
-        switch(id){
-            case 1:
-                return require(path+'Auditorio.png')
-                break;
-            case 2:
-                return require(path+'Baño.png')
-                break;
-            case 3:
-                return require(path+'Estadio.png')
-                break;
-            case 4: 
-                return require(path+'Cancha.png');
-                break;
-            case 5:
-                return require(path+'Parqueadero.png')
-                break;
-            default:
-                return
-                break;
-
-        }
-    }
     
     const MarkerClic = (IdDep: number,latitude: number,longitude: number)  =>{
         setTocarDependencia(true);
@@ -211,7 +189,7 @@ export const Mapa = () => {
                                 }}
                                 onPress={() => MarkerClic(val.idDependencia,val.latitud, val.longitud)}
                             >
-                            <Image source={ getMarcador(val.idTipoDependencia) } style={styles.Marcador} resizeMode="contain"/>
+                            <Image source={ getIconoMapa(val.idTipoDependencia) } style={styles.Marcador} resizeMode="contain"/>
                             </Marker>
                         )
                     })
@@ -275,6 +253,8 @@ export const Mapa = () => {
                         </Svg>
                         <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()}
                                 style={{position: 'absolute',bottom: 20, right:10,}}/>
+                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia})}}
+                                style={{position: 'absolute',bottom: 20, right: 70,}}/>
                     </View>
                 : <View/>
             }

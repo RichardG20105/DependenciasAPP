@@ -4,17 +4,27 @@ import { Mapa } from '../componentes/Mapa';
 import { ContextoPermiso, ProveedorPermisos, EstadoPermiso } from '../contexto/ContextoPermisos';
 import { PantallaPermisos } from './PantallaPermisos';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
+import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import PantallaDependencia from './PantallaDependencia';
 
-const PantallaMapa = (props: any) => {
+
+const PantallaMapa = () => {
     const {permisos} = useContext(ContextoPermiso)
+    const Stack = createStackNavigator()
     return (
-        <View style={{flex:1}}>
-            {
-                ( permisos.EstadoLocalizacion === 'granted' )
-                ? <Mapa/>
-                : <PantallaPermisos/>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+            
+        >
+            { 
+                ( permisos.EstadoLocalizacion === 'granted')
+                ? <Stack.Screen name='PantallaMapa' component={Mapa}/>
+                : <Stack.Screen name='PantallaPermiso' component={PantallaPermisos}/>
             }
-        </View>
+            <Stack.Screen name='Dependencias' component={PantallaDependencia}/>
+        </Stack.Navigator>
     )
 }
 

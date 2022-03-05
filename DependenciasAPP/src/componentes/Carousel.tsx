@@ -1,11 +1,14 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Image, NativeScrollEvent } from  'react-native'
 
+const path = '../assets/Carousel'
 const images = [
-    'https://cdn.pixabay.com/photo/2016/09/01/19/53/pocket-watch-1637396_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2017/10/03/17/53/nature-2813487_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2018/07/28/11/08/guitar-3567767_960_720.jpg',
-    'https://cdn.pixabay.com/photo/2018/06/07/09/01/emotions-3459666_960_720.jpg'
+    require('../assets/Carousel/fondo1.jpg'),
+    require('../assets/Carousel/fondo2.jpg'),
+    require('../assets/Carousel/fondo3.jpg'),
+    require('../assets/Carousel/fondo4.jpg'),
+    require('../assets/Carousel/fondo5.jpg'),
+    require('../assets/Carousel/fondo6.jpg'),
 ]
 
 const WIDTH = Dimensions.get('window').width;
@@ -40,7 +43,7 @@ const Carousel = () => {
                                 key={e}
                                 resizeMode= 'stretch'
                                 style={styles.wrap}
-                                source={{uri: e}}
+                                source={e}
                             />
                         )
                     }

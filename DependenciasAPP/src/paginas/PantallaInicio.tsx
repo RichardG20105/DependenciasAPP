@@ -19,9 +19,10 @@ import { DependenciaUso } from '../hooks/DependendeciasUso';
 import { Dimensions } from 'react-native';
 import Card from '../componentes/Card';
 import PantallaDependencia from './PantallaDependencia';
-import PantallaMapa from './PantallaMapa';
 import Apis from '../api/Apis';
 import BuscadorDependencias from '../componentes/BuscadorDependencias';
+import { getIconoInicio } from '../componentes/Iconos';
+import { Dependencia } from '../interfaces/appinterfaces';
 
 
 type RootStackParamList = {
@@ -44,32 +45,7 @@ const PantallaInicio = () => {
       CargarTiposDependencia();
     }, [])
 
-    type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
-    
-
-    const getIcono = (id:number) => {
-        let path = '../assets/MapPins/'
-        switch(id){
-            case 1:
-                return require(path+'Auditorio.png')
-                break;
-            case 2:
-                return require(path+'Baño.png')
-                break;
-            case 3:
-                return require(path+'Estadio.png')
-                break;
-            case 4: 
-                return require(path+'Cancha.png');
-                break;
-            case 5:
-                return require(path+'Parqueadero.png')
-                break;
-            default:
-                return
-                break;
-        }
-    }
+    type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;    
 
     function renderHeader(){
         const navigation = useNavigation<homeScreenProp>();
@@ -169,7 +145,7 @@ const PantallaInicio = () => {
                                     }}
                                 >
                                     <Image
-                                        source={getIcono(item.idTipoDependencia)}
+                                        source={getIconoInicio(item.idTipoDependencia)}
                                         resizeMode="contain"
                                         style={{
                                             width: 30,
@@ -203,13 +179,46 @@ const PantallaInicio = () => {
         }
 
         return(
-            <SafeAreaView style={ style.ContenedorLista}>
-                <TouchableOpacity style={style.contenedorBoton} onPress={() => Regreso()}>
+            <SafeAreaView style={style.container}>
+                <View style={{ flexDirection:'row', paddingTop: 15, paddingBottom: 15 }}>
+                <TouchableOpacity
+                    style={{
+                        width: 50,
+                        paddingLeft: 10 * 2,
+                        justifyContent: 'center'
+                    }}
+                    onPress={() => Regreso()}
+                >
                     <Icon name="arrow-back"
-                    color="black"
-                    size={35}/>
+                        color="black"
+                        size={35}/>
                 </TouchableOpacity>
-                <Text style={style.TituloLista}>Dependencias</Text>
+                
+                {/* Nombre de la Sección de la Dependencia */}
+
+                <View 
+                    style={{
+                        flex: 1,
+                        marginHorizontal: 15,
+                        marginRight: 20,
+                        alignItems: 'center',
+                        justifyContent: 'center'
+                    }}
+                >
+                    <View
+                        style={{
+                            height: 44,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            paddingHorizontal: 40,
+                            borderRadius: 30,
+                            backgroundColor: "#EFEFF1"
+                        }}
+                    >
+                        <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color:"black"}}>Dependencias</Text>
+                    </View>
+                </View>
+            </View>
                 <View style={style.Lista}>
                     <FlatList
                         data={Dependencias}
@@ -223,7 +232,10 @@ const PantallaInicio = () => {
                                             backgroundColor: '#22B002',
                                             marginVertical: 5,
                                             borderRadius: 10,
+                                            borderColor: 'black',
+                                            borderWidth: 1
                                         }}
+                                        onPress={() => navigation.navigate('Dependencia',{idDependencia: item.idDependencia})}
                                     >   
                                     { (item?.fotos.length != 0)
                                         ?<Image style={style.Imagen} source={{uri: BaseURL+`/imagenes/${item.fotos[0].nombreFoto}`}}/>
@@ -307,7 +319,7 @@ const VentanaHeight = Dimensions.get('window').height;
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "#F8F8F9"
+        backgroundColor: "white",
     },
     shadow: {
         shadowColor: "#000",
@@ -331,7 +343,6 @@ const style = StyleSheet.create({
     },
     ContenedorLista:{
         flex: 1,
-        backgroundColor: '#2a2a2a1a',
         height: VentanaHeight
     },
     Lista:{
@@ -339,9 +350,12 @@ const style = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 20,
         borderRadius: 10,
+        padding: 0,
     },
     Imagen:{
-        width: VentanaWidth * 0.95,
+        padding: 0,
+        margin: 0,
+        width: '100%',
         height: VentanaHeight * 0.20,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
