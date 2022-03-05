@@ -7,7 +7,7 @@ import axios from 'axios';
 export const UsuarioUso = () => {    
 
 
-    const {Token, BaseURL, DependenciasApi, getToken } = Apis();
+    const {BaseURL, DependenciasApi, getToken } = Apis();
 
     const [UsuarioInfo, setUsuarioInfo] = useState<Usuario>()
 
@@ -57,7 +57,6 @@ export const UsuarioUso = () => {
             AsyncStorage.setItem('Usuario',resp.data.usuario)
             AsyncStorage.setItem('Contrasena',resp.data.contrasena)
         }).catch((error) => {
-            console.log(error.request.status)
             if(error.request.status === 401){
                 AsyncStorage.removeItem('Token')   
                 getToken()

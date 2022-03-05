@@ -1,22 +1,14 @@
-import React, {useCallback, useEffect} from 'react'
+import React, {useCallback} from 'react'
 import { 
     StyleSheet,
-    SafeAreaView,
-    StatusBar,
     View, 
     Text,
-    TextInput,
-    ImageBackground,
     TouchableOpacity,
-    Image,
-    Dimensions,
-    Animated } from 'react-native'
+    Image, } from 'react-native'
     import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import {images, icons} from '../../constants'
+import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useFocusEffect, useIsFocused, useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { Usuario } from '../interfaces/appinterfaces';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export const UsuarioInformacion = ({navigation}:any) => {
@@ -26,9 +18,8 @@ export const UsuarioInformacion = ({navigation}:any) => {
         useCallback(
           () => {
             InformacionUsuario()
-            console.log('focus')
             return () => {
-                console.log('unfocused')
+                
             }
           },[],
         )

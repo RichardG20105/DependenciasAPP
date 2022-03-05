@@ -3,7 +3,6 @@ import React, { useEffect } from 'react'
 import { View } from 'react-native';
 import Apis from '../api/Apis';
 import Favoritos from '../componentes/Favoritos';
-import { UsuarioUso } from '../hooks/UsuarioUso';
 import PantallaSesion from './PantallaSesion';
 
 export const PantallaFavoritos = () => {
@@ -12,7 +11,6 @@ export const PantallaFavoritos = () => {
     const isFocused = useIsFocused()
     useEffect(() => {
         getToken()
-        console.log(Token)
     }, [isFocused])
     
     return (
