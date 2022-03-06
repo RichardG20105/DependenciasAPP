@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { useEffect, useState } from 'react'
 
-export const BaseURL = 'http://192.168.1.24:8080';
+export const BaseURL = 'http://192.168.1.26:8080';
 const Apis = () => {
     const [Token, setToken] = useState<any>();
     const DependenciasApi = axios.create(); 

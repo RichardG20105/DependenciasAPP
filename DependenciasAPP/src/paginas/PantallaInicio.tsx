@@ -51,7 +51,7 @@ const PantallaInicio = () => {
         const navigation = useNavigation<homeScreenProp>();
         return (
             <View style={{flexDirection: 'row', height: 50, marginBottom: 11}}>
-                <TouchableOpacity
+                <View
                     style={{
                         width: 50,
                         paddingLeft: 20,
@@ -60,14 +60,14 @@ const PantallaInicio = () => {
                     }}
                 >
                     <Image
-                        source={icons.nearby}
+                        source={require('../assets/Logo.png')}
                         resizeMode="contain"
                         style={{
-                            width: 26,
-                            height: 26
+                            width: 50,
+                            height: 50
                         }}
                     /> 
-                </TouchableOpacity>
+                </View>
 
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                     <View

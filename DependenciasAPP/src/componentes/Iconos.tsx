@@ -17,8 +17,17 @@ export const getIconoInicio = (id:number) => {
             return require(path+'parqueadero.png')
             break;
         case 6:
-            return require(path+'cafeteria.png')
+            return require(path+'edificio-de-oficinas.png')
             break;
+        case 7:
+            return require(path + 'biblioteca.png')
+            break
+        case 8:
+            return require(path + 'cafeteria.png')
+            break
+        case 9:
+            return require(path + 'edificio-de-oficinas.png')
+            break
         default:
             return
             break;
@@ -43,8 +52,20 @@ export const getIconoMapa = (id:number) => {
         case 5:
             return require(path+'Parqueadero.png')
             break;
+        case 6:
+            return require(path+'Facultad.png')
+            break;
+        case 7:
+            return require(path+'Biblioteca.png')
+            break;
+        case 8:
+            return require(path+'Cafeteria.png')
+            break;
+        case 9:
+            return require(path+'Administrativo.png')
+            break;
         default:
-            return
+            return require(path+'Pin.png')
             break;
     }
 }
