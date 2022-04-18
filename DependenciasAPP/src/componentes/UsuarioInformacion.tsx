@@ -8,24 +8,18 @@ import {
     import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useEffect } from 'react';
 
 
 export const UsuarioInformacion = ({navigation}:any) => {
     const {UsuarioInfo, InformacionUsuario} = UsuarioUso();
 
-    useFocusEffect(
-        useCallback(
-          () => {
-            InformacionUsuario()
-            return () => {
-                
-            }
-          },[],
-        )
-        
-    )
-    
+    const isFocus = useIsFocused();
+    useEffect(() => {
+        InformacionUsuario()
+        console.log('Hola')
+    }, [isFocus])
     return (
         <View style={styles.container}>
             <Image 
@@ -57,7 +51,7 @@ export const UsuarioInformacion = ({navigation}:any) => {
                         <Text style={styles.text}>{UsuarioInfo?.correo}</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.commandButton} onPress={() => {navigation.navigate('UsuarioModificar'),InformacionUsuario()}}>
+                <TouchableOpacity style={styles.commandButton} onPress={() => {navigation.navigate('UsuarioModificar')}}>
                     <Text style={styles.panelButtonTitle}>Modificar</Text>
                 </TouchableOpacity>
             </View>

@@ -28,6 +28,10 @@ const BuscadorDependencias = ({navigation}:any) => {
             setBuscadorVacio(false)
         }
     }
+
+    const Regreso = () => {
+        navigation.goBack()
+    }
     
     return (
         <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
@@ -37,10 +41,25 @@ const BuscadorDependencias = ({navigation}:any) => {
             barStyle= "dark-content"
             />
         <View style={styles.container}>
+            <View style={{width: 30}}>
+                <TouchableOpacity
+                    style={{
+                        position: 'absolute',
+                        left: -5,
+                        top: 8,
+                        width: 30,
+                    }}
+                    onPress={() => Regreso()}
+                >
+                    <Icon name="arrow-back"
+                        color="black"
+                        size={35}/>
+                </TouchableOpacity>
+            </View>
             <View style={styles.textBackground}>
                 <TextInput
                     placeholder='Buscar Dependencia'
-                    style={styles.textImput}
+                    style={styles.textInput}
                     autoCapitalize="none"
                     autoCorrect={false}
                     placeholderTextColor= '#ABB2B9'
@@ -56,6 +75,7 @@ const BuscadorDependencias = ({navigation}:any) => {
             <View>
             { !BuscadorVacio
              ?<FlatList
+                style={{position: 'absolute',top: 40}}
                 data={DependenciasSugerida}
                 keyExtractor={item => `${item.idDependencia}`}
                 renderItem = { ({item}) => {
@@ -97,9 +117,12 @@ const styles = StyleSheet.create({
     },
 
     textBackground: {
+        position: 'absolute',
         backgroundColor: '#F3F1F3',
         borderRadius: 50,
         height: 50,
+        width: '90%',
+        left: 50,
         paddingHorizontal: 50,
         justifyContent: 'center',
         alignItems: 'center',
@@ -124,8 +147,8 @@ const styles = StyleSheet.create({
         color:'black'
     },
 
-    textImput: {
-        flex: 1,
+    textInput: {
+        flex: 2,
         fontSize: 18,
         color: 'black',
         top: 1,

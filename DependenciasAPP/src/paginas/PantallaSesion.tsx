@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { Text, View, Image, StyleSheet, useWindowDimensions, TextInput, Button, StyleProp, TouchableOpacity, Dimensions } from 'react-native';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { Boton } from '../componentes/Boton';
+import { Text, View, Image, StyleSheet,
+         useWindowDimensions, TextInput, TouchableOpacity,
+         Dimensions, Alert } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { Usuario } from '../interfaces/appinterfaces';
 
@@ -13,17 +13,23 @@ const PantallaSesion = ({navigation}:any) => {
     const {IniciarSesion} = UsuarioUso();
 
     const onIniciar = () =>{
-        const Usuario: Usuario = {
-            idUsuario: 0,
-            nombres: '',
-            apellidos: '',
-            usuario: NombreUsuario,
-            contrasena: Contrasena,
-            ciudad: '',
-            telefono: '',
-            correo: ''
+        if(NombreUsuario.length < 4 || Contrasena.length < 5){
+            Alert.alert('Usuario Invalido','Ingrese los datos correspondientes',[
+                {text: 'Aceptar'}
+            ])
+        }else{
+            const Usuario: Usuario = {
+                idUsuario: 0,
+                nombres: '',
+                apellidos: '',
+                usuario: NombreUsuario,
+                contrasena: Contrasena,
+                ciudad: '',
+                telefono: '',
+                correo: ''
+            }
+            IniciarSesion(Usuario);
         }
-        IniciarSesion(Usuario);
     }
 
     return (

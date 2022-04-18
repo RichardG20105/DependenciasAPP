@@ -102,14 +102,14 @@ const PantallaDependencia = (props: any) => {
                          /> 
                        }
                         <View style={styles.detailsContainer}>
-                            <View style={styles.iconContainer}>
+                            {/* <View style={styles.iconContainer}>
                                 <Icon name="favorite" color= "red" size={30} />
                             </View>
                             <View style={styles.iconContainer1}
                                 //onPress={() => DirigirMapa(Dependencia?.idDependencia)}
                             >
                                 <Icon name="directions" color= "#777873" size={40} />
-                            </View>
+                            </View> */}
                             
                         </View> 
                         

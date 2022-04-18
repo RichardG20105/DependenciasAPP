@@ -89,6 +89,8 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
         const [Correo, setCorreo] = useState('')
         const [Telefono, setTelefono] = useState('')
 
+        const [EstadoContrasena, setEstadoContrasena] = useState(true)
+
         const Guardar = () => {
             if(UsuarioInfo != null){
                 const User: Usuario = {
@@ -112,6 +114,14 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                 return dato1
             }
             return dato2
+        }
+
+        const CambiarEstadoContrasena = () => {
+            if(EstadoContrasena){
+                setEstadoContrasena(false)
+            }else{
+                setEstadoContrasena(true)
+            }
         }
         
         useEffect(() => {
@@ -173,10 +183,11 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                         onChangeText={setContrasena}
                         placeholder= 'Contraseña'
                         placeholderTextColor="#666666"
-                        secureTextEntry={true}
+                        secureTextEntry={EstadoContrasena}
                         autoCorrect={false}
                         style={styles.textInput}
                     />
+                    <TouchableOpacity onPress={() => CambiarEstadoContrasena()}><Icon name={EstadoContrasena ?"eye-off" :'eye'} color={'black'} size={26} style={{paddingRight: 10, paddingTop: 5}} /></TouchableOpacity>
                </View>
 
                <View style={styles.action}>

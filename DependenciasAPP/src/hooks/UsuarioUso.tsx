@@ -10,7 +10,7 @@ export const UsuarioUso = () => {
     const {BaseURL, DependenciasApi, getToken } = Apis();
 
     const [UsuarioInfo, setUsuarioInfo] = useState<Usuario>()
-
+    
     const IniciarSesion = async(usuario: Usuario) =>{
         try{
             const resp = await DependenciasApi.post(BaseURL+'/Usuario/Sesion',usuario);
@@ -23,26 +23,32 @@ export const UsuarioUso = () => {
     }
 
     const InformacionUsuario = async() => {
+        
         const tok = await AsyncStorage.getItem('Token')
         const usuario = await AsyncStorage.getItem('Usuario') 
-        const contra = await AsyncStorage.getItem('Contrasena')
+        const contra = await AsyncStorage.getItem('Contrasena')       
+        
         const config = {
             headers: { Authorization: `${tok}`}
         }
 
-        const URL = BaseURL + '/Usuario/Info'
-        const Body = {
-            "usuario": usuario,
-            "contrasena":contra,
-        }
-        axios.post(URL,Body,config).then((resp) => {
-            setUsuarioInfo(resp.data)
-        }).catch((error) => {
-            if(error.request.status === 401){
-                AsyncStorage.removeItem('Token')
-                getToken()
+        if(tok != null){
+            const URL = BaseURL + '/Usuario/Info'
+            const Body = {
+                "usuario": usuario,
+                "contrasena":contra,
             }
-        })
+            axios.post(URL,Body,config).then((resp) => {
+                setUsuarioInfo(resp.data)
+            }).catch((error) => {
+                if(error.request.status === 401){
+                    AsyncStorage.removeItem('Token')
+                    getToken()
+                }
+            })
+        }else{
+            console.log('No hay token')
+        }
     }    
 
     const ModificarUsuario = async(UsuarioModificar: Usuario) => {
@@ -58,7 +64,7 @@ export const UsuarioUso = () => {
             AsyncStorage.setItem('Contrasena',resp.data.contrasena)
         }).catch((error) => {
             if(error.request.status === 401){
-                AsyncStorage.removeItem('Token')   
+                AsyncStorage.removeItem('Token')
                 getToken()
             }
         });

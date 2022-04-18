@@ -190,6 +190,7 @@ export const Mapa = ({navigation}:any) => {
                                 onPress={() => MarkerClic(val.idDependencia,val.latitud, val.longitud)}
                             >
                             <Image source={ getIconoMapa(val.idTipoDependencia) } style={styles.Marcador} resizeMode="contain"/>
+                            <Text style={{color:'black',fontSize: 7}}>{val.nombreDependencia}</Text>
                             </Marker>
                         )
                     })
@@ -201,6 +202,7 @@ export const Mapa = ({navigation}:any) => {
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={6}
                         strokeColor="red"
+                        precision='high'
                         mode='WALKING'
                         onReady={result => {
                             Tiempo(result.duration, result.distance)

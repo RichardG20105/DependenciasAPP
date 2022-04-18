@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import { useEffect, useState } from 'react'
 
-export const BaseURL = 'http://192.168.1.26:8080';
+export const BaseURL = 'http://172.25.215.74:8080';
 const Apis = () => {
     const [Token, setToken] = useState<any>();
     const DependenciasApi = axios.create(); 
@@ -13,7 +13,8 @@ const Apis = () => {
             const resp = await AsyncStorage.getItem('Token')
             setToken(resp)
         } catch (error) {
-            console.log(error)
+            setToken('Bearer')
+            console.log(Token)
         }
     }
 
