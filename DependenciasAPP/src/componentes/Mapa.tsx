@@ -10,10 +10,7 @@ import {Svg, Image as ImageSvg} from 'react-native-svg';
 import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import { Dependencia } from '../interfaces/appinterfaces';
 import { getIconoMapa } from './Iconos';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
 
 
 export const Mapa = ({navigation}:any) => {
