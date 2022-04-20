@@ -33,8 +33,7 @@ export const ProovedorSesion = ({children}: any) => {
         let estadoSesion: PermissionStatus;
 
         const resp = await AsyncStorage.getItem('Token')
-
-        console.log('Preguntar: ',await AsyncStorage.getItem('Token'))
+        
         if(resp === null ){
             estadoSesion = 'unavailable'
         }else{
