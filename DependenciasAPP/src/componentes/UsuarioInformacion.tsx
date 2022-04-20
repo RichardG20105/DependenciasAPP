@@ -18,7 +18,6 @@ export const UsuarioInformacion = ({navigation}:any) => {
     const isFocus = useIsFocused();
     useEffect(() => {
         InformacionUsuario()
-        console.log('Hola')
     }, [isFocus])
     return (
         <View style={styles.container}>

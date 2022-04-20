@@ -1,6 +1,6 @@
 import React from 'react'
 import PantallaMapa from '../paginas/PantallaMapa';
-import { PantallaFavoritos } from '../paginas/PantallaFavoritos';
+import PantallaFavoritos from '../paginas/PantallaFavoritos';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';

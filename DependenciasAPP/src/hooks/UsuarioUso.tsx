@@ -1,8 +1,10 @@
 import { Usuario } from '../interfaces/appinterfaces';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Apis from '../api/Apis';
 import axios from 'axios';
+import { Alert } from 'react-native';
+import { ContextoSesion } from '../contexto/ContextoSesion';
 
 export const UsuarioUso = () => {    
 
@@ -10,6 +12,8 @@ export const UsuarioUso = () => {
     const {BaseURL, DependenciasApi, getToken } = Apis();
 
     const [UsuarioInfo, setUsuarioInfo] = useState<Usuario>()
+
+    const {PreguntarEstadoSesion} = useContext(ContextoSesion)
     
     const IniciarSesion = async(usuario: Usuario) =>{
         try{
@@ -18,8 +22,16 @@ export const UsuarioUso = () => {
             AsyncStorage.setItem('Usuario',usuario.usuario)
             AsyncStorage.setItem('Contrasena',usuario.contrasena)
         }catch (error) {
-            console.log(error)
+            Alert.alert('Error de Sesión','Verifique que los datos sean correctos.',[{text: 'Aceptar'}])
         }
+        PreguntarEstadoSesion()
+    }
+
+    const CerrarSesion = async() => {
+        AsyncStorage.removeItem('Token')
+        AsyncStorage.removeItem('Usuario')
+        AsyncStorage.removeItem('Contrasena')
+        PreguntarEstadoSesion()
     }
 
     const InformacionUsuario = async() => {
@@ -76,7 +88,8 @@ export const UsuarioUso = () => {
         setUsuarioInfo,
         IniciarSesion,
         InformacionUsuario,
-        ModificarUsuario
+        ModificarUsuario,
+        CerrarSesion
     }
 }
 

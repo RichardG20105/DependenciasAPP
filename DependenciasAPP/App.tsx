@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { Navegador } from './src/navegador/Navegador';
 import { ProveedorPermisos } from './src/contexto/ContextoPermisos';
 import { LogBox } from 'react-native';
+import { ProovedorSesion } from './src/contexto/ContextoSesion';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 LogBox.ignoreAllLogs();
@@ -19,7 +20,9 @@ const App = () => {
   return (
     <NavigationContainer>
       <EstadoApp>
-        <Navegador />
+        <ProovedorSesion>
+          <Navegador />
+        </ProovedorSesion>
       </EstadoApp>
     </NavigationContainer>
   ) 

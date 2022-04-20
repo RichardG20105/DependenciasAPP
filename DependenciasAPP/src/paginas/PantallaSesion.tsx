@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { Text, View, Image, StyleSheet,
          useWindowDimensions, TextInput, TouchableOpacity,
          Dimensions, Alert } from 'react-native';

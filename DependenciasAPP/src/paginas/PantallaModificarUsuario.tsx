@@ -7,10 +7,10 @@ import {
     Text,
     TextInput,
     ScrollView,
-    ImageBackground,
     TouchableOpacity,
     Image,
-    Dimensions} from 'react-native'
+    Dimensions,
+    Alert} from 'react-native'
     import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
     import FontAwesome from 'react-native-vector-icons/FontAwesome'
     import Feather from 'react-native-vector-icons/Feather'
@@ -103,9 +103,13 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                     telefono: VerificarDatos(Telefono,UsuarioInfo.telefono),
                     correo: VerificarDatos(Correo,UsuarioInfo.correo)
                 }
-                ModificarUsuario(User)
-                
-                navigation.goBack()
+
+                Alert.alert('Modificar Datos','¿Desea Modificar los Datos?',[
+                    {text: 'Cancelar'},
+                    {text: 'Aceptar',
+                        onPress: () => {ModificarUsuario(User),navigation.goBack()}
+                    }
+                ])
             }
         }
 
