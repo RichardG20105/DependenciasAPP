@@ -273,8 +273,8 @@ export const Mapa = ({navigation}:any) => {
             { Ruta
                 ?   <View style={styles.CuadroRuta}>
                         <View style={styles.CuadroContenido}>
-                            <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(2)}.min</Text></Text>
-                            <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(2)}.km</Text></Text>
+                            <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
+                            <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
                         </View>
                         <View style={{flex: 2,justifyContent: 'center', right: -120}}>
                             <Boton title='Cancelar' style={{width: 10,height: 10}} onPress={() => CancelarRuta()}/>
