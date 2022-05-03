@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, SafeAreaView, TouchableOpacity } from 'react-native';
-import { Boton } from './Boton'
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';

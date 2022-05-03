@@ -1,7 +1,4 @@
-import { useIsFocused } from '@react-navigation/native';
 import React, { useContext, useEffect } from 'react'
-import { View } from 'react-native';
-import Apis from '../api/Apis';
 import { ContextoSesion } from '../contexto/ContextoSesion';
 import { createStackNavigator } from '@react-navigation/stack';
 import Favoritos from '../componentes/Favoritos';

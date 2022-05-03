@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Image, NativeScrollEvent } from  'react-native'
 
-const path = '../assets/Carousel'
 const images = [
     require('../assets/Carousel/fondo1.jpg'),
     require('../assets/Carousel/fondo2.jpg'),

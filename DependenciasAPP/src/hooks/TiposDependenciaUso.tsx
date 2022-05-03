@@ -1,10 +1,9 @@
-import axios from 'axios';
-import React, { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Apis from '../api/Apis';
-import { TipoDependencia, Dependencia } from '../interfaces/appinterfaces';
+import { TipoDependencia } from '../interfaces/appinterfaces';
 
 export const TiposDependenciaUso = () => {
-    const {Token, DependenciasApi, BaseURL} = Apis();
+    const {DependenciasApi, BaseURL} = Apis();
     const [TiposDependencia, setTiposDependencia] = useState<TipoDependencia[]>([])
     
     const CargarTiposDependencia = async () => {

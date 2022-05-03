@@ -4,7 +4,6 @@ import PantallaFavoritos from '../paginas/PantallaFavoritos';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';
-import PantallaInicioSesion from '../paginas/PantallaSesion';
 import PantallaUsuario from '../paginas/PantallaUsuario';
 
 const Tab = createBottomTabNavigator();

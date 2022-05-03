@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import { Text, View, Image, StyleSheet,
          useWindowDimensions, TextInput, TouchableOpacity,
          Dimensions, Alert } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { Usuario } from '../interfaces/appinterfaces';
 
-const PantallaSesion = ({navigation}:any) => {
+const PantallaSesion = () => {
     const [NombreUsuario, setNombreUsuario] = useState('')
     const [Contrasena, setContrasena] = useState('')
     const {height} = useWindowDimensions()

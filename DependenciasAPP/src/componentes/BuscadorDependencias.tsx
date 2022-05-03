@@ -1,4 +1,4 @@
-import React, {useEffect, useState,useRef} from 'react'
+import React, {useState} from 'react'
 import { 
     StyleSheet,
     SafeAreaView,
@@ -7,17 +7,15 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    FlatList,
-    Animated } from 'react-native'
+    FlatList} from 'react-native'
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import  Icon  from 'react-native-vector-icons/Ionicons';
-import {images, icons} from '../../constants'
 import { BaseURL } from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 
 const BuscadorDependencias = ({navigation}:any) => {
 
-    const {Dependencias, DependenciasSugerida, BuscarDependenciaSugerida} = DependenciaUso()
+    const { DependenciasSugerida, BuscarDependenciaSugerida} = DependenciaUso()
     const [BuscadorVacio,setBuscadorVacio] = useState(true)
    
     const Buscar = (texto:string) => {

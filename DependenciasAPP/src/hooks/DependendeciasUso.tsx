@@ -1,10 +1,9 @@
-import axios from 'axios';
 import {useEffect, useState} from 'react';
 import Apis from '../api/Apis';
-import { Dependencia, TipoDependencia } from '../interfaces/appinterfaces';
+import { Dependencia} from '../interfaces/appinterfaces';
 
 export const DependenciaUso = () => {
-    const {Token, DependenciasApi, BaseURL} = Apis();
+    const { DependenciasApi, BaseURL} = Apis();
     const [Dependencias,setDependencias] = useState<Dependencia[]>([]);
     const [Dependencia, setDependencia] = useState<Dependencia>();
 

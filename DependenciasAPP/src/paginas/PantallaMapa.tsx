@@ -1,10 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { View } from 'react-native';
+import React, { useContext } from 'react'
 import { Mapa } from '../componentes/Mapa';
-import { ContextoPermiso, ProveedorPermisos, EstadoPermiso } from '../contexto/ContextoPermisos';
+import { ContextoPermiso } from '../contexto/ContextoPermisos';
 import { PantallaPermisos } from './PantallaPermisos';
-import { DependenciaUso } from '../hooks/DependendeciasUso';
-import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
+import { createStackNavigator } from '@react-navigation/stack';
 import PantallaDependencia from './PantallaDependencia';
 
 
