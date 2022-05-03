@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect} from 'react'
 import { 
     StyleSheet,
     SafeAreaView,
@@ -6,29 +6,54 @@ import {
     Text,
     TouchableOpacity,
     Image,
+    Alert,
     Dimensions} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { ScrollView } from 'react-native-gesture-handler';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
-import { StackNavigationProp } from '@react-navigation/stack';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
+import { ContextoSesion } from '../contexto/ContextoSesion';
+import { UsuarioUso } from '../hooks/UsuarioUso';
+
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const PantallaDependencia = (props: any) => {
     const idDependencia = props.route.params.idDependencia
     const {Dependencia, BuscarDependencia} = DependenciaUso();
+    const {FavDependencia, DependenciaFavorito, AgregarFavorito, EliminarFavorito} = UsuarioUso()
+
+    
+
+    const {sesion} = useContext(ContextoSesion)
+
+    const IsFocus = useIsFocused()
 
     useEffect(() => {
-      BuscarDependencia(idDependencia)
-    }, [])
-    
-    function renderHeader(){
+        BuscarDependencia(idDependencia)
+        DependenciaFavorito(idDependencia)
+    }, [IsFocus])
+
+        const VerificarLogeo = () =>{
+            if(sesion.EstadoToken === 'unavailable'){
+                Alert.alert('Error de Sesión','Necita Iniciar Sesión para poder agregar a favoritos',[{text: 'Cancelar'},{text: 'Aceptar',onPress: () => props.navigation.navigate("Usuario")}])
+            }else{
+                if(FavDependencia === true){
+                    EliminarFavorito(idDependencia)
+                }else{
+                    AgregarFavorito(idDependencia)
+                }
+                
+            }
+        }
+
         const Regreso = () =>{
             props.navigation.goBack()
         }
-        return(
+    
+    return (
+        <SafeAreaView style={styles.container}>
             <View style={{ flexDirection:'row', paddingTop: 15, paddingBottom: 15 }}>
                 <TouchableOpacity
                     style={{
@@ -68,15 +93,7 @@ const PantallaDependencia = (props: any) => {
                     </View>
                 </View>
             </View>
-        )        
-    }
-    
-    function renderDependenciaInfo(){
-        const DirigirMapa = (idDependencia: any) =>{
-            props.navigation.navigate('Mapa',{idDependencia: idDependencia})
-        }
-        return(
-                <View style={{ 
+            <View style={{ 
                     alignItems: 'center',
                     }}
                 >
@@ -102,10 +119,12 @@ const PantallaDependencia = (props: any) => {
                          /> 
                        }
                         <View style={styles.detailsContainer}>
-                            {/* <View style={styles.iconContainer}>
-                                <Icon name="favorite" color= "red" size={30} />
+                            <View style={styles.iconContainer}>
+                                <TouchableOpacity onPress={() => VerificarLogeo()}>
+                                    <Icon name="favorite" color= {FavDependencia ? 'red' : 'grey'} size={30} />
+                                </TouchableOpacity>
                             </View>
-                            <View style={styles.iconContainer1}
+                            {/* <View style={styles.iconContainer1}
                                 //onPress={() => DirigirMapa(Dependencia?.idDependencia)}
                             >
                                 <Icon name="directions" color= "#777873" size={40} />
@@ -137,15 +156,6 @@ const PantallaDependencia = (props: any) => {
                         </ScrollView>
                     </View>
                 </View>
-           
-        )
-    }
-
-    
-    return (
-        <SafeAreaView style={styles.container}>
-            {renderHeader()}
-            {renderDependenciaInfo()}
         </SafeAreaView>
     )
 }

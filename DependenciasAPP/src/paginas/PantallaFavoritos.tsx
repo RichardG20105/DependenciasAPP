@@ -6,32 +6,25 @@ import { ContextoSesion } from '../contexto/ContextoSesion';
 import { createStackNavigator } from '@react-navigation/stack';
 import Favoritos from '../componentes/Favoritos';
 import PantallaSesion from './PantallaSesion';
+import PantallaDependencia from './PantallaDependencia';
 
 const PantallaFavoritos = () => {
-    const {sesion} = useContext(ContextoSesion)
+    const {sesion} = useContext(ContextoSesion)    
     
-    useEffect(() => {
-      console.log(sesion.EstadoToken)
-
-    }, [])
-    
-    
+    const Stack = createStackNavigator()
     return (
-        <View>
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
             {
-                (sesion.EstadoToken === 'unavailable')
-                ? <PantallaSesion />
-                : <Favoritos />
+                (sesion.EstadoToken === 'granted')
+                ? <Stack.Screen name='Favoritos' component={Favoritos} />
+                : <Stack.Screen name='PantallaSesion' component={PantallaSesion} />
             }
-        </View>
-
-        /*<Stack.Navigator>
-            {
-                ( sesion.EstadoToken === 'granted')
-                ? <Stack.Screen name='PantFavoritos' component={Favoritos}/>
-                : <Stack.Screen name='PantSesion' component={PantallaSesion} />
-            }
-        </Stack.Navigator>*/
+            <Stack.Screen name='Dependencias' component={PantallaDependencia}/>
+        </Stack.Navigator>
     )
 }
 

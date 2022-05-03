@@ -1,4 +1,4 @@
-import { Usuario } from '../interfaces/appinterfaces';
+import { Busca, Usuario, Dependencia } from '../interfaces/appinterfaces';
 import { useContext, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Apis from '../api/Apis';
@@ -9,9 +9,13 @@ import { ContextoSesion } from '../contexto/ContextoSesion';
 export const UsuarioUso = () => {    
 
 
-    const {BaseURL, DependenciasApi, getToken } = Apis();
+    const {BaseURL, DependenciasApi } = Apis();
 
     const [UsuarioInfo, setUsuarioInfo] = useState<Usuario>()
+    
+    const [Favoritos, setFavoritos] = useState<Busca[]>()
+    
+    const [FavDependencia, setFavDependencia] = useState(false)
 
     const {PreguntarEstadoSesion} = useContext(ContextoSesion)
     
@@ -32,19 +36,23 @@ export const UsuarioUso = () => {
         AsyncStorage.removeItem('Usuario')
         AsyncStorage.removeItem('Contrasena')
         PreguntarEstadoSesion()
+        if(FavDependencia == true)
+            setFavDependencia(false)
     }
 
     const InformacionUsuario = async() => {
         
-        const tok = await AsyncStorage.getItem('Token')
-        const usuario = await AsyncStorage.getItem('Usuario') 
-        const contra = await AsyncStorage.getItem('Contrasena')       
-        
-        const config = {
-            headers: { Authorization: `${tok}`}
-        }
+        const tok = await AsyncStorage.getItem('Token')       
 
         if(tok != null){
+            LimpiarUsuario()
+            const usuario = await AsyncStorage.getItem('Usuario') 
+            const contra = await AsyncStorage.getItem('Contrasena')
+
+            const config = {
+                headers: { Authorization: `${tok}`}
+            }
+
             const URL = BaseURL + '/Usuario/Info'
             const Body = {
                 "usuario": usuario,
@@ -54,8 +62,7 @@ export const UsuarioUso = () => {
                 setUsuarioInfo(resp.data)
             }).catch((error) => {
                 if(error.request.status === 401){
-                    AsyncStorage.removeItem('Token')
-                    getToken()
+                    CerrarSesion()
                 }
             })
         }else{
@@ -76,20 +83,145 @@ export const UsuarioUso = () => {
             AsyncStorage.setItem('Contrasena',resp.data.contrasena)
         }).catch((error) => {
             if(error.request.status === 401){
-                AsyncStorage.removeItem('Token')
-                getToken()
+                CerrarSesion()
             }
         });
         
     }
 
+    const LimpiarUsuario = () => {
+        const UsuarioVacio: Usuario = {
+            idUsuario: 0,
+            nombres: '',
+            apellidos: '',
+            usuario: '',
+            contrasena: '',
+            ciudad: '',
+            telefono: '',
+            correo: ''
+        }
+        setUsuarioInfo(UsuarioVacio)
+    }
+    const FavoritosUsuario = async() => {
+        const tok = await AsyncStorage.getItem('Token')
+        
+        if(tok != null){
+            const usuario = await AsyncStorage.getItem('Usuario')
+
+            const config = {
+                headers: {Authorization: `${tok}`}
+            }
+
+            const URL = BaseURL + '/Busca/' + `${usuario}`
+
+            axios.get(URL,config).then((resp) => {
+                setFavoritos(resp.data)
+            }).catch((error) => {
+                if(error.request.status === 401){
+                    CerrarSesion()
+                }else{
+                    console.log(error)
+                }
+            })
+        }else{
+            console.log('No hay token')
+        }
+    }
+
+    const DependenciaFavorito = async(IdDependencia: number) => {
+        const tok = await AsyncStorage.getItem('Token')
+        
+        if(tok != null){
+            const usuario = await AsyncStorage.getItem('Usuario')
+
+            const config = {
+                headers: {Authorization: `${tok}`}
+            }
+
+            const URL = BaseURL + '/Busca/Favorito/' + `${usuario}` + '/' + IdDependencia
+
+            axios.get(URL,config).then((resp) => {
+                setFavDependencia(resp.data)
+            }).catch((error) => {
+                console.log(error)
+                if(error.request.status === 401){
+                    CerrarSesion()
+                }else{
+                    console.log(error)
+                }
+            })
+        }else{
+            console.log('No hay token')
+        }
+    }
+
+    const AgregarFavorito = async(IdDependencia: number) => {
+        const tok = await AsyncStorage.getItem('Token')
+        
+        if(tok != null){
+            const usuario = await AsyncStorage.getItem('Usuario')
+
+            const config = {
+                headers: {Authorization: `${tok}`}
+            }
+
+            const URL = BaseURL + '/Busca/AgregarFavorito/' + `${usuario}` + '/' + IdDependencia
+
+            axios.get(URL,config).then((resp) => {
+                setFavDependencia(true)
+            }).catch((error) => {
+                console.log(error)
+                if(error.request.status === 401){
+                    CerrarSesion()
+                }else{
+                    console.log(error)
+                }
+            })
+        }else{
+            console.log('No hay token')
+        }
+    }
+
+    const EliminarFavorito = async(IdDependencia: number) => {
+        const tok = await AsyncStorage.getItem('Token')
+        
+        if(tok != null){
+            const usuario = await AsyncStorage.getItem('Usuario')
+
+            const config = {
+                headers: {Authorization: `${tok}`}
+            }
+
+            const URL = BaseURL + '/Busca/EliminarFavorito/' + `${usuario}` + '/' + IdDependencia
+
+            axios.delete(URL,config).then((resp) => {
+                setFavDependencia(false)
+            }).catch((error) => {
+                console.log(error)
+                if(error.request.status === 401){
+                    CerrarSesion()
+                }else{
+                    console.log(error)
+                }
+            })
+        }else{
+            console.log('No hay token')
+        }
+    }
+
     return {
         UsuarioInfo,
+        Favoritos,
+        FavDependencia,
         setUsuarioInfo,
         IniciarSesion,
         InformacionUsuario,
         ModificarUsuario,
-        CerrarSesion
+        CerrarSesion,
+        FavoritosUsuario,
+        DependenciaFavorito,
+        AgregarFavorito,
+        EliminarFavorito,
     }
 }
 

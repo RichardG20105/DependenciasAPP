@@ -28,7 +28,7 @@ const Carousel = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.wrap}>
+            <View style={[styles.wrap, {elevation: 8}]}>
                 <ScrollView
                     onScroll={({nativeEvent}) => onchange(nativeEvent)}                
                     showsHorizontalScrollIndicator={false}
@@ -71,12 +71,18 @@ const styles = StyleSheet.create({
         flex: 1,
         marginVertical: 2,
         marginHorizontal: 21,
-        paddingBottom: 158,
+        paddingBottom: 198,
     },
 
     wrap: {
         width: WIDTH - 42,
-        height: HEIGHT * 0.21
+        height: HEIGHT / 4,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        shadowColor: '#000',
+        shadowOffset: {width: 0.5, height: 0.5},
+        shadowOpacity: 0.5,
+        shadowRadius: 3,
     },
 
     wrapDot: {

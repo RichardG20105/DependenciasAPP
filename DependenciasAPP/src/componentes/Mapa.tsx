@@ -166,14 +166,16 @@ export const Mapa = ({navigation}:any) => {
                 showsMyLocationButton={false}
                 showsUserLocation
                 toolbarEnabled={false}
+                rotateEnabled={false}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
                     latitudeDelta: 0.00922,
                     longitudeDelta: 0.00421,
-                }
-                }
+                }}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), Keyboard.dismiss()]}
+                minZoomLevel={17}
+                maxZoomLevel={18}
             >
                 {
                     Dependencias.map((val) => {
@@ -186,8 +188,8 @@ export const Mapa = ({navigation}:any) => {
                                 }}
                                 onPress={() => MarkerClic(val.idDependencia,val.latitud, val.longitud)}
                             >
-                            <Image source={ getIconoMapa(val.idTipoDependencia) } style={styles.Marcador} resizeMode="contain"/>
-                            <Text style={{color:'black',fontSize: 7}}>{val.nombreDependencia}</Text>
+                                <Image source={ getIconoMapa(val.idTipoDependencia) } style={styles.Marcador}  resizeMode="contain"/>
+                                <Text style={{color:'black',fontSize: 7}} numberOfLines={2}>{val.nombreDependencia}</Text>
                             </Marker>
                         )
                     })

@@ -6,7 +6,8 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    FlatList
+    FlatList,
+    StatusBar
 } from "react-native"
 
 import  Carousel  from '../componentes/Carousel'
@@ -111,7 +112,7 @@ const PantallaInicio = () => {
         const navigation = useNavigation<homeScreenProp>();
         return(
             <View style={{ padding: 7 * 2, paddingBottom: 4}}>
-                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26 }}> Categories </Text>
+                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 21 }}> Categorias </Text>
 
                 <FlatList
                     data={TiposDependencia}
@@ -122,10 +123,10 @@ const PantallaInicio = () => {
                         return (
                             <TouchableOpacity
                                 style={{
-                                    padding: 10,
-                                    paddingBottom: 8 * 2,
+                                    padding: 7,
+                                    paddingBottom: 4 * 2,
                                     backgroundColor: "#0CEF5C",
-                                    borderRadius: 35,
+                                    borderRadius: 15,
                                     alignItems: "center",
                                     justifyContent: "center",
                                     marginRight: 6.5,
@@ -165,7 +166,7 @@ const PantallaInicio = () => {
                             </TouchableOpacity>
                         )
                     }}  
-                    contentContainerStyle={{ paddingVertical: 7 * 2 }}
+                    contentContainerStyle={{ paddingVertical: 2 * 2 }}
                 />
 
             </View>   
@@ -281,7 +282,7 @@ const PantallaInicio = () => {
                         </TouchableOpacity>
                     )
                 }}
-                contentContainerStyle={{ paddingVertical: 7 * 2 }}
+                contentContainerStyle={{ paddingVertical: 3 * 2 }}
             />
         
             </>
@@ -291,6 +292,11 @@ const PantallaInicio = () => {
     function InicioScreen(){
         return(
             <SafeAreaView style={style.container}>
+                <StatusBar
+            translucent = {false}
+            backgroundColor= "white"
+            barStyle= "dark-content"
+            />
                 {renderHeader()}
                 <View style={{paddingVertical: 2 * 2}}>
                     <Carousel />

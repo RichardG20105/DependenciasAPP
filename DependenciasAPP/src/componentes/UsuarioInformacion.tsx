@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react'
+import React from 'react'
 import { 
     StyleSheet,
     View, 
@@ -8,19 +8,25 @@ import {
     import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { useEffect } from 'react';
 
 
 export const UsuarioInformacion = ({navigation}:any) => {
+    const {CerrarSesion} = UsuarioUso()
     const {UsuarioInfo, InformacionUsuario} = UsuarioUso();
 
     const isFocus = useIsFocused();
     useEffect(() => {
         InformacionUsuario()
     }, [isFocus])
+
+    const Cerrar =  () => {
+        CerrarSesion()
+    }
     return (
         <View style={styles.container}>
+
             <Image 
                 style={styles.bgimagen} 
                 source={images.avatar_2}
@@ -53,6 +59,10 @@ export const UsuarioInformacion = ({navigation}:any) => {
                 <TouchableOpacity style={styles.commandButton} onPress={() => {navigation.navigate('UsuarioModificar')}}>
                     <Text style={styles.panelButtonTitle}>Modificar</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={styles.commandButton} onPress={() => Cerrar()}>
+                    <Text style={styles.panelButtonTitle}>Cerrar Sesión</Text>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -64,7 +74,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
-        
     },
 
     bgimagen: {
@@ -76,14 +85,13 @@ const styles = StyleSheet.create({
     },
 
     bottomContainer: {
-        marginTop: "70%",
+        marginTop: "50%",
         height:"90%",
         width: "100%",
         backgroundColor: '#bbe3ed',
         borderTopStartRadius: 50,
         borderTopEndRadius: 50,
         alignItems: 'center'
-
     },
 
     profile: {
@@ -110,7 +118,6 @@ const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         marginBottom: 25,
-        
     },
 
     text: {
@@ -122,11 +129,11 @@ const styles = StyleSheet.create({
 
     commandButton: {
         paddingBottom: 15,
-        paddingHorizontal: 100,
+        paddingHorizontal: 60,
         borderRadius: 10, 
         backgroundColor: '#FF6347',
         alignItems: 'center',
-        marginTop: 1,
+        marginTop: 10,
     },
 
     panelButtonTitle: {

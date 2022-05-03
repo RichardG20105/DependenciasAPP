@@ -35,3 +35,10 @@ export interface TipoDependencia{
     idTipoDependencia: number,
     nombreTipoDependencia: string
 }
+
+export interface Busca{
+    idBusca: number;
+    idUsuario: number;
+    favorito: Boolean;
+    dependencias: Dependencia;
+}

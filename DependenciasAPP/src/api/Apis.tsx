@@ -14,7 +14,6 @@ const Apis = () => {
             setToken(resp)
         } catch (error) {
             setToken('Bearer')
-            console.log(Token)
         }
     }
 
