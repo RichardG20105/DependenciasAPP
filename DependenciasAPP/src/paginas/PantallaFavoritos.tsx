@@ -17,7 +17,7 @@ const PantallaFavoritos = () => {
         >
             {
                 (sesion.EstadoToken === 'granted')
-                ? <Stack.Screen name='Favoritos' component={Favoritos} />
+                ? <Stack.Screen name='ComponenteFavoritos' component={Favoritos} />
                 : <Stack.Screen name='PantallaSesion' component={PantallaSesion} />
             }
             <Stack.Screen name='Dependencias' component={PantallaDependencia}/>

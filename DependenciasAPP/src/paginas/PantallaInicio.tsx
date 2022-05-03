@@ -78,7 +78,8 @@ const PantallaInicio = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                             borderRadius: 30,
-                            marginTop: 20
+                            marginTop: 20,
+                            left: 8
                         }}
                     >
                         <Text style={{ color: "black", fontFamily: "Roboto-Bold", fontSize: 17, lineHeight: 20 }}>Location</Text>
@@ -88,7 +89,7 @@ const PantallaInicio = () => {
                 <TouchableOpacity
                     style={{
                         width: 50,
-                        paddingLeft: 10,
+                        
                         justifyContent: 'center',
                         marginTop: 20
                     }}
@@ -130,6 +131,7 @@ const PantallaInicio = () => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     marginRight: 6.5,
+                                    
                                     ...style.shadow
                                 }}
                                 onPress={() => {setIdTipo(item.idTipoDependencia),navigation.navigate('Lista')}}
@@ -334,7 +336,7 @@ const style = StyleSheet.create({
         },
         shadowOpacity: 0.1,
         shadowRadius: 3,
-        elevation: 1,
+        elevation: 3,
     },
     contenedorBoton:{
         width: 35
@@ -370,5 +372,4 @@ const style = StyleSheet.create({
         padding: 10
     }
 })
-
 export default PantallaInicio

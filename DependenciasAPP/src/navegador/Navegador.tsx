@@ -35,7 +35,7 @@ export const Navegador = () => {
             ),
           }}
         />
-       <Tab.Screen name='Favoritos' component={PantallaFavoritos}
+       <Tab.Screen name='PantallaFavoritos' component={PantallaFavoritos}
         options={{
           tabBarIcon: (props) => (
             <Icon name='heart' size={30} color={props.color}/>
