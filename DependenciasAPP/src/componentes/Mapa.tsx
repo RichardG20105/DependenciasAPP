@@ -3,7 +3,7 @@ import MapView, { Marker } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
-import MapViewDirections from 'react-native-maps-directions';
+import MapViewDirections, { MapViewDirectionsMode } from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
 import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import {Svg, Image as ImageSvg} from 'react-native-svg';
@@ -11,6 +11,7 @@ import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { getIconoMapa } from './Iconos';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 
 export const Mapa = ({navigation}:any) => {
@@ -27,6 +28,7 @@ export const Mapa = ({navigation}:any) => {
     } = DependenciaUso();
 
     const [ReferenciaVistaMapa, setReferenciaVistaMapa ]= useState<MapView>();
+    
     const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
 
     const [Texto, setTexto ] = useState<string>('');
@@ -34,9 +36,12 @@ export const Mapa = ({navigation}:any) => {
     const [EstadoBusqueda, setEstadoBusqueda] = useState<Boolean>(false);
 
     const [Ruta, setRuta] = useState(false)
+
     const [TocarDependencia, setTocarDependencia] = useState<Boolean>(false);
 
     const [LongDelta, setLongDelta] = useState<number>(0.00421)
+
+    const [Forma, setForma] = useState<MapViewDirectionsMode>('WALKING')
 
     const [Origen, setOrigen] = useState({
         LocalizacionUsuario: {
@@ -176,7 +181,12 @@ export const Mapa = ({navigation}:any) => {
         return maximo
         
     } */
-    
+
+    const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
+        if(Forma != Modo){
+            setForma(Modo)
+        }
+    }
 
     return (
         <>
@@ -225,7 +235,7 @@ export const Mapa = ({navigation}:any) => {
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={4}
                         strokeColor="red"
-                        mode='WALKING'
+                        mode={Forma}
                         region='ec'
                         resetOnChange={false}
                         optimizeWaypoints={true}
@@ -236,12 +246,17 @@ export const Mapa = ({navigation}:any) => {
                 }
             </MapView>
             <View style={styles.BuscadorCuadro}>
-                <TextInput 
-                    placeholder='Buscador...'
-                    value={ getTexto()}
-                    style={styles.Buscador}
-                    onChangeText={busqueda => BusquedaSugerida(busqueda)}
-                />
+                <View style={styles.Buscador}>
+                    <TextInput 
+                        placeholder='Buscador...'
+                        value={ getTexto()}
+                        style={styles.InputBuscador}
+                        onChangeText={busqueda => BusquedaSugerida(busqueda)}
+                    />
+                    <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {if(getTexto()) setTexto('')}}>
+                        <Icon name='close' color='grey' size={30} />
+                    </TouchableOpacity>
+                </View>
                 { EstadoBusqueda
                     ? <FlatList
                         style={styles.ListaSugerida} 
@@ -277,15 +292,15 @@ export const Mapa = ({navigation}:any) => {
                             <Text style={styles.Titulo}>{Dependencia?.nombreDependencia}</Text>
                             </View>
                         </Svg>
-                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()}
+                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='grey'
                                 style={{position: 'absolute',bottom: 20, right:10,}}/>
-                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia})}}
+                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia})}} Color='grey'
                                 style={{position: 'absolute',bottom: 20, right: 70,}}/>
                     </View>
                 : <View/>
             }
             { !TocarDependencia
-                ? <Fab   NombreIcono="locate"
+                ? <Fab   NombreIcono="locate" Color='grey'
                     onPress={() => PosicionCentral()}
                     style={{
                         bottom: 200,
@@ -302,6 +317,23 @@ export const Mapa = ({navigation}:any) => {
                         <View style={{flex: 2,justifyContent: 'center', right: -120}}>
                             <Boton title='Cancelar' style={{width: 10,height: 10}} onPress={() => CancelarRuta()}/>
                         </View>
+                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'blue' :'grey'}
+                            onPress={() => CambiarDeModo('WALKING')}
+                            style={{
+                                position: 'absolute',
+                                bottom: 70,
+                                right: 30
+                            }}
+                        />
+
+                        <Fab   NombreIcono="car" Color={Forma === 'DRIVING' ?'blue' :'grey'}
+                            onPress={() => CambiarDeModo('DRIVING')}
+                            style={{
+                                position: 'absolute',
+                                bottom: 15,
+                                right: 30
+                            }}
+                        />
                     </View>
             }
         </>
@@ -406,8 +438,11 @@ const styles = StyleSheet.create({
     },
     Buscador: {
         backgroundColor: 'white',
-        color: 'black',
         borderRadius: Radio,
+    },
+    InputBuscador:{
+        color: 'black',
+        width: DispositivoWidth - 80,
     },
     ListaSugerida:{
         marginVertical: 5,
@@ -415,14 +450,19 @@ const styles = StyleSheet.create({
         color: 'black',
         borderRadius: Radio,
         width: DispositivoWidth - 40,
-        maxHeight: 120,
+        maxHeight: 130,
     },
     TextoLista:{
+        padding: 1,
+        fontSize: 15,
         marginVertical: 3,
         marginHorizontal: 10, 
         color: 'black',
     },
     ListaTocar:{
-        height: 30,
+        margin: 2,
+        width: DispositivoWidth - 50,
+        height: 32,
+        justifyContent: 'center'
     }
 })

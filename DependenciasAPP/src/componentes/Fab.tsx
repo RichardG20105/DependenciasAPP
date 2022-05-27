@@ -1,15 +1,16 @@
 import React  from 'react'
-import { View, TouchableOpacity, StyleProp, ViewStyle, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleProp, ViewStyle, StyleSheet, ColorValue } from 'react-native';
 
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
 interface Props{
     NombreIcono: string;
+    Color: ColorValue
     onPress: () => void;
     style?: StyleProp<ViewStyle>
 }
-export const Fab = ({ NombreIcono, onPress, style = {}}: Props) => {
+export const Fab = ({ NombreIcono, Color, onPress, style = {}}: Props) => {
     return (
         <View style={{...style as any}}>
 
@@ -20,7 +21,7 @@ export const Fab = ({ NombreIcono, onPress, style = {}}: Props) => {
             >
                 <Icon
                     name={NombreIcono}
-                    color="grey"
+                    color={Color}
                     size={35}
                 />
             </TouchableOpacity>
