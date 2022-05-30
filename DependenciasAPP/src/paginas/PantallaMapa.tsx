@@ -18,7 +18,7 @@ const PantallaMapa = () => {
         >
             { 
                 ( permisos.EstadoLocalizacion === 'granted')
-                ? <Stack.Screen name='PantallaMapa' component={Mapa}/>
+                ? <Stack.Screen name='ComponenteMapa' component={Mapa}/>
                 : <Stack.Screen name='PantallaPermiso' component={PantallaPermisos}/>
             }
             <Stack.Screen name='Dependencias' component={PantallaDependencia}/>

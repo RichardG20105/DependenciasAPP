@@ -28,7 +28,7 @@ export const Navegador = () => {
           ),
         }}
       />
-        <Tab.Screen name='Mapa' component={PantallaMapa}
+        <Tab.Screen name='PantallaMapa' component={PantallaMapa}
           options={{
             tabBarIcon: (props) => (
               <Icon name='location' size={30} color={props.color}/>

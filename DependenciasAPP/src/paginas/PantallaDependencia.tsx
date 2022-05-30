@@ -1,4 +1,4 @@
-import React, { useContext, useEffect} from 'react'
+import React, { useContext, useEffect, useState} from 'react'
 import { 
     StyleSheet,
     SafeAreaView,
@@ -15,6 +15,8 @@ import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
 import { ContextoSesion } from '../contexto/ContextoSesion';
 import { UsuarioUso } from '../hooks/UsuarioUso';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Dependencia } from '../interfaces/appinterfaces';
 
 
 const WIDTH = Dimensions.get('window').width;
@@ -23,8 +25,6 @@ const PantallaDependencia = (props: any) => {
     const idDependencia = props.route.params.idDependencia
     const {Dependencia, BuscarDependencia} = DependenciaUso();
     const {FavDependencia, DependenciaFavorito, AgregarFavorito, EliminarFavorito} = UsuarioUso()
-
-    
 
     const {sesion} = useContext(ContextoSesion)
 
@@ -50,6 +50,11 @@ const PantallaDependencia = (props: any) => {
 
         const Regreso = () =>{
             props.navigation.goBack()
+        }
+
+        const DirigirMapa = (NombreDep: any) => {
+            AsyncStorage.setItem('DependenciaRepo',NombreDep)
+            props.navigation.navigate('PantallaMapa')
         }
     
     return (
@@ -124,11 +129,11 @@ const PantallaDependencia = (props: any) => {
                                     <Icon name="favorite" color= {FavDependencia ? 'red' : 'grey'} size={30} />
                                 </TouchableOpacity>
                             </View>
-                            {/* <View style={styles.iconContainer1}
-                                //onPress={() => DirigirMapa(Dependencia?.idDependencia)}
-                            >
-                                <Icon name="directions" color= "#777873" size={40} />
-                            </View> */}
+                            <View style={styles.iconContainer1}>
+                                <TouchableOpacity onPress={() => DirigirMapa(Dependencia?.nombreDependencia)}>
+                                    <Icon name="directions" color= "#777873" size={40} />
+                                </TouchableOpacity>
+                            </View>
                             
                         </View> 
                         

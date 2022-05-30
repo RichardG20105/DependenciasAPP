@@ -65,8 +65,6 @@ export const UsuarioUso = () => {
                     CerrarSesion()
                 }
             })
-        }else{
-            console.log('No hay token')
         }
     }    
 
@@ -123,8 +121,6 @@ export const UsuarioUso = () => {
                     console.log(error)
                 }
             })
-        }else{
-            console.log('No hay token')
         }
     }
 
@@ -150,8 +146,6 @@ export const UsuarioUso = () => {
                     console.log(error)
                 }
             })
-        }else{
-            console.log('No hay token')
         }
     }
 
@@ -177,8 +171,6 @@ export const UsuarioUso = () => {
                     console.log(error)
                 }
             })
-        }else{
-            console.log('No hay token')
         }
     }
 
@@ -204,8 +196,6 @@ export const UsuarioUso = () => {
                     console.log(error)
                 }
             })
-        }else{
-            console.log('No hay token')
         }
     }
 
