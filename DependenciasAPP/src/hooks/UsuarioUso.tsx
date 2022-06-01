@@ -56,13 +56,13 @@ export const UsuarioUso = () => {
             const URL = BaseURL + '/Usuario/Info'
             const Body = {
                 "usuario": usuario,
-                "contrasena":contra,
+                "contrasena": contra,
             }
             axios.post(URL,Body,config).then((resp) => {
                 setUsuarioInfo(resp.data)
             }).catch((error) => {
                 if(error.request.status === 401){
-                    CerrarSesion()
+                    ReinicioSesion()
                 }
             })
         }
@@ -81,7 +81,7 @@ export const UsuarioUso = () => {
             AsyncStorage.setItem('Contrasena',resp.data.contrasena)
         }).catch((error) => {
             if(error.request.status === 401){
-                CerrarSesion()
+                ReinicioSesion()
             }
         });
         
@@ -116,7 +116,7 @@ export const UsuarioUso = () => {
                 setFavoritos(resp.data)
             }).catch((error) => {
                 if(error.request.status === 401){
-                    CerrarSesion()
+                    ReinicioSesion()
                 }else{
                     console.log(error)
                 }
@@ -141,7 +141,7 @@ export const UsuarioUso = () => {
             }).catch((error) => {
                 console.log(error)
                 if(error.request.status === 401){
-                    CerrarSesion()
+                    ReinicioSesion()
                 }else{
                     console.log(error)
                 }
@@ -166,7 +166,7 @@ export const UsuarioUso = () => {
             }).catch((error) => {
                 console.log(error)
                 if(error.request.status === 401){
-                    CerrarSesion()
+                    ReinicioSesion()
                 }else{
                     console.log(error)
                 }
@@ -196,6 +196,26 @@ export const UsuarioUso = () => {
                     console.log(error)
                 }
             })
+        }
+    }
+
+    const ReinicioSesion = async() => {
+        const usuario = await AsyncStorage.getItem('Usuario') 
+        const contra = await AsyncStorage.getItem('Contrasena')
+
+        if(usuario != null && contra != null){
+            
+            const Usuario: Usuario = {
+                idUsuario: 0,
+                nombres: '',
+                apellidos: '',
+                usuario: usuario,
+                contrasena: contra,
+                ciudad: '',
+                telefono: '',
+                correo: ''
+            }
+            IniciarSesion(Usuario)
         }
     }
 

@@ -80,7 +80,7 @@ const BuscadorDependencias = ({navigation}:any) => {
                     return (
                        <ScrollView>
                            <TouchableOpacity
-                            onPress={() => navigation.navigate('Dependencia',{idDependencia: item.idDependencia})}
+                            onPress={() => navigation.navigate('Dependencia',{idDependencia: item.idDependencia,idEstado:2})}
                            >
                            <View style={styles.itemContainer}>
                                 { (item?.fotos.length != 0)

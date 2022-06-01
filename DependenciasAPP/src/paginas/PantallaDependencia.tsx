@@ -16,13 +16,13 @@ import { BaseURL } from '../api/Apis';
 import { ContextoSesion } from '../contexto/ContextoSesion';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Dependencia } from '../interfaces/appinterfaces';
 
 
 const WIDTH = Dimensions.get('window').width;
 const HEIGHT = Dimensions.get('window').height;
 const PantallaDependencia = (props: any) => {
     const idDependencia = props.route.params.idDependencia
+    const Estado = props.route.params.idEstado
     const {Dependencia, BuscarDependencia} = DependenciaUso();
     const {FavDependencia, DependenciaFavorito, AgregarFavorito, EliminarFavorito} = UsuarioUso()
 
@@ -33,6 +33,7 @@ const PantallaDependencia = (props: any) => {
     useEffect(() => {
         BuscarDependencia(idDependencia)
         DependenciaFavorito(idDependencia)
+        console.log(Estado)
     }, [IsFocus])
 
         const VerificarLogeo = () =>{
@@ -54,8 +55,10 @@ const PantallaDependencia = (props: any) => {
 
         const DirigirMapa = (NombreDep: any) => {
             AsyncStorage.setItem('DependenciaRepo',NombreDep)
+            if(Estado === 2)
+                props.navigation.goBack()
             props.navigation.navigate('PantallaMapa')
-        }
+        } 
     
     return (
         <SafeAreaView style={styles.container}>

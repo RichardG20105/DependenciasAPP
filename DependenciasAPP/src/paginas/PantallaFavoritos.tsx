@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { ContextoSesion } from '../contexto/ContextoSesion';
 import { createStackNavigator } from '@react-navigation/stack';
 import Favoritos from '../componentes/Favoritos';

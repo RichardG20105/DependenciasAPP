@@ -17,9 +17,6 @@ import {
 import {images, icons} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso'
 import { Usuario } from '../interfaces/appinterfaces';
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
-
 
 export const PantallaModificarUsuario = ({navigation}:any) => {
 

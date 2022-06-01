@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { Text, View, Image, StyleSheet,
          useWindowDimensions, TextInput, TouchableOpacity,
-         Dimensions, Alert } from 'react-native';
+         Dimensions, Alert, ImageBackground, ScrollView } from 'react-native';
+import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { Usuario } from '../interfaces/appinterfaces';
 
 const PantallaSesion = () => {
     const [NombreUsuario, setNombreUsuario] = useState('')
     const [Contrasena, setContrasena] = useState('')
-    const {height} = useWindowDimensions()
+    const [EstadoContrasena, setEstadoContrasena] = useState(false)
 
     const {IniciarSesion} = UsuarioUso();
 
@@ -33,78 +35,166 @@ const PantallaSesion = () => {
     }
 
     return (
-        <View style={styles.root}>
-            <Image style={[styles.logo, {height: height * 0.3}]} source={require('../assets/LogoEspoch.png')} resizeMode='contain'/>
-            <View style={styles.container}>
-                <TextInput 
-                    value={NombreUsuario}
-                    onChangeText={setNombreUsuario}
-                    placeholder='Usuario' 
-                    placeholderTextColor='grey'
-                    secureTextEntry={false}
-                    style={styles.input}/>
-            </View>
-            <View style={styles.container}>
-                <TextInput 
-                    value={Contrasena}
-                    onChangeText={setContrasena}
-                    placeholder='Contraseña' 
-                    placeholderTextColor='grey'
-                    secureTextEntry={true}
-                    style={styles.input}/>
-            </View>
-            <TouchableOpacity
-                disabled={!Boolean(NombreUsuario && Contrasena)}
-                style={styles.Boton}
-                onPress={() => onIniciar()}
+        <ScrollView
+            style={{flex: 1, backgroundColor: '#ffffff'}}
+            showsVerticalScrollIndicator={false}
+        >
+            {/* Brand View */}
+            <ImageBackground
+                source={require('../assets/InicioSesion/Inicio.jpg')}
+                style={{
+                    height: Dimensions.get('window').height /2.1
+                }}
             >
-                <Text style={styles.TextoBoton}>Iniciar</Text>
-            </TouchableOpacity>
-        </View>
+                <View style={styles.brandView}>
+                    <Image
+                        style={styles.profile}
+                        source={require('../assets/InicioSesion/LogoSesion.png')}
+                        resizeMode="contain"
+                    />
+
+                        <Text style={styles.brandViewText}>LODES-ESPOCH</Text>
+                   
+                    
+                </View>
+            </ImageBackground>
+
+            {/* Bottom View */}
+            <View style={styles.bottomView}>
+                {/* Wellcom View */}
+                <View style={{padding: 40}}>
+                    <Text style={{color: '#FF6347', fontSize: 30}}>Bienvenido</Text>
+                    <Text style={{color: 'black', top: 10}}>¿No tienes una cuenta?
+                        <Text style={{color: '#4632A1', fontStyle: 'italic'}}>
+                            {' '} Registrate ahora
+                        </Text>
+                    </Text>
+                    {/* Form Inputs View */}    
+                    <View style={styles.action}>
+                        <FontAwesome
+                            name= "user-o"
+                            color= "#05375a"
+                            size= {23}
+                        />
+                        <TextInput
+                            value={NombreUsuario}
+                            onChangeText={setNombreUsuario}
+                            placeholder="Usuario"
+                            style={styles.textInput}
+                            autoCapitalize='none'
+                        />
+                        
+                    </View>
+                    <View style={styles.action}>
+                        <FontAwesome
+                            name= "lock"
+                            color= "#05375a"
+                            size= {23}
+                        />
+                        <TextInput
+                            value={Contrasena}
+                            onChangeText={setContrasena}
+                            placeholder="Contraseña"
+                            secureTextEntry={!EstadoContrasena}
+                            style={styles.textInput}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
+                        <TouchableOpacity
+                            onPress={() => {setEstadoContrasena(!EstadoContrasena)}}
+                        >
+                        <Feather
+                            name={!EstadoContrasena ?"eye-off" :"eye"}
+                            color='grey'
+                            size={21}
+                        />
+                        </TouchableOpacity>
+                    </View>
+                    {/* Login Button */}
+                    <View
+                        style={{
+                            height: 100, 
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                        }}
+                    >
+                        <TouchableOpacity style={styles.commandButton} 
+                            disabled={!Boolean(NombreUsuario && Contrasena)}
+                            onPress={() => onIniciar()}
+                        >
+                            <Text style={styles.panelButtonTitle}>Iniciar Sesión</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </View>
+        </ScrollView>
     )
 }
 
-const PantallaWidth = Dimensions.get('window').width
 const styles = StyleSheet.create({
-    root:{
-        alignItems: 'center',
-        padding: 20,
-        backgroundColor: '#EA3805',
-        height: '100%'
+    brandView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center', 
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        
     },
-    logo:{
-        width:'70%',
-        maxWidth: 300,
-        maxHeight: 200,
-        marginVertical: 5,
-    },
-    container: {
-        backgroundColor: 'white',
-        width: '100%',
 
-        borderColor: '#D9D9D9',
-        borderRadius: 5,
-        paddingHorizontal: 10,
-        marginVertical: 5,
-        borderWidth: 0.2,
-        marginBottom: 5,
-        marginTop: 5,
+    panelButtonTitle: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginTop: 12,
     },
-    input: {
-        color: 'black',
+
+    brandViewText: {
+        color: '#3498DB',
+        fontSize: 40,
+        fontWeight: 'bold',
+        top: -45,
+        textTransform: 'uppercase'
     },
-    Boton: {
-        width: PantallaWidth * 0.3,
-        backgroundColor: '#1A56DF',
-        padding: 15,
-        marginVertical: 5,
+
+    commandButton: {
+        top: 20,
+        paddingBottom: 15,
+        paddingHorizontal: 100,
+        borderRadius: 10, 
+        backgroundColor: '#FF6347',
         alignItems: 'center',
-        borderRadius: 5,
+        marginTop: 30,
+        marginBottom: 10,
     },
-    TextoBoton:{
-        fontSize: 15,
-        color: 'white'
-    }
+
+    bottomView: {
+        flex: 1.5,
+        backgroundColor: '#ffffff',
+        bottom: 50,
+        borderTopStartRadius: 60,
+        borderTopEndRadius: 60
+    },
+
+    textInput:{
+        flex: 1,
+        marginTop: -11,
+        left: 10,
+        color: '#05375a',
+        fontSize: 17
+    },
+
+    action: {
+        flexDirection: 'row',
+        marginTop: 40,
+        marginBottom: 10,
+        borderBottomWidth: 1,
+        borderBottomColor: '#f2f2f2',
+    },
+
+    profile: {
+        height: 150,
+        width: 150,
+        borderRadius: 50,
+        bottom: "12%",
+    },
 })
-
 export default PantallaSesion

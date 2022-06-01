@@ -5,14 +5,14 @@ import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 import MapViewDirections, { MapViewDirectionsMode } from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
-import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {Svg, Image as ImageSvg} from 'react-native-svg';
 import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { getIconoMapa } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useIsFocused } from '@react-navigation/native';
+import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -29,7 +29,7 @@ export const Mapa = ({navigation}:any) => {
             Dependencia, BuscarDependencia, BuscarDependenciaSugerida,
     } = DependenciaUso();
 
-    const [ReferenciaVistaMapa, setReferenciaVistaMapa ]= useState<MapView>();
+    let mapRef = useRef<MapView>(null)
     
     const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
 
@@ -68,9 +68,7 @@ export const Mapa = ({navigation}:any) => {
         tiempo: 0,
         distancia: 0,
     })
-
-    const IsFocus = useIsFocused()
-
+    
     useEffect(() => {
         SeguirLocalizacionUsuario();
         return () => {
@@ -85,24 +83,24 @@ export const Mapa = ({navigation}:any) => {
 
         const {latitud, longitud} = PosicionUsuario;
     
-        ReferenciaVistaMapa?.animateCamera({
+        mapRef.current?.animateCamera({
             center:{latitude:latitud,longitude:longitud}
         });
+
     }, [PosicionUsuario])
 
-    useEffect(() => {
+    useFocusEffect( () => {
         Reposicionar()
-        
-        return () => {
-            VaciarReposicion()
-        }
-    }, [IsFocus])
+    })
     
 
     const Reposicionar = async() => {
         const Repo = await AsyncStorage.getItem('DependenciaRepo')
         if(Repo !== null){
-            VaciarReposicion()
+
+            if(TocarDependencia){
+                setTocarDependencia(false)
+            }
             Dependencias.forEach(ElementDep => {
                 if(ElementDep.nombreDependencia === Repo){
                     setReposicion({latitude: ElementDep.latitud,
@@ -110,8 +108,8 @@ export const Mapa = ({navigation}:any) => {
                     })
 
                     if(Reposicion.latitude !== 0){
-                        
-                        ReferenciaVistaMapa?.animateCamera({
+                        setSeguirUsuario(false)
+                        mapRef.current?.animateCamera({
                             center:{latitude:Reposicion.latitude,longitude:Reposicion.longitude}
                         });
                         MarkerClic(ElementDep.idDependencia, ElementDep.latitud, ElementDep.longitud)
@@ -122,15 +120,12 @@ export const Mapa = ({navigation}:any) => {
         }
     }
 
-    const VaciarReposicion = () => {
-        setReposicion( {latitude: 0,
+    const BorrarReposicion = () => {
+        AsyncStorage.removeItem('DependenciaRepo')
+        setReposicion({
+            latitude: 0,
             longitude: 0,
         })
-    }
-
-    const BorrarReposicion = () => {
-        VaciarReposicion()
-        AsyncStorage.removeItem('DependenciaRepo')
     }
     
     const LocalizacionTiempoReal = async () => {
@@ -143,9 +138,9 @@ export const Mapa = ({navigation}:any) => {
     const PosicionCentral = async() => {
         const {latitud, longitud} = await getLocalizacionActual();
 
-        setSeguirUsuario(true);
+        setSeguirUsuario(true)
 
-        ReferenciaVistaMapa?.animateCamera({
+        mapRef.current?.animateCamera({
             center: {
                 latitude: latitud,
                 longitude: longitud
@@ -158,7 +153,7 @@ export const Mapa = ({navigation}:any) => {
             if(elemento.nombreDependencia === busqueda){
                 setEstadoBusqueda(false);
                 setTexto(busqueda);
-                ReferenciaVistaMapa?.animateCamera({
+                mapRef.current?.animateCamera({
                     center:{latitude:elemento.latitud,longitude:elemento.longitud},
                     zoom: 18,
                 });
@@ -179,9 +174,9 @@ export const Mapa = ({navigation}:any) => {
     }
     
     const MarkerClic = (IdDep: number,latitude: number,longitude: number)  =>{
-        setTocarDependencia(true);
         BuscarDependencia(IdDep);
         setDestino({LocalizacionDestino:{latitude,longitude}});
+        setTocarDependencia(true);
     }
 
     const TrazarRuta = () => {
@@ -205,12 +200,6 @@ export const Mapa = ({navigation}:any) => {
         return Texto;
     }
 
-    const setReferenciaMapa = (referencia: any) =>{
-        if(referencia){
-            setReferenciaVistaMapa(referencia)
-        }
-    }
-
     const MarcadorTam = () => {
         const calculo =  0.1263 / LongDelta
         const maximo = 37
@@ -224,16 +213,6 @@ export const Mapa = ({navigation}:any) => {
         return ((-160.77*LongDelta)+8.18)
     }
 
-    /* const LetraTam = () => {
-        const calculo = 0.02105 / LongDelta
-        const maximo = 8
-        if(calculo < maximo){
-            return calculo
-        }
-        return maximo
-        
-    } */
-
     const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
         if(Forma != Modo){
             setForma(Modo)
@@ -243,7 +222,6 @@ export const Mapa = ({navigation}:any) => {
     return (
         <>
             <MapView
-                ref={ (el) => setReferenciaMapa(el)}
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
                 showsUserLocation
@@ -255,6 +233,7 @@ export const Mapa = ({navigation}:any) => {
                     latitudeDelta: 0.00922,
                     longitudeDelta: 0.00421,
                 }}
+                ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), Keyboard.dismiss()]}
                 maxZoomLevel={19}
                 minZoomLevel={17}
@@ -276,7 +255,7 @@ export const Mapa = ({navigation}:any) => {
                             >
                                 
                                 <Image source={ getIconoMapa(val.idTipoDependencia) } style={[styles.Marcador,{width: MarcadorTam(), height: MarcadorTam()}]} resizeMode='stretch' />
-                                <Text style={[styles.TextoMarcador,{color:'black',marginTop: 5,fontSize: LetraTam(), width: 75, backgroundColor: 'red', textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                <Text style={[styles.TextoMarcador,{color:'black',marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
                             </Marker>
                         )
                     })
@@ -331,7 +310,8 @@ export const Mapa = ({navigation}:any) => {
                     />
                 }
             </View>
-            { TocarDependencia &&  <View style={styles.Carta}>
+            { TocarDependencia 
+                ?<View style={styles.Carta}>
                         <Svg>
                             { (Dependencia?.fotos.length != 0)
                                 ?<Image style={styles.CartaContenido} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
@@ -343,9 +323,10 @@ export const Mapa = ({navigation}:any) => {
                         </Svg>
                         <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='grey'
                                 style={{position: 'absolute',bottom: 20, right:10,}}/>
-                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia})}} Color='grey'
+                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='grey'
                                 style={{position: 'absolute',bottom: 20, right: 70,}}/>
                     </View>
+                    :<View/>
             }
             { !TocarDependencia
                 ? <Fab   NombreIcono="locate" Color='grey'
@@ -514,3 +495,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
+
+function useCallback(arg0: () => void, arg1: never[]): () => void | (() => void) | undefined {
+    throw new Error('Function not implemented.');
+}
