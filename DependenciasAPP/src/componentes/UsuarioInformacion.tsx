@@ -34,7 +34,7 @@ export const UsuarioInformacion = ({navigation}:any) => {
             <View style={styles.bottomContainer}>
                <Image
                     style={styles.profile}
-                    source={images.avatar_3}
+                    source={UsuarioInfo?.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
                /> 
                <Text style={styles.name}>{UsuarioInfo?.nombres}</Text>
                <Text style={styles.name}>{UsuarioInfo?.apellidos}</Text>

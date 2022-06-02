@@ -3,6 +3,7 @@ const avatar_2 = require("../assets/images/avatar-2.png");
 const avatar_3 = require("../assets/images/avatar-3.jpg");
 const avatar_4 = require("../assets/images/avatar-4.jpg");
 const avatar_5 = require("../assets/images/avatar-5.jpg");
+const avatar_6 = require("../assets/images/avatar-6.png");
 const baked_fries = require("../assets/images/baked-fries.jpg");
 const burger_restaurant_1 = require("../assets/images/burger-restaurant.jpg");
 const burger_restaurant_2 = require("../assets/images/burger-restaurant-2.jpg");
@@ -34,6 +35,7 @@ export default {
     avatar_3,
     avatar_4,
     avatar_5,
+    avatar_6,
     baked_fries,
     burger_restaurant_1,
     burger_restaurant_2,

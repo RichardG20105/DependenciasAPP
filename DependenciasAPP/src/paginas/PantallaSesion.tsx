@@ -26,6 +26,7 @@ const PantallaSesion = () => {
                 apellidos: '',
                 usuario: NombreUsuario,
                 contrasena: Contrasena,
+                genero: '',
                 ciudad: '',
                 telefono: '',
                 correo: ''

@@ -82,6 +82,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
         const [Apellidos, setApellidos] = useState('')
         const [Usuario, setUsuario] = useState('')
         const [Contrasena, setContrasena] = useState('')
+        const [Genero, setGenero] = useState('')
         const [Ciudad, setCiudad] = useState('')
         const [Correo, setCorreo] = useState('')
         const [Telefono, setTelefono] = useState('')
@@ -96,6 +97,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                     contrasena: VerificarDatos(Contrasena,UsuarioInfo.contrasena),
                     nombres: VerificarDatos(Nombres,UsuarioInfo.nombres),
                     apellidos: VerificarDatos(Apellidos,UsuarioInfo.apellidos),
+                    genero: VerificarDatos(Genero, UsuarioInfo.genero),
                     ciudad: VerificarDatos(Ciudad,UsuarioInfo.ciudad),
                     telefono: VerificarDatos(Telefono,UsuarioInfo.telefono),
                     correo: VerificarDatos(Correo,UsuarioInfo.correo)
