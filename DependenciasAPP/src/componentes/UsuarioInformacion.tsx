@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { 
     StyleSheet,
     View, 
     Text,
     TouchableOpacity,
-    Image, } from 'react-native'
+    Image,
+    ActivityIndicator,
+    useWindowDimensions, } from 'react-native'
     import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
@@ -16,68 +18,88 @@ export const UsuarioInformacion = ({navigation}:any) => {
     const {CerrarSesion} = UsuarioUso()
     const {UsuarioInfo, InformacionUsuario} = UsuarioUso();
 
+    const [Mostrar, setMostrar] = useState(false)
+
     const isFocus = useIsFocused();
+
     useEffect(() => {
         InformacionUsuario()
+        setTimeout(() => {setMostrar(true)},1000)
     }, [isFocus])
+
+    useEffect(() => {
+        setMostrar(false)
+    }, [!isFocus])
 
     const Cerrar =  () => {
         CerrarSesion()
     }
+
     return (
-        <View style={styles.container}>
+        <View>
+            {Mostrar && UsuarioInfo &&
+             <View style={styles.container}>
+                <Image 
+                    style={styles.bgimagen} 
+                    source={images.avatar_2}
+                />
+                <View style={styles.bottomContainer}>
+                <Image
+                        style={styles.profile}
+                        source={UsuarioInfo.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
+                /> 
+                <Text style={styles.name}>{UsuarioInfo.nombres}</Text>
+                <Text style={styles.name}>{UsuarioInfo.apellidos}</Text>
+                <View style={styles.userInfoSection}>
+                    <View style={styles.row}>
+                            <Icon name= "account" color="#777777" size={25} />
+                            <Text style={styles.text}>{UsuarioInfo.usuario}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Icon name= "map-marker-radius" color="#777777" size={25} />
+                            <Text style={styles.text}>{UsuarioInfo.ciudad}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Icon name= "phone" color="#777777" size={25}/>
+                            <Text style={styles.text}>(+593) {UsuarioInfo.telefono}</Text>
+                        </View>
+                        <View style={styles.row}>
+                            <Icon name= "email" color="#777777" size={25}/>
+                            <Text style={styles.text}>{UsuarioInfo.correo}</Text>
+                        </View>
+                    </View>
+                    <TouchableOpacity style={styles.commandButton} onPress={() => {navigation.navigate('UsuarioModificar')}}>
+                        <Text style={styles.panelButtonTitle}>Modificar</Text>
+                    </TouchableOpacity>
 
-            <Image 
-                style={styles.bgimagen} 
-                source={images.avatar_2}
-            />
-            <View style={styles.bottomContainer}>
-               <Image
-                    style={styles.profile}
-                    source={UsuarioInfo?.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
-               /> 
-               <Text style={styles.name}>{UsuarioInfo?.nombres}</Text>
-               <Text style={styles.name}>{UsuarioInfo?.apellidos}</Text>
-               <View style={styles.userInfoSection}>
-                   <View style={styles.row}>
-                       <Icon name= "account" color="#777777" size={25} />
-                        <Text style={styles.text}>{UsuarioInfo?.usuario}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Icon name= "map-marker-radius" color="#777777" size={25} />
-                        <Text style={styles.text}>{UsuarioInfo?.ciudad}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Icon name= "phone" color="#777777" size={25}/>
-                        <Text style={styles.text}>(+593) {UsuarioInfo?.telefono}</Text>
-                    </View>
-                    <View style={styles.row}>
-                        <Icon name= "email" color="#777777" size={25}/>
-                        <Text style={styles.text}>{UsuarioInfo?.correo}</Text>
-                    </View>
+                    <TouchableOpacity style={styles.commandButton} onPress={() => Cerrar()}>
+                        <Text style={styles.panelButtonTitle}>Cerrar Sesión</Text>
+                    </TouchableOpacity>
                 </View>
-                <TouchableOpacity style={styles.commandButton} onPress={() => {navigation.navigate('UsuarioModificar')}}>
-                    <Text style={styles.panelButtonTitle}>Modificar</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity style={styles.commandButton} onPress={() => Cerrar()}>
-                    <Text style={styles.panelButtonTitle}>Cerrar Sesión</Text>
-                </TouchableOpacity>
             </View>
+            }
+            { !Mostrar && <View style ={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+              }}>
+                <ActivityIndicator
+                size={50}
+                color="cyan"
+                />
+              </View>
+            }
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
     },
 
     bgimagen: {
-        flex: 1,
         position: 'absolute',
         width: '100%',
         height: '100%',
@@ -141,6 +163,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginTop: 12,
-
     },
 });

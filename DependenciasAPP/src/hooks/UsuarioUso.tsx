@@ -41,11 +41,9 @@ export const UsuarioUso = () => {
     }
 
     const InformacionUsuario = async() => {
-        
+        LimpiarUsuario()
         const tok = await AsyncStorage.getItem('Token')       
-
         if(tok != null){
-            LimpiarUsuario()
             const usuario = await AsyncStorage.getItem('Usuario') 
             const contra = await AsyncStorage.getItem('Contrasena')
 
@@ -73,7 +71,8 @@ export const UsuarioUso = () => {
         const config = {
             headers: { Authorization: `${tok}`}
         }
-
+        
+        LimpiarUsuario()
         const URL = BaseURL + '/Usuario/Actualizar/' + UsuarioModificar.idUsuario
         axios.put(URL,UsuarioModificar,config).then((resp) => {
             setUsuarioInfo(resp.data)
@@ -94,6 +93,7 @@ export const UsuarioUso = () => {
             apellidos: '',
             usuario: '',
             contrasena: '',
+            genero: '',
             ciudad: '',
             telefono: '',
             correo: ''
@@ -211,6 +211,7 @@ export const UsuarioUso = () => {
                 apellidos: '',
                 usuario: usuario,
                 contrasena: contra,
+                genero: '',
                 ciudad: '',
                 telefono: '',
                 correo: ''
