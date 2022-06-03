@@ -10,7 +10,7 @@ import {Svg, Image as ImageSvg} from 'react-native-svg';
 import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
-import { getIconoMapa } from './Iconos';
+import { getIconoMapa, getColorLetras } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFocusEffect, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -255,7 +255,7 @@ export const Mapa = ({navigation}:any) => {
                             >
                                 
                                 <Image source={ getIconoMapa(val.idTipoDependencia) } style={[styles.Marcador,{width: MarcadorTam(), height: MarcadorTam()}]} resizeMode='stretch' />
-                                <Text style={[styles.TextoMarcador,{color:'black',marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
                             </Marker>
                         )
                     })
@@ -444,7 +444,11 @@ const styles = StyleSheet.create({
     },
     TextoMarcador:{
         position: 'relative',
-        bottom: 0
+        bottom: 0,
+        fontFamily:'Roboto',
+        elevation: 7,
+        fontWeight: '600',
+        textShadowColor: 'white'
     },
     Marcador:{
         position: 'relative',

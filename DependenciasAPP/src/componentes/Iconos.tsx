@@ -69,3 +69,39 @@ export const getIconoMapa = (id:number) => {
             break;
     }
 }
+
+export const getColorLetras = (id:number) => {
+    switch(id){
+        case 1:
+            return '#7c2424'
+            break;
+        case 2:
+            return '#0c7c8c'
+            break;
+        case 3:
+            return '#3c8c04'
+            break;
+        case 4:
+            return '#6c7454'
+            break;
+        case 5:
+            return '#0434bc'
+            break;
+        case 6:
+            return '#641c0c'
+            break;
+        case 7:
+            return '#e4c404'
+            break;
+        case 8:
+            return '#543404'
+            break;
+        case 9:
+            return '#4c4c4c'
+            break;
+        default:
+            return '#d40404'
+            break;
+
+    }
+}
