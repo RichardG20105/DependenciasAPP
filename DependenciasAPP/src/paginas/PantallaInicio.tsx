@@ -82,7 +82,7 @@ const PantallaInicio = () => {
                             left: 8
                         }}
                     >
-                        <Text style={{ color: "black", fontFamily: "Roboto-Bold", fontSize: 17, lineHeight: 20 }}>Location</Text>
+                        <Text style={{ color: "#295074", fontFamily: "Roboto-Bold", fontSize: 20, lineHeight: 26, fontWeight: 'bold' }}>LODES - ESPOCH</Text>
                     </View>
                 </View>
 
@@ -113,7 +113,7 @@ const PantallaInicio = () => {
         const navigation = useNavigation<homeScreenProp>();
         return(
             <View style={{ padding: 7 * 2, paddingBottom: 4}}>
-                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 21 }}> Categorias </Text>
+                <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 21, fontWeight: 'bold' }}> Categorías </Text>
 
                 <FlatList
                     data={TiposDependencia}
@@ -217,7 +217,7 @@ const PantallaInicio = () => {
                             backgroundColor: "#EFEFF1"
                         }}
                     >
-                        <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color:"black"}}>Dependencias</Text>
+                        <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color: "#295074", fontWeight: 'bold'}}>Dependencias</Text>
                     </View>
                 </View>
             </View>
@@ -304,7 +304,7 @@ const PantallaInicio = () => {
                     <Carousel />
                 </View>
                 {renderMainCategories()}
-                <Text style={{ color: "black", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14}}> Recomendados </Text>
+                <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14, fontWeight: 'bold'}}> Recomendados </Text>
                 {rendermainCards()}
             </SafeAreaView>
         )

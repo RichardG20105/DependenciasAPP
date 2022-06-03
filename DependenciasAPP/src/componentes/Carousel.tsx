@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Image, NativeScrollEvent } from  'react-native'
 
+const path = '../assets/Carousel'
 const images = [
     require('../assets/Carousel/fondo1.jpg'),
     require('../assets/Carousel/fondo2.jpg'),
@@ -27,7 +28,7 @@ const Carousel = () => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={[styles.wrap, {elevation: 8}]}>
+            <View style={[styles.wrap, {elevation: 12}]}>
                 <ScrollView
                     onScroll={({nativeEvent}) => onchange(nativeEvent)}                
                     showsHorizontalScrollIndicator={false}
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
         width: WIDTH - 42,
         height: HEIGHT / 4,
         backgroundColor: 'white',
-        borderRadius: 10,
+        borderRadius: 25,
         shadowColor: '#000',
         shadowOffset: {width: 0.5, height: 0.5},
         shadowOpacity: 0.5,

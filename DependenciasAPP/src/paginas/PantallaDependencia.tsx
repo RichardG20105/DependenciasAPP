@@ -38,13 +38,14 @@ const PantallaDependencia = (props: any) => {
 
         const VerificarLogeo = () =>{
             if(sesion.EstadoToken === 'unavailable'){
-                Alert.alert('Error de Sesión','Nesecita Iniciar Sesión para poder agregar a favoritos',[{text: 'Cancelar'},{text: 'Aceptar',onPress: () => props.navigation.navigate("Usuario")}])
+                Alert.alert('Error de Sesión','Necita Iniciar Sesión para poder agregar a favoritos',[{text: 'Cancelar'},{text: 'Aceptar',onPress: () => props.navigation.navigate("Usuario")}])
             }else{
                 if(FavDependencia === true){
                     EliminarFavorito(idDependencia)
                 }else{
                     AgregarFavorito(idDependencia)
                 }
+                
             }
         }
 
@@ -61,50 +62,11 @@ const PantallaDependencia = (props: any) => {
     
     return (
         <SafeAreaView style={styles.container}>
-            <View style={{ flexDirection:'row', paddingTop: 15, paddingBottom: 15 }}>
-                <TouchableOpacity
-                    style={{
-                        width: 50,
-                        paddingLeft: 10 * 2,
-                        justifyContent: 'center'
-                    }}
-                    onPress={() => Regreso()}
-                >
-                    <Icon name="arrow-back"
-                        color="black"
-                        size={35}/>
-                </TouchableOpacity>
-                
-                {/* Nombre de la Sección de la Dependencia */}
-
-                <View 
-                    style={{
-                        flex: 1,
-                        marginHorizontal: 15,
-                        marginRight: 20,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-                    <View
-                        style={{
-                            height: 44,
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            paddingHorizontal: 40,
-                            borderRadius: 30,
-                            backgroundColor: "#EFEFF1"
-                        }}
-                    >
-                        <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color:"black"}}>{Dependencia?.nombreDependencia}</Text>
-                    </View>
-                </View>
-            </View>
             <View style={{ 
                     alignItems: 'center',
                     }}
                 >
-                    <View style={{ height: HEIGHT * 0.30}}>
+                    <View style={{ height: HEIGHT / 2.9}}>
                        {(Dependencia?.fotos.length != 0)
                         ? <Image
                             source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}
@@ -125,6 +87,25 @@ const PantallaDependencia = (props: any) => {
                             }}
                          /> 
                        }
+                        <TouchableOpacity
+                            style={{
+                                width: 45,
+                                height: 45,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'absolute',
+                                top: 20,
+                                left: 20,
+                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                borderRadius: 13
+                            }}
+                            onPress={() => Regreso()}
+                        >
+                            <Icon name="arrow-back-ios"
+                                color="#ffffff"
+                                size={35}
+                                style={{left: 7.5}}/>
+                        </TouchableOpacity>
                         <View style={styles.detailsContainer}>
                             <View style={styles.iconContainer}>
                                 <TouchableOpacity onPress={() => VerificarLogeo()}>
@@ -136,15 +117,31 @@ const PantallaDependencia = (props: any) => {
                                     <Icon name="directions" color= "#777873" size={40} />
                                 </TouchableOpacity>
                             </View>
-                            
+                            <View>
+                                <Text 
+                                        style={{
+                                            color:'black',
+                                            marginTop: 15,
+                                            height: 50,
+                                            width:  350,
+                                            fontFamily: "Roboto-Bold",
+                                            fontSize: 20, 
+                                            lineHeight: 22,
+                                            fontWeight: 'bold'
+                                        }}
+                                    > 
+                                        {Dependencia?.nombreDependencia}
+                                </Text>
+                            </View>
                         </View> 
                         
                         <View style={{ flexDirection: 'row', 
                                             }}>
-                                <Icon name="place" size={28} color="blue" style={{marginLeft: 10}}/>
+                                <Icon name="place" size={25} color="blue" style={{marginLeft: 10, marginTop: -20}}/>
                                 <Text 
                                     style={{
-                                        marginLeft: 5, 
+                                        marginTop: -20,
+                                        marginLeft: 2, 
                                         fontSize: 18, 
                                         fontWeight: 'bold', 
                                         color:"blue"
@@ -154,7 +151,7 @@ const PantallaDependencia = (props: any) => {
                                 </Text>
                         </View>
                         <ScrollView style={{paddingBottom: 275}}>
-                            <Text style={{color: "black", marginTop: 15, fontWeight: 'bold', fontSize: 20, marginLeft: 15}}>
+                            <Text style={{color: "black", marginTop: 10, fontWeight: 'bold', fontSize: 20, marginLeft: 15}}>
                                 Acerca de
                             </Text>
                             <Text style={{color: "black", marginTop: 15, lineHeight: 22, marginLeft: 15}}>
@@ -174,18 +171,19 @@ const styles = StyleSheet.create({
     },
 
     detailsContainer: {
-        top: -30,
-        borderTopLeftRadius: 30,
-        borderTopRightRadius: 30,
-        paddingVertical: 16,
+        top: -45,
+        borderTopLeftRadius: 35,
+        borderTopRightRadius: 35,
+        paddingVertical: 38,
         paddingHorizontal: 20, 
         backgroundColor: 'white',
-        flex: 0.3,
+        flex: 1.3,
     },
 
     iconContainer: {
         height: 60,
         width: 60, 
+        marginRight: 18,
         position: 'absolute',
         top:-30,
         backgroundColor: 'white',
@@ -199,7 +197,7 @@ const styles = StyleSheet.create({
     iconContainer1: {
         height: 60,
         width: 60, 
-        marginRight: 80,
+        marginRight: 100,
         position: 'absolute',
         top:-30,
         backgroundColor: 'white',
