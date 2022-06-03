@@ -38,14 +38,13 @@ const PantallaDependencia = (props: any) => {
 
         const VerificarLogeo = () =>{
             if(sesion.EstadoToken === 'unavailable'){
-                Alert.alert('Error de Sesión','Necita Iniciar Sesión para poder agregar a favoritos',[{text: 'Cancelar'},{text: 'Aceptar',onPress: () => props.navigation.navigate("Usuario")}])
+                Alert.alert('Error de Sesión','Nesecita Iniciar Sesión para poder agregar a favoritos',[{text: 'Cancelar'},{text: 'Aceptar',onPress: () => props.navigation.navigate("Usuario")}])
             }else{
                 if(FavDependencia === true){
                     EliminarFavorito(idDependencia)
                 }else{
                     AgregarFavorito(idDependencia)
                 }
-                
             }
         }
 
