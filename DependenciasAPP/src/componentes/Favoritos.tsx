@@ -42,14 +42,14 @@ const Favoritos = ({navigation}:any) => {
       <View>
         <FlatList
                 data={Favoritos}
-                keyExtractor={item => `${item.dependencias.idDependencia}`}
-                renderItem = { ({item}) => {
+                keyExtractor={(item) => `${item.idBusca}`}
+                renderItem = {({item}) => {
                     return (
                       <ScrollView >
                         <TouchableOpacity onPress={() => navigation.navigate('Dependencias',{idDependencia: item.dependencias.idDependencia})}>
                         <View style={styles.itemContainer}>
-                            { (item?.dependencias.fotos.length != 0)
-                              ?<Image style={styles.image} source={{uri: `${BaseURL}/imagenes/${item?.dependencias.fotos[0].nombreFoto}`}}/>
+                            { (item.dependencias.fotos.length != 0)
+                              ?<Image style={styles.image} source={{uri: `${BaseURL}/imagenes/${item.dependencias.fotos[0].nombreFoto}`}}/>
                               :<Image style={styles.image} source={require('../assets/ImageNotFound.png')}/>
                             }
                             <View>
