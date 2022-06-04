@@ -35,8 +35,9 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                         source={icons.back}
                         resizeMode="contain"
                         style={{
-                            width: 25,
-                            height: 25
+                            right: 10,
+                            width: 35,
+                            height: 35
                         }}
                     />
                 </TouchableOpacity>

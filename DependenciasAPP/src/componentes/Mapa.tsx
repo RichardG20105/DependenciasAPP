@@ -5,7 +5,7 @@ import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 import MapViewDirections, { MapViewDirectionsMode } from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
-import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import {Svg, Image as ImageSvg} from 'react-native-svg';
 import { BaseURL} from '../api/Apis';
 import { Boton } from './Boton';
@@ -180,10 +180,10 @@ export const Mapa = ({navigation}:any) => {
     }
 
     const TrazarRuta = () => {
+        setSeguirUsuario(true)
         LocalizacionTiempoReal()
         setRuta(true)
         setTocarDependencia(false)
-        setSeguirUsuario(true)
     }
 
     const Tiempo = (tiempo: number, distancia: number) => {
@@ -250,7 +250,7 @@ export const Mapa = ({navigation}:any) => {
                                     latitude:val.latitud,
                                     longitude:val.longitud
                                 }}
-                                onPress={() => MarkerClic(val.idDependencia,val.latitud, val.longitud)}
+                                onPress={() => !Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la Ruta primero',[{text: 'Aceptar'}])}
                                 style={{width: 75,height: 70,justifyContent: 'center'}}
                             >
                                 
@@ -339,7 +339,12 @@ export const Mapa = ({navigation}:any) => {
                 : <View/>
             }
             { Ruta && <View style={styles.CuadroRuta}>
+                { (Dependencia?.fotos.length != 0)
+                    ?<Image style={styles.ImagenRuta} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
+                    :<Image style={styles.ImagenRuta} source={require('../assets/ImageNotFound.png')}/>
+                }
                         <View style={styles.CuadroContenido}>
+                        
                             <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
                             <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
                         </View>
@@ -418,10 +423,10 @@ const styles = StyleSheet.create({
     },
     CuadroRuta:{
         position:'absolute',
-        bottom: 10,
+        bottom: 9,
         right: 7,
         width: DispositivoWidth - 15,
-        height: 130,
+        height: 300,
         backgroundColor: 'lightblue',
         elevation: 9,
         borderRadius: Radio,
@@ -431,6 +436,12 @@ const styles = StyleSheet.create({
             height: 10
         },
         shadowRadius: Radio,
+    },
+    ImagenRuta:{
+        width: DispositivoWidth - 15,
+        height: 170,
+        borderTopLeftRadius: Radio,
+        borderTopRightRadius: Radio,
     },
     CuadroContenido:{
         alignContent: 'center',
@@ -499,7 +510,3 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     }
 })
-
-function useCallback(arg0: () => void, arg1: never[]): () => void | (() => void) | undefined {
-    throw new Error('Function not implemented.');
-}

@@ -7,11 +7,16 @@ import {
     Text,
     TouchableOpacity,
     Image,
-    FlatList} from 'react-native'
-import { ScrollView, TextInput } from 'react-native-gesture-handler';
+    FlatList,
+    Dimensions,
+    ScrollView, TextInput} from 'react-native'
 import  Icon  from 'react-native-vector-icons/Ionicons';
 import { BaseURL } from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
+
+import { getTipoDependencias } from './Iconos';
+
+const {width, height} = Dimensions.get('window')
 
 const BuscadorDependencias = ({navigation}:any) => {
 
@@ -30,26 +35,16 @@ const BuscadorDependencias = ({navigation}:any) => {
     const Regreso = () => {
         navigation.goBack()
     }
-    
-    return (
-        <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
-            <StatusBar
-            translucent = {false}
-            backgroundColor= "white"
-            barStyle= "dark-content"
-            />
-        <View style={styles.container}>
-            <View style={{width: 30}}>
+
+    function Buscador(){
+        return (
+            <View>
+                <View style={{width: 30}}>
                 <TouchableOpacity
-                    style={{
-                        position: 'absolute',
-                        left: -5,
-                        top: 8,
-                        width: 30,
-                    }}
+                style={{top: 6}}
                     onPress={() => Regreso()}
                 >
-                    <Icon name="arrow-back"
+                    <Icon name="chevron-back"
                         color="black"
                         size={35}/>
                 </TouchableOpacity>
@@ -70,10 +65,17 @@ const BuscadorDependencias = ({navigation}:any) => {
                     style={{left: 33}}
                 />
             </View>   
+            </View>
+        )
+    }
+
+    function Listado() {
+        return (
             <View>
             { !BuscadorVacio
              ?<FlatList
-                style={{position: 'absolute',top: 40}}
+
+                style={{marginTop: 20,height: height - 120, width: width - 20}}
                 data={DependenciasSugerida}
                 keyExtractor={item => `${item.idDependencia}`}
                 renderItem = { ({item}) => {
@@ -89,18 +91,31 @@ const BuscadorDependencias = ({navigation}:any) => {
                                 }
                                 <View>
                                 <Text style={styles.textname}>{item.nombreDependencia}</Text>
-                                <Text style={styles.textlocation}>{item.descripcionDependencia}</Text>
+                                <Text style={styles.textlocation}>{getTipoDependencias(item.idTipoDependencia)}</Text>
                                 </View>
                            </View>
                            </TouchableOpacity>
                        </ScrollView>
                     )
                 }}
-                contentContainerStyle={{ paddingVertical: 7 * 2 }}
+                contentContainerStyle={{ paddingVertical: 7 * 2}}
                 />
                 : <View/>
             }
             </View>         
+        )
+    }
+    
+    return (
+        <SafeAreaView style={{flex: 1,backgroundColor: 'white'}}>
+            <StatusBar
+            translucent = {false}
+            backgroundColor= "white"
+            barStyle= "dark-content"
+            />
+        <View style={styles.container}>
+            {Buscador()}
+            {Listado()}
         </View>
         </SafeAreaView>
     )
@@ -135,16 +150,6 @@ const styles = StyleSheet.create({
 
         elevation: 4,
     },
-
-    textDependencias: {
-        fontSize: 20,
-        textAlign: 'left',
-        marginLeft: 10,
-        fontWeight: 'bold',
-        marginTop: 10,
-        color:'black'
-    },
-
     textInput: {
         flex: 2,
         fontSize: 18,
@@ -157,13 +162,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginLeft: 1,
-        marginTop: 10,
     },
 
     image: {
         width: 50,
         height: 50,
         borderRadius: 25,
+        marginLeft: 5
     },
     
     textname: {
@@ -171,12 +176,19 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         fontWeight: "600",
         color: 'black',
+        top: 11
     },
 
     textlocation: {
         fontSize: 12,
         marginLeft: 10,
-        color: 'grey',
+        width:310,
+        height: 50,
+        color: 'black',
+        opacity: .5,
+        textAlign: 'justify',
+        padding: 2,
+        top: 11
     },
 });
 

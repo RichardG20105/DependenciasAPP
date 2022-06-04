@@ -33,7 +33,6 @@ const PantallaDependencia = (props: any) => {
     useEffect(() => {
         BuscarDependencia(idDependencia)
         DependenciaFavorito(idDependencia)
-        console.log(Estado)
     }, [IsFocus])
 
         const VerificarLogeo = () =>{

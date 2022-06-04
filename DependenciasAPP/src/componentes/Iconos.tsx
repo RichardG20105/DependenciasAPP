@@ -105,3 +105,38 @@ export const getColorLetras = (id:number) => {
 
     }
 }
+
+export const getTipoDependencias = (id: number) => {
+    switch(id){
+        case 1:
+            return 'Auditorio'
+            break;
+        case 2:
+            return 'Baño'
+            break;
+        case 3:
+            return 'Estadio'
+            break;
+        case 4:
+            return 'Cancha'
+            break;
+        case 5:
+            return 'Parqueadero'
+            break;
+        case 6:
+            return 'Facultad'
+            break;
+        case 7:
+            return 'Biblioteca'
+            break;
+        case 8:
+            return 'Cafeteria'
+            break;
+        case 9:
+            return 'Administrativo'
+            break;
+        default:
+            return ''
+            break;
+    }
+} 
