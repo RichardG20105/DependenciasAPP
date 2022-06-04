@@ -12,12 +12,15 @@ export const UsuarioUso = () => {
     const {BaseURL, DependenciasApi } = Apis();
 
     const [UsuarioInfo, setUsuarioInfo] = useState<Usuario>()
+
     
     const [Favoritos, setFavoritos] = useState<Busca[]>()
     
     const [FavDependencia, setFavDependencia] = useState(false)
 
     const {PreguntarEstadoSesion} = useContext(ContextoSesion)
+
+
     
     const IniciarSesion = async(usuario: Usuario) =>{
         try{
