@@ -45,7 +45,8 @@ export const UsuarioUso = () => {
     }
 
     const InformacionUsuario = async() => {
-        LimpiarUsuario()
+        const UsuarioVacio = undefined
+        setUsuarioInfo(UsuarioVacio)
         const tok = await AsyncStorage.getItem('Token')       
         if(tok != null){
             const usuario = await AsyncStorage.getItem('Usuario') 
@@ -71,12 +72,12 @@ export const UsuarioUso = () => {
     }    
 
     const ModificarUsuario = async(UsuarioModificar: Usuario) => {
+        const UsuarioVacio = undefined
+        setUsuarioInfo(UsuarioVacio)
         const tok = await AsyncStorage.getItem('Token')
         const config = {
             headers: { Authorization: `${tok}`}
         }
-        
-        LimpiarUsuario()
         const URL = BaseURL + '/Usuario/Actualizar/' + UsuarioModificar.idUsuario
         axios.put(URL,UsuarioModificar,config).then((resp) => {
             setUsuarioInfo(resp.data)
@@ -88,21 +89,6 @@ export const UsuarioUso = () => {
             }
         });
         
-    }
-
-    const LimpiarUsuario = () => {
-        const UsuarioVacio: Usuario = {
-            idUsuario: 0,
-            nombres: '',
-            apellidos: '',
-            usuario: '',
-            contrasena: '',
-            genero: '',
-            ciudad: '',
-            telefono: '',
-            correo: ''
-        }
-        setUsuarioInfo(UsuarioVacio)
     }
     const FavoritosUsuario = async() => {
         const tok = await AsyncStorage.getItem('Token')

@@ -1,124 +1,137 @@
 import React, { useEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, StatusBar } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
 
+const {width, height} = Dimensions.get('window')
+const BG_IMG = require('../assets/BgFavoritos.jpg')
+const ITEM_SIZE = 70 + 20 * 3;
 const Favoritos = ({navigation}:any) => {
   const {Favoritos, FavoritosUsuario} = UsuarioUso();
 
-  const isFocus = useIsFocused()
+  const IsFocus = useIsFocused()
 
   useEffect(() => {
     FavoritosUsuario()
-  }, [isFocus])
+  }, [IsFocus])
   
-  
+  const scrollY = React.useRef(new Animated.Value(0)).current;
+
+
   return (
-    <View style={styles.container}>
-      <View style={{ flexDirection:'row', paddingTop: 15, paddingBottom: 15 }}>
-                <View 
-                    style={{
-                        flex: 1,
-                        marginHorizontal: 15,
-                        marginRight: 20,
-                        alignItems: 'center',
-                        justifyContent: 'center'
-                    }}
-                >
-            <View
-              style={{
-                height: 44,
-                alignItems: 'center',
-                justifyContent: 'center',
-                            paddingHorizontal: 40,
-                            borderRadius: 30,
-                            backgroundColor: "#EFEFF1"
-                        }}
-            >
-              <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color:"black"}}>Favoritos</Text>
-            </View>
-        </View>
-      </View>
-      <View>
-        { Favoritos && <FlatList
-          data={Favoritos}
-          keyExtractor={(item) => `${item.idBusca}`}
-          renderItem = {({item}) => {
+    <View style={{flex: 1, backgroundColor: '#fff'}}>
+        <Image
+            source={BG_IMG}
+            style={StyleSheet.absoluteFillObject}
+            blurRadius={50}
+            width={width}
+            height={height}
+        />
+         { Favoritos && <Animated.FlatList
+            data={Favoritos}
+            onScroll={ Animated.event(
+                [{ nativeEvent: {contentOffset: {y: scrollY}}}],
+                { useNativeDriver: true}
+            )}
+            keyExtractor={(item) => `${item.idBusca}`}
+            contentContainerStyle={{
+              padding: 20,
+              paddingTop: StatusBar.currentHeight || 42
+            }}
+            renderItem = {({item, index}) => {
+              const inputRange = [
+                  -1,
+                  0,
+                  ITEM_SIZE * index,
+                  ITEM_SIZE * (index + 2)
+              ]
+              const opacityInputRange = [
+                -1,
+                0,
+                ITEM_SIZE * index,
+                ITEM_SIZE * (index + .5)
+              ]
+
+              const scale = scrollY.interpolate({
+                  inputRange,
+                  outputRange: [1, 1, 1, 0]
+              })
+
+              const opacity = scrollY.interpolate({
+                inputRange: opacityInputRange,
+                outputRange: [1, 1, 1, 0]
+              })
+
               return (
-                <ScrollView>
-                  <TouchableOpacity onPress={() => navigation.navigate('ComponenteDependencias',{idDependencia: item.dependencias.idDependencia})}>
-                  <View style={styles.itemContainer}>
-                      { (item.dependencias.fotos.length != 0)
-                        ?<Image style={styles.image} source={{uri: `${BaseURL}/imagenes/${item.dependencias.fotos[0].nombreFoto}`}}/>
-                        :<Image style={styles.image} source={require('../assets/ImageNotFound.png')}/>
-                      }
-                      <View>
-                        <Text style={styles.textname}>{item.dependencias.nombreDependencia}</Text>
-                        <Text style={styles.textlocation}>{item.dependencias.descripcionDependencia}</Text>
-                      </View>
-                    </View>  
-                  </TouchableOpacity>
-                  </ScrollView>
+                <TouchableOpacity onPress={() => navigation.navigate('ComponenteDependencias',{idDependencia: item.dependencias.idDependencia})}>
+                  <Animated.View style={{flexDirection: 'row', padding: 20, marginBottom: 20, backgroundColor: 'rgba(250, 250, 250, 0.8)', borderRadius: 8,
+                      shadowColor: "#000",
+                      shadowOffset: {
+                          width: 0,
+                          height: 10,
+                      },
+                      shadowOpacity: .3,
+                      shadowRadius: 20,
+                      opacity,
+                      transform: [{scale}]
+
+                  }}>
+                    
+                    { (item.dependencias.fotos.length != 0)
+                              ?<Image style={styles.image} source={{uri: `${BaseURL}/imagenes/${item.dependencias.fotos[0].nombreFoto}`}}/>
+                              :<Image style={styles.image} source={require('../assets/ImageNotFound.png')}/>
+                    }
+                    <View>
+                              <Text style={styles.textname}>{item.dependencias.nombreDependencia}</Text>
+                              <Text style={styles.textlocation}>{item.dependencias.descripcionDependencia}</Text>
+                    </View>
+                  </Animated.View>
+                </TouchableOpacity>
               )
-          }}
-          contentContainerStyle={{ paddingVertical: 7 * 2}}
-        ></FlatList> ||
-          <Text style={styles.textoNoFavoritos}>No existen Favoritos</Text>
-        }
-      </View>
+              }}
+        /> ||
+          <Text style={styles.textoNoFavoritos}>No existen Favoritos</Text> }
+          <StatusBar hidden/>
     </View>
   )
 }
 
-const PantallaWidth = Dimensions.get('window').width
-const PantallaHeight = Dimensions.get('window').height
+
+
 const styles = StyleSheet.create({
-  container: {
-    width: PantallaWidth,
-    height: PantallaHeight,
-    backgroundColor: 'white'
-},
-  itemContainer:{
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginLeft: 1,
-    marginTop: 10,
-    backgroundColor: 'white',
-    shadowColor: 'black',
-    elevation: 20,
-    shadowOffset:{
-      width: 1,
-      height: 10,
-    },
-    shadowRadius: 10,
-    shadowOpacity: 50,
-},
-image: {
-    width: 50,
+  image: {
+    width: 70,
+    height: 70,
+    borderRadius: 70,
+    marginRight: 12, 
+  },
+
+  textname: {
+    width: 260,
+    fontSize: 15,
+    fontWeight: "700",
+    color: 'black',
+  },
+  
+  textlocation: {
+    width: 255,
+    textAlign: 'justify',
     height: 50,
-    borderRadius: 25,
-},
-textname: {
-  fontSize: 15,
-  marginLeft: 10,
-  fontWeight: "600",
-  color: 'black',
-},
-textlocation: {
-  fontSize: 12,
-  marginLeft: 10,
-  color: 'grey',
-},
-textoNoFavoritos: {
-  color: 'black', 
-  fontSize: 30,
-  fontWeight: '600',
-  width: '74%', 
-  position: 'absolute', 
-  top: 250, 
-  left: 55,
-  opacity: .5
-}
+    fontSize: 12,
+    color: 'black',
+    opacity: .5,
+  },
+  textoNoFavoritos: {
+    color: 'white', 
+    fontSize: 30,
+    fontWeight: '600',
+    width: '74%', 
+    position: 'absolute', 
+    top: 350, 
+    left: 55,
+    opacity: .5
+  }
 })
+
 export default Favoritos
