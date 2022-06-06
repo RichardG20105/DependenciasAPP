@@ -102,6 +102,7 @@ export const UsuarioUso = () => {
 
         axios.delete(URL, config).then((resp) => {
             Alert.alert('Cuenta','Se elimino la cuenta exitosamente.',[{text:'Aceptar'}])
+            setUsuarioInfo(UsuarioVacio)
             CerrarSesion()
         }).catch((error) => {
             if(error.request.status === 401){
