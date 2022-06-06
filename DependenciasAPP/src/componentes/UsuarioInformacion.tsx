@@ -6,8 +6,9 @@ import {
     TouchableOpacity,
     Image,
     ActivityIndicator,
-    useWindowDimensions, } from 'react-native'
-    import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+    Alert,
+    } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { useIsFocused } from '@react-navigation/native';
@@ -16,7 +17,7 @@ import { useEffect } from 'react';
 
 export const UsuarioInformacion = ({navigation}:any) => {
     const {CerrarSesion} = UsuarioUso()
-    const {UsuarioInfo, InformacionUsuario} = UsuarioUso();
+    const {UsuarioInfo, InformacionUsuario, EliminarCuenta} = UsuarioUso();
 
     const [Mostrar, setMostrar] = useState(false)
 
@@ -32,7 +33,17 @@ export const UsuarioInformacion = ({navigation}:any) => {
     }, [!isFocus])
 
     const Cerrar =  () => {
-        CerrarSesion()
+        Alert.alert("Sesión","¿Desea cerrar la sesión?",[
+            {text:'Cancelar'},
+            {text:'Aceptar',onPress: () => CerrarSesion()}
+        ])
+    }
+
+    const Eliminar = () => {
+        Alert.alert("Cuenta",'¿Desea eliminar la cuenta?, no podra recuperar la información despues.',[
+            {text:'Cancelar'},
+            {text:'Aceptar',onPress: () => EliminarCuenta()}
+        ])
     }
 
     return (
@@ -72,10 +83,30 @@ export const UsuarioInformacion = ({navigation}:any) => {
                         <Text style={styles.panelButtonTitle}>Modificar</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={styles.commandButton} onPress={() => Cerrar()}>
-                        <Text style={styles.panelButtonTitle}>Cerrar Sesión</Text>
+                    <TouchableOpacity style={styles.commandButton} onPress={() => Eliminar()}>
+                        <Text style={styles.panelButtonTitle}>Eliminar Cuenta</Text>
                     </TouchableOpacity>
                 </View>
+
+                <TouchableOpacity
+                            style={{
+                                width: 45,
+                                height: 45,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'absolute',
+                                top: 20,
+                                right: 20,
+                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                borderRadius: 13
+                            }}
+                            onPress={() => Cerrar()}
+                        >
+                            <Icon name="exit-to-app"
+                                color="#ffffff"
+                                size={35}
+                                />
+                        </TouchableOpacity>
             </View>
             }
             { !Mostrar && <View style ={{

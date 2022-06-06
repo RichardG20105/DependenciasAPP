@@ -90,6 +90,25 @@ export const UsuarioUso = () => {
         });
         
     }
+
+    const EliminarCuenta =async () => {
+        console.log(UsuarioInfo)
+        const UsuarioVacio = undefined
+        const tok = await AsyncStorage.getItem('Token')
+        const config = {
+            headers:{Authorization:`${tok}`}
+        }
+        const URL = BaseURL + '/Usuario/Eliminar/'+UsuarioInfo?.idUsuario
+
+        axios.delete(URL, config).then((resp) => {
+            Alert.alert('Cuenta','Se elimino la cuenta exitosamente.',[{text:'Aceptar'}])
+            CerrarSesion()
+        }).catch((error) => {
+            if(error.request.status === 401){
+                ReinicioSesion()
+            }
+        });
+    }
     const FavoritosUsuario = async() => {
         const tok = await AsyncStorage.getItem('Token')
         
@@ -221,6 +240,7 @@ export const UsuarioUso = () => {
         InformacionUsuario,
         ModificarUsuario,
         CerrarSesion,
+        EliminarCuenta,
         FavoritosUsuario,
         DependenciaFavorito,
         AgregarFavorito,
