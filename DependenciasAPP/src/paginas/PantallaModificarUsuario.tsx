@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { 
     StyleSheet,
     SafeAreaView,
@@ -17,6 +17,7 @@ import {
 import {images, icons} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso'
 import { Usuario } from '../interfaces/appinterfaces';
+import { useFocusEffect } from '@react-navigation/native';
 
 export const PantallaModificarUsuario = ({navigation}:any) => {
 
@@ -89,6 +90,8 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
         const [Telefono, setTelefono] = useState('')
 
         const [EstadoContrasena, setEstadoContrasena] = useState(true)
+        const [EstadoGeneroM, setEstadoGeneroM] = useState(false)
+        const [EstadoGeneroF, setEstadoGeneroF] = useState(false)
 
         const Guardar = () => {
             if(UsuarioInfo != null){
@@ -107,7 +110,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                 Alert.alert('Modificar Datos','¿Desea Modificar los Datos?',[
                     {text: 'Cancelar'},
                     {text: 'Aceptar',
-                        onPress: () => {ModificarUsuario(User),navigation.goBack()}
+                        onPress: () => {if(ValidarCampos(User)){ModificarUsuario(User),navigation.goBack()}}
                     }
                 ])
             }
@@ -120,6 +123,23 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
             return dato2
         }
 
+        const ValidarCampos = (User:Usuario) => {
+            let reg = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w\w+)+$/
+            if(User.contrasena.length < 8){
+                Alert.alert('Error','La contraseña debe tener como minimo 8 caracteres',[{text: 'Aceptar'}])
+                return false;
+            }
+            if(reg.test(User.correo) === false){
+                Alert.alert('Error','El correo ingresado es incorrecto',[{text: 'Aceptar'}])
+                return false;
+            }
+            if(User.genero === ''){
+                Alert.alert('Error','Debe seleccionar un Genero',[{text: 'Aceptar'}])
+                return false;
+            }
+            return true;
+        }
+
         const CambiarEstadoContrasena = () => {
             if(EstadoContrasena){
                 setEstadoContrasena(false)
@@ -130,7 +150,21 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
         
         useEffect(() => {
             InformacionUsuario();
-          }, [])
+        }, [])
+
+        useFocusEffect(
+            useCallback(
+              () => {
+                if(UsuarioInfo?.genero === 'Masculino'){
+                    setEstadoGeneroM(true),setEstadoGeneroF(false)
+                }else{
+                    setEstadoGeneroF(true), setEstadoGeneroM(false)
+                }
+              },
+              [UsuarioInfo],
+            )
+        )
+
         return(
             <ScrollView style={{backgroundColor: '#bbe3ed'}}>
                 <View style={styles.container}>
@@ -141,11 +175,11 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
             <View style={styles.bottomContainer}>
                <Image
                     style={styles.profile}
-                    source={images.avatar_3}
+                    source={UsuarioInfo?.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
                />
 
                <View style={styles.action}>
-                   <FontAwesome name="user-o" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="vcard" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput
                         defaultValue={UsuarioInfo?.nombres}
                         onChangeText={setNombres}
@@ -157,7 +191,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <FontAwesome name="user-o" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="vcard" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput
                         defaultValue={UsuarioInfo?.apellidos}
                         onChangeText={setApellidos}
@@ -169,7 +203,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <FontAwesome name="user-o" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="user" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput
                         defaultValue={UsuarioInfo?.usuario}
                         onChangeText={setUsuario}
@@ -181,7 +215,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <FontAwesome name="user-o" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="unlock" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput
                         defaultValue={UsuarioInfo?.contrasena}
                         onChangeText={setContrasena}
@@ -195,7 +229,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <Feather name="phone" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="phone" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput 
                         defaultValue={UsuarioInfo?.telefono}
                         onChangeText={setTelefono}
@@ -208,7 +242,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <FontAwesome name="envelope-o" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <FontAwesome name="envelope" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput 
                         defaultValue={UsuarioInfo?.correo}
                         onChangeText={setCorreo}
@@ -221,7 +255,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                </View>
 
                <View style={styles.action}>
-                   <Icon name="map-marker-outline" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                   <Icon name="map-marker" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
                     <TextInput 
                         defaultValue={UsuarioInfo?.ciudad}
                         onChangeText={setCiudad}
@@ -230,6 +264,24 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                         autoCorrect={false}
                         style={styles.textInput}
                     />
+               </View>
+
+               <View style={styles.action}>
+               <Text style={styles.textInput}>Genero</Text> 
+                <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroM(true), setEstadoGeneroF(false), setGenero('Masculino')}}>
+                <FontAwesome
+                    name= "male"
+                    color= {EstadoGeneroM ?"#FF6347" :"white"}
+                    size= {30}
+                />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroF(true), setEstadoGeneroM(false), setGenero('Femenino')}}>
+                <FontAwesome
+                    name= "female"
+                    color= {EstadoGeneroF ?"#FF6347" :"white"}
+                    size= {30}
+                />
+                </TouchableOpacity>
                </View>
 
                 <TouchableOpacity style={styles.commandButton} onPress={() => {Guardar()}}>
@@ -337,4 +389,15 @@ const styles = StyleSheet.create({
         bottom: "12%",
         backgroundColor: 'white'
     },
+    botonGenero:{
+        backgroundColor: '#8A979F',
+        marginLeft: 20,
+        width: 40,
+        height: 40,
+        alignItems:'center',
+        justifyContent: 'center',
+        borderRadius: 20,
+        right: 200,
+        marginBottom: 10
+    }
 });

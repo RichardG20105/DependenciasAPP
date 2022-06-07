@@ -182,15 +182,15 @@ const PantallaRegistro = (props:any) => {
                 <Text style={{color:'black'}}>Genero</Text> 
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroM(true), setEstadoGeneroF(false), setGenero('Masculino')}}>
                 <FontAwesome
-                    name= "mars"
-                    color= {EstadoGeneroM ?"white" :"#05375a"}
+                    name= "male"
+                    color= {EstadoGeneroM ?"#FF6347" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroF(true), setEstadoGeneroM(false), setGenero('Femenino')}}>
                 <FontAwesome
-                    name= "venus"
-                    color= {EstadoGeneroF ?"white" :"#05375a"}
+                    name= "female"
+                    color= {EstadoGeneroF ?"#FF6347" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>

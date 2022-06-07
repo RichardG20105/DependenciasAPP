@@ -11,7 +11,7 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useFocusEffect } from '@react-navigation/native';
 import { useEffect } from 'react';
 
 
@@ -53,6 +53,7 @@ export const UsuarioInformacion = ({navigation}:any) => {
                 <Image 
                     style={styles.bgimagen} 
                     source={images.avatar_2}
+                    blurRadius={20}
                 />
                 <View style={styles.bottomContainer}>
                 <Image
@@ -63,19 +64,19 @@ export const UsuarioInformacion = ({navigation}:any) => {
                 <Text style={styles.name}>{UsuarioInfo.apellidos}</Text>
                 <View style={styles.userInfoSection}>
                     <View style={styles.row}>
-                            <Icon name= "account" color="#777777" size={25} />
+                            <Icon name= "account" color="rgba(0,0,0,.7)" size={25}/>
                             <Text style={styles.text}>{UsuarioInfo.usuario}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "map-marker-radius" color="#777777" size={25} />
+                            <Icon name= "map-marker-radius" color="rgba(0,0,0,.7)" size={25} />
                             <Text style={styles.text}>{UsuarioInfo.ciudad}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "phone" color="#777777" size={25}/>
+                            <Icon name= "phone" color="rgba(0,0,0,.7)" size={25}/>
                             <Text style={styles.text}>(+593) {UsuarioInfo.telefono}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "email" color="#777777" size={25}/>
+                            <Icon name= "email" color="rgba(0,0,0,.7)" size={25}/>
                             <Text style={styles.text}>{UsuarioInfo.correo}</Text>
                         </View>
                     </View>
@@ -110,8 +111,7 @@ export const UsuarioInformacion = ({navigation}:any) => {
             </View>
             }
             { !Mostrar && <View style ={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    top: 350
               }}>
                 <ActivityIndicator
                 size={50}
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
         marginTop: "50%",
         height:"90%",
         width: "100%",
-        backgroundColor: '#bbe3ed',
+        backgroundColor: '#BFEEFE',
         borderTopStartRadius: 50,
         borderTopEndRadius: 50,
         alignItems: 'center'
@@ -175,8 +175,9 @@ const styles = StyleSheet.create({
 
     text: {
         fontSize: 18,
-        color: "#777777" ,
+        color: "black" ,
         marginLeft: 15,
+        opacity: .7
         
     },
 

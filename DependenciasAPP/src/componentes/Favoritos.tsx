@@ -3,6 +3,7 @@ import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, Toucha
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
+import { Icon } from 'react-native-vector-icons/Icon';
 
 const {width, height} = Dimensions.get('window')
 const BG_IMG = require('../assets/BgFavoritos.jpg')
@@ -24,7 +25,7 @@ const Favoritos = ({navigation}:any) => {
         <Image
             source={BG_IMG}
             style={StyleSheet.absoluteFillObject}
-            blurRadius={50}
+            blurRadius={20}
             width={width}
             height={height}
         />
@@ -65,7 +66,7 @@ const Favoritos = ({navigation}:any) => {
 
               return (
                 <TouchableOpacity onPress={() => navigation.navigate('ComponenteDependencias',{idDependencia: item.dependencias.idDependencia})}>
-                  <Animated.View style={{flexDirection: 'row', padding: 20, marginBottom: 20, backgroundColor: 'rgba(250, 250, 250, 0.8)', borderRadius: 8,
+                  <Animated.View style={{flexDirection: 'row', padding: 20, marginBottom: 20, backgroundColor: 'rgba(250, 250, 250, 0.9)', borderRadius: 8,
                       shadowColor: "#000",
                       shadowOffset: {
                           width: 0,
@@ -91,8 +92,11 @@ const Favoritos = ({navigation}:any) => {
               )
               }}
         /> ||
-          <Text style={styles.textoNoFavoritos}>No existen Favoritos</Text> }
-          <StatusBar hidden/>
+        <View>
+          <Text style={styles.textoNoFavoritos}>No existen Dependencias agregadas a Favoritos</Text>
+          
+        </View>
+          }
     </View>
   )
 }
@@ -124,13 +128,14 @@ const styles = StyleSheet.create({
   },
   textoNoFavoritos: {
     color: 'white', 
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: '600',
     width: '74%', 
     position: 'absolute', 
     top: 350, 
-    left: 55,
-    opacity: .5
+    left: 61,
+    opacity: .9,
+    textAlign: 'center'
   }
 })
 
