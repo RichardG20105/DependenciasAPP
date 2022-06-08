@@ -331,7 +331,7 @@ export const Mapa = ({navigation}:any) => {
                 <Fab   NombreIcono="locate" Color='grey' BGColor='#EAECEE'
                     onPress={() => PosicionCentral()}
                     style={{
-                        bottom: 380,
+                        bottom: DispositvoHeight * .60,
                         right: -350
                     }}
                 />
@@ -388,7 +388,7 @@ const styles = StyleSheet.create({
     },
     Carta:{
         position:'absolute',
-        bottom: 5,
+        bottom: DispositvoHeight * .13,
         right: 7,
         width: DispositivoWidth - 15,
         height: 250,
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
     },
     CuadroRuta:{
         position:'absolute',
-        bottom: 9,
+        bottom: DispositvoHeight * .13,
         right: 7,
         width: DispositivoWidth - 15,
         height: 300,

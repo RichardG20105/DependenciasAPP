@@ -238,6 +238,9 @@ const PantallaRegistro = (props:any) => {
   )
 }
 
+
+const DispositvoHeight = Dimensions.get('window').height
+
 const styles = StyleSheet.create({
     brandView: {
         flex: 1,
@@ -276,7 +279,7 @@ const styles = StyleSheet.create({
     bottomView: {
         flex: 1.5,
         backgroundColor: '#ffffff',
-        bottom: 50,
+        bottom: DispositvoHeight * .09,
         borderTopStartRadius: 60,
         borderTopEndRadius: 60
     },

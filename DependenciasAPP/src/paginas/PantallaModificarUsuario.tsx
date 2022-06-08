@@ -378,8 +378,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#bbe3ed',
         borderTopStartRadius: 50,
         borderTopEndRadius: 50,
-        alignItems: 'center'
-
+        alignItems: 'center',
+        marginBottom: "18%"
     },
 
     profile: {

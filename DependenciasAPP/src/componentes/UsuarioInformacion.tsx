@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
         borderRadius: 10, 
         backgroundColor: '#FF6347',
         alignItems: 'center',
-        marginTop: 10,
+        marginTop: 1,
     },
 
     panelButtonTitle: {

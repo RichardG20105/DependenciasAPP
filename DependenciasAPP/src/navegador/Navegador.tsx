@@ -1,56 +1,136 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import PantallaMapa from '../paginas/PantallaMapa';
 import PantallaFavoritos from '../paginas/PantallaFavoritos';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BottomTabBarButtonProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';
 import PantallaUsuario from '../paginas/PantallaUsuario';
-import { Dimensions } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+
+import * as Animatable from 'react-native-animatable'
+
+const TabArr = [
+  { label: 'Inicio', type: Icon, icon: 'home', route: 'Home', component: PantallaInicio},
+  { label: 'Mapa', type: Icon, icon: 'location', route: 'PantallaMapa', component: PantallaMapa},
+  { label: 'Favoritos', type: Icon, icon: 'heart', route:'PantallaFavoritos', component: PantallaFavoritos},
+  { label: 'Cuenta', type: Icon, icon: 'person', route: 'Usuario', component: PantallaUsuario},
+];
 
 const Tab = createBottomTabNavigator();
-const {width} = Dimensions.get('window')
 
-export const Navegador = ({props}:any) => {
+const animate1 = { 0: { scale: .5, translateY: 7 }, .92: { translateY: -34 }, 1: { scale: 1.2, translateY: -17 } }
+const animate2 = { 0: { scale: 1.2, translateY: -24 }, 1: { scale: 1, translateY: 7 } }
+
+const circle1 = { 0: { scale: 0 }, 0.3: { scale: .9 }, 0.5: { scale: .2 }, 0.8: { scale: .7 }, 1: { scale: 1 } }
+const circle2 = { 0: { scale: 1 }, 1: { scale: 0 } }
+
+
+
+const TabButton = (props: any) => {
+  const { item, onPress, accessibilityState } = props;
+  const focused = accessibilityState.selected;
+  const viewRef = useRef<any>(null);
+  const circleRef = useRef<any>(null);
+  const textRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (focused) {
+      viewRef.current.animate(animate1);
+      circleRef.current.animate(circle1);
+      textRef.current.transitionTo({ scale: 1 });
+    } else {
+      viewRef.current.animate(animate2);
+      circleRef.current.animate(circle2);
+      textRef.current.transitionTo({ scale: 0 });
+    }
+  }, [focused])
 
   return (
-    <Tab.Navigator 
-    screenOptions={{
-      tabBarStyle:{height: 60,width: width,borderTopRightRadius: 30, borderTopLeftRadius: 30, backgroundColor:'#3498DB',position: 'absolute'},
-      tabBarActiveTintColor: '#FF6347',
-      tabBarInactiveTintColor: 'white',
-      tabBarShowLabel: false,
+      <TouchableOpacity
+        onPress={onPress}
+        activeOpacity={1}
+        style={styles.container}>
+        <Animatable.View
+          ref={viewRef}
+          duration={1000}
+          style={styles.container}>
+          <View style={styles.btn}>
+            <Animatable.View
+              ref={circleRef}
+              style={styles.circle} />
+            <Icon name={item.icon} color={focused ? 'white' : '#FF6347'} size={30}/>
+          </View>
+          <Animatable.Text
+            ref={textRef}
+            style={styles.text}>
+            {item.label}
+          </Animatable.Text>
+        </Animatable.View>
+      </TouchableOpacity>
+  )
+}
+
+const Navegador = () => {
+
+  return (
+    <Tab.Navigator screenOptions={{
       headerShown: false,
-    }
-  }
+      tabBarStyle: styles.tabBar,
+    }}
     >
-      <Tab.Screen name='Home' component={PantallaInicio}
-        options={{
-          tabBarIcon: (props) => (
-            <Icon name='home' size={30} color={props.color}/>
-          ),
-        }}
-      />
-        <Tab.Screen name='PantallaMapa' component={PantallaMapa}
-          options={{
-            tabBarIcon: (props) => (
-              <Icon name='location' size={30} color={props.color}/>
-            ),
-          }}
-        />
-       <Tab.Screen name='PantallaFavoritos' component={PantallaFavoritos}
-        options={{
-          tabBarIcon: (props) => (
-            <Icon name='heart' size={30} color={props.color}/>
+      {TabArr.map((item, index) =>{
+          return(
+              <Tab.Screen key={index} name={item.route} component={item.component}
+                  options={{
+                    
+                    tabBarShowLabel: false,
+                    tabBarButton: (props) => <TabButton {...props} item={item} />
+                    
+                  }}
+              />
           )
-        }}
-      />
-      <Tab.Screen name='Usuario' component={PantallaUsuario}
-      options={{
-        tabBarIcon: (props) => (
-          <Icon name='person' size={30} color={props.color}/>
-        ),
-      }}
-      />
+      })}
     </Tab.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  tabBar: {
+    height: 70,
+    position: 'absolute',
+    bottom: 3,
+    right: 13,
+    left: 13,
+    borderRadius: 18,
+  },
+  btn: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    borderWidth: 4,
+    borderColor: 'white',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  circle: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#FF6347',
+    borderRadius: 25,
+  },
+  text: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: '#FF6347',
+    fontWeight: 'bold',
+  }
+})
+
+export default Navegador

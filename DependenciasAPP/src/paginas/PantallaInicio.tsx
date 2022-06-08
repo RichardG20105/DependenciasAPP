@@ -285,7 +285,7 @@ const PantallaInicio = () => {
                         </TouchableOpacity>
                     )
                 }}
-                contentContainerStyle={{ paddingVertical: 3 * 2 }}
+                contentContainerStyle={{ paddingVertical: 3 * 2,paddingBottom: "15%" }}
             />
         
             </>
