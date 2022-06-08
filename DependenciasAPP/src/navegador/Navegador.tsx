@@ -1,25 +1,27 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PantallaMapa from '../paginas/PantallaMapa';
 import PantallaFavoritos from '../paginas/PantallaFavoritos';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';
 import PantallaUsuario from '../paginas/PantallaUsuario';
+import { Dimensions } from 'react-native';
 
 const Tab = createBottomTabNavigator();
+const {width} = Dimensions.get('window')
 
-export const Navegador = () => {
+export const Navegador = ({props}:any) => {
 
   return (
-    <Tab.Navigator screenOptions={{
-      tabBarStyle: {backgroundColor: '#3556C4'},
-      tabBarActiveTintColor: 'white',
+    <Tab.Navigator 
+    screenOptions={{
+      tabBarStyle:{height: 60,width: width,borderTopRightRadius: 30, borderTopLeftRadius: 30, backgroundColor:'#3498DB',position: 'absolute'},
+      tabBarActiveTintColor: '#FF6347',
       tabBarInactiveTintColor: 'white',
-      tabBarInactiveBackgroundColor:'#3556C4',
-      tabBarActiveBackgroundColor: '#21C437',
       tabBarShowLabel: false,
-      headerShown: false
-    }}
+      headerShown: false,
+    }
+  }
     >
       <Tab.Screen name='Home' component={PantallaInicio}
         options={{
@@ -39,7 +41,7 @@ export const Navegador = () => {
         options={{
           tabBarIcon: (props) => (
             <Icon name='heart' size={30} color={props.color}/>
-          ),
+          )
         }}
       />
       <Tab.Screen name='Usuario' component={PantallaUsuario}

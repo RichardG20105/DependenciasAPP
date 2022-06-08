@@ -6,18 +6,19 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 interface Props{
     NombreIcono: string;
-    Color: ColorValue
+    Color: ColorValue;
+    BGColor: ColorValue;
     onPress: () => void;
     style?: StyleProp<ViewStyle>
 }
-export const Fab = ({ NombreIcono, Color, onPress, style = {}}: Props) => {
+export const Fab = ({ NombreIcono, Color, BGColor,onPress, style = {}}: Props) => {
     return (
         <View style={{...style as any}}>
 
             <TouchableOpacity
                 activeOpacity={0.8} 
                 onPress={onPress}
-                style={styles.boton}           
+                style={[styles.boton,{backgroundColor: BGColor}]}
             >
                 <Icon
                     name={NombreIcono}
@@ -34,7 +35,7 @@ const styles = StyleSheet.create({
         zIndex: 9999,
         height: 50,
         width: 50,
-        backgroundColor: '#EAECEE',
+        /* backgroundColor: BGColor,  */
         borderRadius: 100,
         justifyContent: 'center',
         alignItems: 'center',

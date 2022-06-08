@@ -41,12 +41,12 @@ const BuscadorDependencias = ({navigation}:any) => {
             <View>
                 <View style={{width: 30}}>
                 <TouchableOpacity
-                style={{top: 6}}
+                style={{right: 8,}}
                     onPress={() => Regreso()}
                 >
                     <Icon name="chevron-back"
                         color="black"
-                        size={35}/>
+                        size={45}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.textBackground}>
@@ -132,10 +132,10 @@ const styles = StyleSheet.create({
     textBackground: {
         position: 'absolute',
         backgroundColor: '#F3F1F3',
-        borderRadius: 50,
+        borderRadius: 30,
         height: 50,
-        width: '90%',
-        left: 50,
+        width: '88%',
+        left: 42,
         paddingHorizontal: 50,
         justifyContent: 'center',
         alignItems: 'center',

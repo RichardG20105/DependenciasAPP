@@ -64,6 +64,10 @@ const PantallaRegistro = (props:any) => {
         }
         return true;
     }
+
+    const Cerrar = () => {
+        props.navigation.goBack()
+    }
   return (
     <ScrollView
         style={{flex: 1, backgroundColor: '#ffffff'}}
@@ -211,6 +215,25 @@ const PantallaRegistro = (props:any) => {
                 </View>
             </View>
         </View>
+        <TouchableOpacity
+                            style={{
+                                width: 45,
+                                height: 45,
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                position: 'absolute',
+                                top: 20,
+                                right: 20,
+                                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                                borderRadius: 13
+                            }}
+                            onPress={() => {Cerrar()}}
+                        >
+            <Feather name="x"
+                color="#ffffff"
+                size={35}
+            />
+        </TouchableOpacity>
     </ScrollView>
   )
 }

@@ -62,13 +62,14 @@ const InicioSesion = (props:any) => {
                 {/* Wellcom View */}
                 <View style={{padding: 40}}>
                     <Text style={{color: '#FF6347', fontSize: 30}}>Bienvenido</Text>
-                    <Text style={{color: 'black', top: 10}}>¿No tienes una cuenta?
+                    <View style={{flexDirection:'row', top:10}}>
+                        <Text style={{color: 'black'}}>¿No tienes una cuenta?</Text>
                         <TouchableOpacity onPress={() => props.navigation.navigate('RegistroDeUsuario')}>
                             <Text style={{color: '#4632A1', fontStyle: 'italic'}}>
-                                {' '} Registrate ahora
+                                    {' '} Registrate ahora
                             </Text>
                         </TouchableOpacity>
-                    </Text>
+                    </View>
                     {/* Form Inputs View */}    
                     <View style={styles.action}>
                         <FontAwesome
@@ -80,6 +81,7 @@ const InicioSesion = (props:any) => {
                             value={NombreUsuario}
                             onChangeText={setNombreUsuario}
                             placeholder="Usuario"
+                            placeholderTextColor='grey'
                             style={styles.textInput}
                             autoCapitalize='none'
                         />
@@ -95,6 +97,7 @@ const InicioSesion = (props:any) => {
                             value={Contrasena}
                             onChangeText={setContrasena}
                             placeholder="Contraseña"
+                            placeholderTextColor='grey'
                             secureTextEntry={!EstadoContrasena}
                             style={styles.textInput}
                             autoCapitalize="none"

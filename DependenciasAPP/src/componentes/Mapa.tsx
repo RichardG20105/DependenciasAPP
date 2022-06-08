@@ -250,7 +250,7 @@ export const Mapa = ({navigation}:any) => {
                                     latitude:val.latitud,
                                     longitude:val.longitud
                                 }}
-                                onPress={() => !Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la Ruta primero',[{text: 'Aceptar'}])}
+                                onPress={() => !Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}])}
                                 style={{width: 75,height: 70,justifyContent: 'center'}}
                             >
                                 
@@ -284,7 +284,7 @@ export const Mapa = ({navigation}:any) => {
                         style={styles.InputBuscador}
                         onChangeText={busqueda => BusquedaSugerida(busqueda)}
                     />
-                    <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {if(getTexto()) setTexto('')}}>
+                    <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {if(getTexto()) {setTexto(''),setEstadoBusqueda(false)}}}>
                         <Icon name='close' color='grey' size={30} />
                     </TouchableOpacity>
                 </View>
@@ -303,7 +303,7 @@ export const Mapa = ({navigation}:any) => {
                             <TouchableOpacity style={styles.ListaTocar}
                                 onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia)}}
                             >
-                                <Text style={styles.TextoLista}>{item.nombreDependencia}</Text>
+                                <Text style={styles.TextoLista} numberOfLines={1}>{item.nombreDependencia}</Text>
                             </TouchableOpacity>
                         )
                         }} 
@@ -321,23 +321,20 @@ export const Mapa = ({navigation}:any) => {
                             <Text style={styles.Titulo}>{Dependencia?.nombreDependencia}</Text>
                             </View>
                         </Svg>
-                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='grey'
-                                style={{position: 'absolute',bottom: 20, right:10,}}/>
-                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='grey'
-                                style={{position: 'absolute',bottom: 20, right: 70,}}/>
+                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='white' BGColor='#FF6347'
+                                style={{position: 'absolute',bottom: 20, right:10}}/>
+                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#FF6347'
+                                style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
                     :<View/>
             }
-            { !TocarDependencia
-                ? <Fab   NombreIcono="locate" Color='grey'
+                <Fab   NombreIcono="locate" Color='grey' BGColor='#EAECEE'
                     onPress={() => PosicionCentral()}
                     style={{
-                        bottom: 200,
+                        bottom: 380,
                         right: -350
                     }}
                 />
-                : <View/>
-            }
             { Ruta && <View style={styles.CuadroRuta}>
                 { (Dependencia?.fotos.length != 0)
                     ?<Image style={styles.ImagenRuta} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
@@ -351,21 +348,21 @@ export const Mapa = ({navigation}:any) => {
                         <View style={{flex: 2,justifyContent: 'center', right: -120}}>
                             <Boton title='Cancelar' style={{width: 10,height: 10}} onPress={() => CancelarRuta()}/>
                         </View>
-                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'blue' :'grey'}
+                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'#FF6347' :'grey'} BGColor='#EAECEE'
                             onPress={() => CambiarDeModo('WALKING')}
                             style={{
                                 position: 'absolute',
                                 bottom: 70,
-                                right: 30
+                                right: 30,
                             }}
                         />
 
-                        <Fab   NombreIcono="car" Color={Forma === 'DRIVING' ?'blue' :'grey'}
+                        <Fab   NombreIcono="car" Color={Forma === 'DRIVING' ?'#FF6347' :'grey'} BGColor='#EAECEE'
                             onPress={() => CambiarDeModo('DRIVING')}
                             style={{
                                 position: 'absolute',
                                 bottom: 15,
-                                right: 30
+                                right: 30,
                             }}
                         />
                     </View>
@@ -375,6 +372,7 @@ export const Mapa = ({navigation}:any) => {
 }
 
 const DispositivoWidth = Math.round(Dimensions.get('window').width)
+const DispositvoHeight = Math.round(Dimensions.get('window').height)
 const Radio = 20
 const styles = StyleSheet.create({
     Padre:{
@@ -394,7 +392,7 @@ const styles = StyleSheet.create({
         right: 7,
         width: DispositivoWidth - 15,
         height: 250,
-        backgroundColor: '#21C437',
+        backgroundColor: '#3498DB',
         borderRadius: Radio,
         shadowColor: '#000',
         shadowOffset: {
@@ -415,6 +413,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 17,
         fontWeight: '800',
+        marginTop: 8,
     },
     Info: {
         marginHorizontal: 10,
@@ -427,7 +426,7 @@ const styles = StyleSheet.create({
         right: 7,
         width: DispositivoWidth - 15,
         height: 300,
-        backgroundColor: 'lightblue',
+        backgroundColor: '#3498DB',
         elevation: 9,
         borderRadius: Radio,
         shadowColor: '#000',
@@ -485,8 +484,10 @@ const styles = StyleSheet.create({
         borderRadius: Radio,
     },
     InputBuscador:{
+        fontSize: 16,
         color: 'black',
-        width: DispositivoWidth - 80,
+        width: DispositivoWidth - 90,
+        left: 10
     },
     ListaSugerida:{
         marginVertical: 5,
@@ -494,19 +495,17 @@ const styles = StyleSheet.create({
         color: 'black',
         borderRadius: Radio,
         width: DispositivoWidth - 40,
-        maxHeight: 130,
+        maxHeight: DispositvoHeight * 0.48,
     },
     TextoLista:{
         padding: 1,
-        fontSize: 15,
-        marginVertical: 3,
+        fontSize: 16,
         marginHorizontal: 10, 
         color: 'black',
     },
     ListaTocar:{
         margin: 2,
         width: DispositivoWidth - 50,
-        height: 32,
-        justifyContent: 'center'
+        height: 35,
     }
 })

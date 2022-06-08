@@ -34,14 +34,14 @@ export const UsuarioInformacion = ({navigation}:any) => {
 
     const Cerrar =  () => {
         Alert.alert("Sesión","¿Desea cerrar la sesión?",[
-            {text:'Cancelar'},
-            {text:'Aceptar',onPress: () => CerrarSesion()}
+            {text:'Cancelar',style:"cancel"},
+            {text:'Aceptar',onPress: () => CerrarSesion()},
         ])
     }
 
     const Eliminar = () => {
         Alert.alert("Cuenta",'¿Desea eliminar la cuenta?, no podra recuperar la información despues.',[
-            {text:'Cancelar'},
+            {text:'Cancelar',style:"cancel"},
             {text:'Aceptar',onPress: () => EliminarCuenta()}
         ])
     }

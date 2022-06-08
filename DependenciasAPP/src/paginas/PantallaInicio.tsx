@@ -126,7 +126,7 @@ const PantallaInicio = () => {
                                 style={{
                                     padding: 7,
                                     paddingBottom: 4 * 2,
-                                    backgroundColor: "#0CEF5C",
+                                    backgroundColor: "#3498DB",
                                     borderRadius: 15,
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -187,13 +187,14 @@ const PantallaInicio = () => {
                     style={{
                         width: 50,
                         paddingLeft: 10 * 2,
-                        justifyContent: 'center'
+                        justifyContent: 'center',
+                        right: 10
                     }}
                     onPress={() => Regreso()}
                 >
-                    <Icon name="arrow-back"
+                    <Icon name="chevron-back"
                         color="black"
-                        size={35}/>
+                        size={45}/>
                 </TouchableOpacity>
                 
                 {/* Nombre de la Sección de la Dependencia */}
@@ -202,7 +203,7 @@ const PantallaInicio = () => {
                     style={{
                         flex: 1,
                         marginHorizontal: 15,
-                        marginRight: 20,
+                        marginRight: 60,
                         alignItems: 'center',
                         justifyContent: 'center'
                     }}
@@ -231,7 +232,7 @@ const PantallaInicio = () => {
                                 return(
                                     <TouchableOpacity
                                         style={{
-                                            backgroundColor: '#22B002',
+                                            backgroundColor: '#3498DB',
                                             marginVertical: 5,
                                             borderRadius: 10,
                                             borderColor: 'black',

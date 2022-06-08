@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     boton: {
         height: 50,
         width: 150,
-        backgroundColor: 'blue',
+        backgroundColor: '#FF6347',
         borderRadius: 20,
         justifyContent: 'center',
         alignItems: 'center',
@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     },
     textoBoton: {
         color: 'white',
-        fontSize: 18
+        fontSize: 18,
+        fontWeight: 'bold'
     }
 });
