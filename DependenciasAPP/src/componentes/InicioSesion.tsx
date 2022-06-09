@@ -1,16 +1,21 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Text, View, Image, StyleSheet,
          useWindowDimensions, TextInput, TouchableOpacity,
-         Dimensions, Alert, ImageBackground, ScrollView } from 'react-native';
+         Dimensions, Alert, ImageBackground, ScrollView, ActivityIndicator } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { Usuario } from '../interfaces/appinterfaces';
+import { useIsFocused } from '@react-navigation/native';
+
+const {width, height} = Dimensions.get('window')
 
 const InicioSesion = (props:any) => {
     const [NombreUsuario, setNombreUsuario] = useState('')
     const [Contrasena, setContrasena] = useState('')
     const [EstadoContrasena, setEstadoContrasena] = useState(false)
+
+    const [EstadoCarga, setEstadoCarga] = useState(false)
 
     const {IniciarSesion} = UsuarioUso();
 
@@ -32,16 +37,24 @@ const InicioSesion = (props:any) => {
                 correo: ''
             }
             IniciarSesion(Usuario);
+            setEstadoCarga(true)
         }
     }
 
+    useEffect(() => {
+        setTimeout(() => {setEstadoCarga(false)},1000)    
+    }, [EstadoCarga])
+    
+    
+
     return (
         <ScrollView
-            style={{flex: 1, backgroundColor: '#ffffff'}}
             showsVerticalScrollIndicator={false}
+             style={{backgroundColor: 'black'}}
         >
             {/* Brand View */}
-            <ImageBackground
+            {!EstadoCarga && <View style={{flex: 1, backgroundColor: '#ffffff'}}>
+                <ImageBackground
                 source={require('../assets/InicioSesion/Inicio.jpg')}
                 style={{
                     height: Dimensions.get('window').height /2.1
@@ -58,7 +71,7 @@ const InicioSesion = (props:any) => {
             </ImageBackground>
 
             {/* Bottom View */}
-            <View style={styles.bottomView}>
+                <View style={styles.bottomView}>
                 {/* Wellcom View */}
                 <View style={{padding: 40}}>
                     <Text style={{color: '#FF6347', fontSize: 30}}>Bienvenido</Text>
@@ -129,7 +142,23 @@ const InicioSesion = (props:any) => {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </View>
+            </View> 
+            </View>}
+
+            {EstadoCarga && <View style ={{
+                    top: 250,
+                    backgroundColor: 'black',
+                    width,
+                    height
+              }}>
+                  <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
+                  <Text style={styles.TextoCarga}>LODES - ESPOCH</Text>
+                <ActivityIndicator
+                size={50}
+                color="#FF6347"
+                />
+              </View>}
+              
         </ScrollView>
     )
 }
@@ -160,7 +189,7 @@ const styles = StyleSheet.create({
     },
 
     commandButton: {
-        top: 20,
+        top: 10,
         paddingBottom: 15,
         paddingHorizontal: 100,
         borderRadius: 10, 
@@ -200,6 +229,15 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         bottom: "12%",
     },
+    
+    TextoCarga: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        paddingBottom: 20
+    }
 })
 
 export default InicioSesion

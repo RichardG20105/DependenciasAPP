@@ -15,6 +15,7 @@ import { BaseURL } from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 
 import { getTipoDependencias } from './Iconos';
+import { ImageBackground } from 'react-native';
 
 const {width, height} = Dimensions.get('window')
 
@@ -39,16 +40,17 @@ const BuscadorDependencias = ({navigation}:any) => {
     function Buscador(){
         return (
             <View>
+                
                 <View style={{width: 30}}>
-                <TouchableOpacity
-                style={{right: 8,}}
-                    onPress={() => Regreso()}
-                >
-                    <Icon name="chevron-back"
-                        color="black"
-                        size={45}/>
-                </TouchableOpacity>
-            </View>
+                    <TouchableOpacity
+                        style={{right: 8,}}
+                        onPress={() => Regreso()}
+                    >
+                        <Icon name="chevron-back"
+                            color="black"
+                            size={45}/>
+                    </TouchableOpacity>
+                </View>
             <View style={styles.textBackground}>
                 <TextInput
                     placeholder='Buscar Dependencia'
@@ -98,7 +100,7 @@ const BuscadorDependencias = ({navigation}:any) => {
                        </ScrollView>
                     )
                 }}
-                contentContainerStyle={{ paddingVertical: 7 * 2}}
+                contentContainerStyle={{ paddingVertical: 7 * 2, paddingBottom: "14%"}}
                 />
                 : <View/>
             }
@@ -113,6 +115,13 @@ const BuscadorDependencias = ({navigation}:any) => {
             backgroundColor= "white"
             barStyle= "dark-content"
             />
+            <Image
+                    source={require('../assets/FondoBuscador.jpg')}
+                    style={StyleSheet.absoluteFillObject}
+                    blurRadius={10}
+                    width={width}
+                    height={height}
+                />
         <View style={styles.container}>
             {Buscador()}
             {Listado()}
@@ -126,7 +135,7 @@ const styles = StyleSheet.create({
         marginTop: 10,
         paddingLeft: 15,
         paddingRight: 15,
-        backgroundColor:'white',
+        backgroundColor:'transparent',
     },
 
     textBackground: {

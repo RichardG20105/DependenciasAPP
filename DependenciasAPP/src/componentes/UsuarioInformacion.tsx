@@ -11,15 +11,18 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useIsFocused, useFocusEffect } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import { useEffect } from 'react';
+import { Dimensions } from 'react-native';
 
+const {width, height} = Dimensions.get('window')
 
 export const UsuarioInformacion = ({navigation}:any) => {
     const {CerrarSesion} = UsuarioUso()
     const {UsuarioInfo, InformacionUsuario, EliminarCuenta} = UsuarioUso();
 
     const [Mostrar, setMostrar] = useState(false)
+    
 
     const isFocus = useIsFocused();
 
@@ -47,7 +50,7 @@ export const UsuarioInformacion = ({navigation}:any) => {
     }
 
     return (
-        <View>
+        <View style={{backgroundColor:'black', height}}>
             {Mostrar && UsuarioInfo &&
              <View style={styles.container}>
                 <Image 
@@ -110,12 +113,14 @@ export const UsuarioInformacion = ({navigation}:any) => {
                         </TouchableOpacity>
             </View>
             }
-            { !Mostrar && <View style ={{
-                    top: 350
+            {!Mostrar && <View style ={{
+                    top: 250,
               }}>
+                  <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
+                  <Text style={styles.TextoCarga}>LODES - ESPOCH</Text>
                 <ActivityIndicator
                 size={50}
-                color="cyan"
+                color="#FF6347"
                 />
               </View>
             }
@@ -125,7 +130,6 @@ export const UsuarioInformacion = ({navigation}:any) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -164,7 +168,7 @@ const styles = StyleSheet.create({
 
     userInfoSection: {
         paddingHorizontal: 20,
-        marginBottom: 20,
+        marginBottom: 10,
         marginRight: 'auto'
     },
 
@@ -177,17 +181,17 @@ const styles = StyleSheet.create({
         fontSize: 18,
         color: "black" ,
         marginLeft: 15,
-        opacity: .7
-        
+        opacity: .7  
     },
 
     commandButton: {
-        paddingBottom: 15,
-        paddingHorizontal: 60,
+        paddingBottom: 14,
+        paddingHorizontal: 40,
         borderRadius: 10, 
         backgroundColor: '#FF6347',
         alignItems: 'center',
         marginTop: 1,
+        marginBottom: 2
     },
 
     panelButtonTitle: {
@@ -196,4 +200,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 12,
     },
+    TextoCarga: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        paddingBottom: 20
+    }
 });

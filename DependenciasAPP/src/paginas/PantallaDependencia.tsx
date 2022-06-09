@@ -136,10 +136,10 @@ const PantallaDependencia = (props: any) => {
                         
                         <View style={{ flexDirection: 'row', 
                                             }}>
-                                <Icon name="place" size={25} color="blue" style={{marginLeft: 10, marginTop: -20}}/>
+                                <Icon name="place" size={25} color="blue" style={{marginLeft: 10, marginTop: -10}}/>
                                 <Text 
                                     style={{
-                                        marginTop: -20,
+                                        marginTop: -10,
                                         marginLeft: 2, 
                                         fontSize: 18, 
                                         fontWeight: 'bold', 
@@ -166,7 +166,7 @@ const PantallaDependencia = (props: any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: "white",
+        backgroundColor: "#BFEEFE",
     },
 
     detailsContainer: {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         paddingVertical: 38,
         paddingHorizontal: 20, 
-        backgroundColor: 'white',
+        backgroundColor: '#BFEEFE',
         flex: 1.3,
     },
 

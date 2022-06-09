@@ -7,7 +7,8 @@ import {
     TouchableOpacity,
     Image,
     FlatList,
-    StatusBar
+    StatusBar,
+    ActivityIndicator
 } from "react-native"
 
 import  Carousel  from '../componentes/Carousel'
@@ -32,6 +33,8 @@ type RootStackParamList = {
     Buscador: undefined;
 };
 
+const {width, height} = Dimensions.get('window')
+
 const PantallaInicio = () => {
     const {BaseURL} = Apis();
     const Stack = createStackNavigator();
@@ -41,9 +44,17 @@ const PantallaInicio = () => {
 
     const [IdTipo, setIdTipo] = useState(0);
 
+    const [EstadoCarga, setEstadoCarga] = useState(false)
+
     useEffect(() => {
       CargarTiposDependencia();
+      setEstadoCarga(true)
     }, [])
+
+    useEffect(() => {
+      setTimeout(() =>{setEstadoCarga(false)},1000)
+    }, [EstadoCarga])
+    
 
     type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;    
 
@@ -126,7 +137,7 @@ const PantallaInicio = () => {
                                 style={{
                                     padding: 7,
                                     paddingBottom: 4 * 2,
-                                    backgroundColor: "#3498DB",
+                                    backgroundColor: "#FF6347",
                                     borderRadius: 15,
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -294,19 +305,37 @@ const PantallaInicio = () => {
 
     function InicioScreen(){
         return(
-            <SafeAreaView style={style.container}>
-                <StatusBar
-            translucent = {false}
-            backgroundColor= "white"
-            barStyle= "dark-content"
-            />
-                {renderHeader()}
-                <View style={{paddingVertical: 2 * 2}}>
-                    <Carousel />
+            <SafeAreaView style={{backgroundColor: 'black', width,height}}>
+                {!EstadoCarga && <View style={style.container}>
+                    <StatusBar
+                        translucent = {false}
+                        backgroundColor= "white"
+                        barStyle= "dark-content"
+                    />
+                    {renderHeader()}
+                    <View style={{paddingVertical: 2 * 2}}>
+                        <Carousel />
+                    </View>
+                    {renderMainCategories()}
+                    <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14, fontWeight: 'bold'}}> Recomendados </Text>
+                    {rendermainCards()}
                 </View>
-                {renderMainCategories()}
-                <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14, fontWeight: 'bold'}}> Recomendados </Text>
-                {rendermainCards()}
+                }
+
+                { EstadoCarga && 
+                    <View style ={{
+                        top: 250,
+                        
+                  }}>
+                      <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
+                      <Text style={style.TextoCarga}>LODES - ESPOCH</Text>
+                    <ActivityIndicator
+                    size={50}
+                    color="#FF6347"
+                    />
+                  </View>
+                }
+                
             </SafeAreaView>
         )
     }
@@ -371,6 +400,14 @@ const style = StyleSheet.create({
     TextoLista:{
         color: '#ffff',
         padding: 10
+    },
+    TextoCarga: {
+        color: 'white',
+        textAlign: 'center',
+        fontSize: 20,
+        fontFamily: 'Roboto',
+        fontWeight: 'bold',
+        paddingBottom: 20
     }
 })
 export default PantallaInicio

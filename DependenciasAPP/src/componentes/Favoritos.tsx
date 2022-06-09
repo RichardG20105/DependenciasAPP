@@ -38,7 +38,8 @@ const Favoritos = ({navigation}:any) => {
             keyExtractor={(item) => `${item.idBusca}`}
             contentContainerStyle={{
               padding: 20,
-              paddingTop: StatusBar.currentHeight || 42
+              paddingTop: StatusBar.currentHeight || 42,
+              paddingBottom: 87
             }}
             renderItem = {({item, index}) => {
               const inputRange = [

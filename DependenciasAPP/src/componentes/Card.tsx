@@ -21,14 +21,14 @@ const Card = ({ title, location, description, image }: Props) => {
     <View style={styles.containerCard}>
         <View style={styles.cardImage}>
             {(image.length != 0)
-                ? <Image style={{width: "100%", height: "100%", borderRadius: 20}} source={{uri: `${BaseURL}/imagenes/${image[0].nombreFoto}`}}/>    
-                : <Image style={{width: "100%", height: "100%", borderRadius: 20}} source={require('../assets/ImageNotFound.png')}/>    
+                ? <Image style={{width: 115, height: 100, borderRadius: 20}} source={{uri: `${BaseURL}/imagenes/${image[0].nombreFoto}`}}/>    
+                : <Image style={{width: 115, height: 100, borderRadius: 20}} source={require('../assets/ImageNotFound.png')}/>    
             }            
         </View>
         <View style={{flex: 0.6, marginHorizontal: 12, overflow: "hidden"}}>
             <Text style={styles.cardTitle}>{title}</Text>
             <Text style={styles.cardLocation}>{location}</Text>
-            <Text style={styles.cardDescription}>{description}</Text>
+            <Text style={styles.cardDescription} numberOfLines={3}>{description}</Text>
         </View>
     </View>
   )
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     
     containerCard: {
         flex: 1,
-        backgroundColor: "#BFEEFE",
+        backgroundColor: "#FFA888",
         paddingVertical: 12, 
         paddingHorizontal: 15,
         width: 370,
@@ -66,7 +66,8 @@ const styles = StyleSheet.create({
     cardLocation: {
         fontSize: 12,
         marginLeft: 10,
-        color: "#777"
+        color: "black",
+        opacity: .7
     },
 
     cardDescription: {
@@ -78,7 +79,8 @@ const styles = StyleSheet.create({
 
     cardImage: {
         padding: 0,
-        flex: 0.4
+        flex: 0.4,
+        justifyContent: 'center'
     }
 })
 export default Card

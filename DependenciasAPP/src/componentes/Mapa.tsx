@@ -328,7 +328,7 @@ export const Mapa = ({navigation}:any) => {
                     </View>
                     :<View/>
             }
-                <Fab   NombreIcono="locate" Color='grey' BGColor='#EAECEE'
+                <Fab   NombreIcono="locate" Color='grey' BGColor='white'
                     onPress={() => PosicionCentral()}
                     style={{
                         bottom: DispositvoHeight * .60,
