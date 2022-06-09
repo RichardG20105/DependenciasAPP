@@ -265,7 +265,7 @@ export const Mapa = ({navigation}:any) => {
                         destination={Destino.LocalizacionDestino}
                         apikey={GOOGLE_API_KEY}
                         strokeWidth={4}
-                        strokeColor="red"
+                        strokeColor={Forma === 'WALKING' ?'#35A800' :"#FF6347"}
                         mode={Forma}
                         region='ec'
                         resetOnChange={false}
@@ -273,6 +273,7 @@ export const Mapa = ({navigation}:any) => {
                         onReady={result => {
                             Tiempo(result.duration, result.distance)
                         }}
+                        
                     />
                 }
             </MapView>
@@ -337,23 +338,22 @@ export const Mapa = ({navigation}:any) => {
                 />
             { Ruta && <View style={styles.CuadroRuta}>
                 { (Dependencia?.fotos.length != 0)
-                    ?<Image style={styles.ImagenRuta} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
-                    :<Image style={styles.ImagenRuta} source={require('../assets/ImageNotFound.png')}/>
+                    ?<Image style={styles.ImagenRuta} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}} resizeMode={'stretch'} />
+                    :<Image style={styles.ImagenRuta} source={require('../assets/ImageNotFound.png')} resizeMode={'stretch'} />
                 }
+                <TouchableOpacity onPress={() => CancelarRuta()} style={{position: 'absolute', right: 10, top: 10, backgroundColor:'rgba(0,0,0,0.4)', borderRadius: 50}}>
+                    <Icon name='close' color={'white'} size={30}/>
+                </TouchableOpacity>
                         <View style={styles.CuadroContenido}>
-                        
                             <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
                             <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
                         </View>
-                        <View style={{flex: 2,justifyContent: 'center', right: -120}}>
-                            <Boton title='Cancelar' style={{width: 10,height: 10}} onPress={() => CancelarRuta()}/>
-                        </View>
-                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'#FF6347' :'grey'} BGColor='#EAECEE'
+                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'#35A800' :'grey'} BGColor='#EAECEE'
                             onPress={() => CambiarDeModo('WALKING')}
                             style={{
                                 position: 'absolute',
-                                bottom: 70,
-                                right: 30,
+                                bottom: 7,
+                                right: 160,
                             }}
                         />
 
@@ -361,10 +361,13 @@ export const Mapa = ({navigation}:any) => {
                             onPress={() => CambiarDeModo('DRIVING')}
                             style={{
                                 position: 'absolute',
-                                bottom: 15,
-                                right: 30,
+                                bottom: 7,
+                                right: 90,
                             }}
                         />
+                        <View style={{justifyContent: 'center',position:'absolute', top: 95, right: 100}}>
+                            
+                        </View>
                     </View>
             }
         </>
@@ -425,7 +428,7 @@ const styles = StyleSheet.create({
         bottom: DispositvoHeight * .13,
         right: 7,
         width: DispositivoWidth - 15,
-        height: 300,
+        height: 160,
         backgroundColor: '#3498DB',
         elevation: 9,
         borderRadius: Radio,
@@ -435,17 +438,19 @@ const styles = StyleSheet.create({
             height: 10
         },
         shadowRadius: Radio,
+        flexDirection: 'row'
     },
     ImagenRuta:{
-        width: DispositivoWidth - 15,
-        height: 170,
+        width: 150,
+        height: 160,
         borderTopLeftRadius: Radio,
-        borderTopRightRadius: Radio,
+        borderBottomLeftRadius: Radio,
     },
     CuadroContenido:{
         alignContent: 'center',
-        marginHorizontal: 20,
+        marginHorizontal: 14,
         marginVertical: 10,
+        marginTop: 45,
     },
     Texto:{
         color: 'black',
