@@ -41,7 +41,7 @@ const Carousel = () => {
                         images.map((e, index) => 
                             <Image
                                 key={e}
-                                resizeMode= 'stretch'
+                                resizeMode= 'cover'
                                 style={styles.wrap}
                                 source={e}
                             />
@@ -75,10 +75,10 @@ const styles = StyleSheet.create({
     },
 
     wrap: {
-        width: WIDTH - 45,
+        width: WIDTH - 43,
         height: HEIGHT / 4.2,
         backgroundColor: 'transparent',
-        borderRadius: 45,
+        borderRadius: 25,
         shadowColor: '#000',
         shadowOffset: {width: 0.5, height: 0.5},
         shadowOpacity: 0.5,
