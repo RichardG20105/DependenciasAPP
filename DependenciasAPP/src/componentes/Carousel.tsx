@@ -75,14 +75,15 @@ const styles = StyleSheet.create({
     },
 
     wrap: {
-        width: WIDTH - 42,
-        height: HEIGHT / 4,
-        backgroundColor: 'white',
-        borderRadius: 25,
+        width: WIDTH - 45,
+        height: HEIGHT / 4.2,
+        backgroundColor: 'transparent',
+        borderRadius: 45,
         shadowColor: '#000',
         shadowOffset: {width: 0.5, height: 0.5},
         shadowOpacity: 0.5,
-        shadowRadius: 3,
+        shadowRadius: 2,
+
     },
 
     wrapDot: {
@@ -94,12 +95,14 @@ const styles = StyleSheet.create({
 
     dotActive: {
         margin: 4,
-        color: 'black'
+        color: 'black',
+        fontSize: 30
     },
 
     dot: {
         margin: 4,
-        color: 'white'
+        color: 'white',
+        fontSize: 30
     }
 })
 
