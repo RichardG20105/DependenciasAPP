@@ -44,16 +44,11 @@ const PantallaInicio = () => {
 
     const [IdTipo, setIdTipo] = useState(0);
 
-    const [EstadoCarga, setEstadoCarga] = useState(false)
-
     useEffect(() => {
       CargarTiposDependencia();
-      setEstadoCarga(true)
     }, [])
 
-    useEffect(() => {
-      setTimeout(() =>{setEstadoCarga(false)},1000)
-    }, [EstadoCarga])
+    
     
 
     type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;    
@@ -67,11 +62,12 @@ const PantallaInicio = () => {
                         width: 50,
                         paddingLeft: 20,
                         justifyContent: 'center',
-                        marginTop: 20
+                        marginTop: 15,
+                        left: 2
                     }}
                 >
                     <Image
-                        source={require('../assets/Logo.png')}
+                        source={require('../assets/InicioSesion/LogoSesion.png')}
                         resizeMode="contain"
                         style={{
                             width: 50,
@@ -85,7 +81,7 @@ const PantallaInicio = () => {
                         style={{
                             width: '80%',
                             height: "80%",
-                            backgroundColor: "#EFEFF1",
+                            backgroundColor: "white",
                             alignItems: 'center',
                             justifyContent: 'center',
                             borderRadius: 30,
@@ -137,7 +133,7 @@ const PantallaInicio = () => {
                                 style={{
                                     padding: 7,
                                     paddingBottom: 4 * 2,
-                                    backgroundColor: "#FF6347",
+                                    backgroundColor: "#649DE8",
                                     borderRadius: 15,
                                     alignItems: "center",
                                     justifyContent: "center",
@@ -226,7 +222,7 @@ const PantallaInicio = () => {
                             justifyContent: 'center',
                             paddingHorizontal: 40,
                             borderRadius: 30,
-                            backgroundColor: "#EFEFF1"
+                            backgroundColor: "white"
                         }}
                     >
                         <Text style={{fontFamily: "Roboto-Bold",fontSize: 18, lineHeight: 22, color: "#295074", fontWeight: 'bold'}}>Dependencias</Text>
@@ -243,7 +239,7 @@ const PantallaInicio = () => {
                                 return(
                                     <TouchableOpacity
                                         style={{
-                                            backgroundColor: '#3498DB',
+                                            backgroundColor: '#5383C2',
                                             marginVertical: 5,
                                             borderRadius: 10,
                                             borderColor: 'black',
@@ -305,11 +301,11 @@ const PantallaInicio = () => {
 
     function InicioScreen(){
         return(
-            <SafeAreaView style={{backgroundColor: 'black', width,height}}>
-                {!EstadoCarga && <View style={style.container}>
+            <SafeAreaView style={{backgroundColor: '#E6EEF9', width,height}}>
+
                     <StatusBar
                         translucent = {false}
-                        backgroundColor= "white"
+                        backgroundColor= "#E6EEF9"
                         barStyle= "dark-content"
                     />
                     {renderHeader()}
@@ -319,23 +315,6 @@ const PantallaInicio = () => {
                     {renderMainCategories()}
                     <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 26, paddingLeft:14, fontWeight: 'bold'}}> Recomendados </Text>
                     {rendermainCards()}
-                </View>
-                }
-
-                { EstadoCarga && 
-                    <View style ={{
-                        top: 250,
-                        
-                  }}>
-                      <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
-                      <Text style={style.TextoCarga}>LODES - ESPOCH</Text>
-                    <ActivityIndicator
-                    size={50}
-                    color="#FF6347"
-                    />
-                  </View>
-                }
-                
             </SafeAreaView>
         )
     }
@@ -356,7 +335,7 @@ const VentanaHeight = Dimensions.get('window').height;
 const style = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white",
+        backgroundColor: "#E6EEF9",
     },
     shadow: {
         shadowColor: "#000",
@@ -401,13 +380,5 @@ const style = StyleSheet.create({
         color: '#ffff',
         padding: 10
     },
-    TextoCarga: {
-        color: 'white',
-        textAlign: 'center',
-        fontSize: 20,
-        fontFamily: 'Roboto',
-        fontWeight: 'bold',
-        paddingBottom: 20
-    }
 })
 export default PantallaInicio

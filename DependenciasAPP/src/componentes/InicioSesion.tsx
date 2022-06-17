@@ -6,7 +6,6 @@ import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { Usuario } from '../interfaces/appinterfaces';
-import { useIsFocused } from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window')
 
@@ -74,7 +73,7 @@ const InicioSesion = (props:any) => {
                 <View style={styles.bottomView}>
                 {/* Wellcom View */}
                 <View style={{padding: 40}}>
-                    <Text style={{color: '#FF6347', fontSize: 30}}>Bienvenido</Text>
+                    <Text style={{color: '#3498DB', fontSize: 30}}>Bienvenido</Text>
                     <View style={{flexDirection:'row', top:10}}>
                         <Text style={{color: 'black'}}>¿No tienes una cuenta?</Text>
                         <TouchableOpacity onPress={() => props.navigation.navigate('RegistroDeUsuario')}>
@@ -87,7 +86,7 @@ const InicioSesion = (props:any) => {
                     <View style={styles.action}>
                         <FontAwesome
                             name= "user-o"
-                            color= "#05375a"
+                            color= "black"
                             size= {23}
                         />
                         <TextInput
@@ -103,7 +102,7 @@ const InicioSesion = (props:any) => {
                     <View style={styles.action}>
                         <FontAwesome
                             name= "lock"
-                            color= "#05375a"
+                            color= "black"
                             size= {23}
                         />
                         <TextInput
@@ -193,7 +192,7 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingHorizontal: 100,
         borderRadius: 10, 
-        backgroundColor: '#FF6347',
+        backgroundColor: '#273E5C',
         alignItems: 'center',
         marginTop: 30,
         marginBottom: 10,

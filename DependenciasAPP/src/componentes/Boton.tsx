@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     boton: {
         height: 50,
         width: 150,
-        backgroundColor: '#FF6347',
+        backgroundColor: '#273E5C',
         borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center',

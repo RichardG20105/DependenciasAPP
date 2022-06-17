@@ -322,9 +322,9 @@ export const Mapa = ({navigation}:any) => {
                             <Text style={styles.Titulo}>{Dependencia?.nombreDependencia}</Text>
                             </View>
                         </Svg>
-                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='white' BGColor='#FF6347'
+                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='white' BGColor='#273E5C'
                                 style={{position: 'absolute',bottom: 20, right:10}}/>
-                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#FF6347'
+                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#273E5C'
                                 style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
                     :<View/>
@@ -333,7 +333,7 @@ export const Mapa = ({navigation}:any) => {
                     onPress={() => PosicionCentral()}
                     style={{
                         bottom: DispositvoHeight * .60,
-                        right: -350
+                        right: -DispositivoWidth *.84 
                     }}
                 />
             { Ruta && <View style={styles.CuadroRuta}>
@@ -345,6 +345,7 @@ export const Mapa = ({navigation}:any) => {
                     <Icon name='close' color={'white'} size={30}/>
                 </TouchableOpacity>
                         <View style={styles.CuadroContenido}>
+                            <Text style={{textAlign:'center',fontSize: 18, fontWeight:'bold', color:'black', paddingBottom:7}}>Ruta</Text>
                             <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
                             <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
                         </View>
@@ -450,12 +451,12 @@ const styles = StyleSheet.create({
         alignContent: 'center',
         marginHorizontal: 14,
         marginVertical: 10,
-        marginTop: 45,
+        marginTop: 15,
     },
     Texto:{
         color: 'black',
         fontSize: 15,
-        fontWeight: '900',
+        fontWeight: '500',
     },
     TextoMarcador:{
         position: 'relative',

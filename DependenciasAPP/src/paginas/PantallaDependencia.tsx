@@ -166,7 +166,7 @@ const PantallaDependencia = (props: any) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1, 
-        backgroundColor: "#BFEEFE",
+        backgroundColor: "#E6EEF9",
     },
 
     detailsContainer: {
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 35,
         paddingVertical: 38,
         paddingHorizontal: 20, 
-        backgroundColor: '#BFEEFE',
+        backgroundColor: '#E6EEF9',
         flex: 1.3,
     },
 
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         marginRight: 18,
         position: 'absolute',
         top:-30,
-        backgroundColor: 'white',
+        backgroundColor: '#E6EEF9',
         borderRadius: 30,
         right: 20,
         elevation: 10,
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         marginRight: 100,
         position: 'absolute',
         top:-30,
-        backgroundColor: 'white',
+        backgroundColor: '#E6EEF9',
         borderRadius: 30,
         right: 20,
         elevation: 10,

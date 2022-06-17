@@ -15,7 +15,6 @@ import { BaseURL } from '../api/Apis';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
 
 import { getTipoDependencias } from './Iconos';
-import { ImageBackground } from 'react-native';
 
 const {width, height} = Dimensions.get('window')
 
@@ -109,19 +108,7 @@ const BuscadorDependencias = ({navigation}:any) => {
     }
     
     return (
-        <SafeAreaView style={{flex: 1,backgroundColor: 'white'}}>
-            <StatusBar
-            translucent = {false}
-            backgroundColor= "white"
-            barStyle= "dark-content"
-            />
-            <Image
-                    source={require('../assets/FondoBuscador.jpg')}
-                    style={StyleSheet.absoluteFillObject}
-                    blurRadius={10}
-                    width={width}
-                    height={height}
-                />
+        <SafeAreaView style={{flex: 1,backgroundColor: '#E6EEF9'}}>
         <View style={styles.container}>
             {Buscador()}
             {Listado()}

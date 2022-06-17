@@ -67,19 +67,19 @@ export const UsuarioInformacion = ({navigation}:any) => {
                 <Text style={styles.name}>{UsuarioInfo.apellidos}</Text>
                 <View style={styles.userInfoSection}>
                     <View style={styles.row}>
-                            <Icon name= "account" color="rgba(0,0,0,.7)" size={25}/>
+                            <Icon name= "account" color="black" size={25}/>
                             <Text style={styles.text}>{UsuarioInfo.usuario}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "map-marker-radius" color="rgba(0,0,0,.7)" size={25} />
+                            <Icon name= "map-marker-radius" color="black" size={25} />
                             <Text style={styles.text}>{UsuarioInfo.ciudad}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "phone" color="rgba(0,0,0,.7)" size={25}/>
+                            <Icon name= "phone" color="black" size={25}/>
                             <Text style={styles.text}>(+593) {UsuarioInfo.telefono}</Text>
                         </View>
                         <View style={styles.row}>
-                            <Icon name= "email" color="rgba(0,0,0,.7)" size={25}/>
+                            <Icon name= "email" color="black" size={25}/>
                             <Text style={styles.text}>{UsuarioInfo.correo}</Text>
                         </View>
                     </View>
@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
         marginTop: "50%",
         height:"90%",
         width: "100%",
-        backgroundColor: '#BFEEFE',
+        backgroundColor: '#E6EEF9',
         borderTopStartRadius: 50,
         borderTopEndRadius: 50,
         alignItems: 'center'
@@ -180,15 +180,14 @@ const styles = StyleSheet.create({
     text: {
         fontSize: 18,
         color: "black" ,
-        marginLeft: 15,
-        opacity: .7  
+        marginLeft: 15, 
     },
 
     commandButton: {
         paddingBottom: 14,
         paddingHorizontal: 40,
         borderRadius: 10, 
-        backgroundColor: '#FF6347',
+        backgroundColor: '#273E5C',
         alignItems: 'center',
         marginTop: 1,
         marginBottom: 2

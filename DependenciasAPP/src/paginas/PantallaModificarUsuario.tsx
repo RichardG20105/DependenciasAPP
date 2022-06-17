@@ -58,7 +58,7 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                             justifyContent: 'center',
                             paddingHorizontal: 20 * 3,
                             borderRadius: 30,
-                            backgroundColor: "#EFEFF1"
+                            backgroundColor: "white"
                         }}
                     >
                         <Text 
@@ -166,29 +166,29 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
         )
 
         return(
-            <ScrollView style={{backgroundColor: '#bbe3ed'}}>
+            <ScrollView style={{backgroundColor: '#red'}}>
                 <View style={styles.container}>
-                <Image 
-                style={styles.bgimagen} 
-                source={images.avatar_2}
-                />
-            <View style={styles.bottomContainer}>
-               <Image
-                    style={styles.profile}
-                    source={UsuarioInfo?.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
-               />
-
-               <View style={styles.action}>
-                   <FontAwesome name="vcard" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
-                    <TextInput
-                        defaultValue={UsuarioInfo?.nombres}
-                        onChangeText={setNombres}
-                        placeholder= 'Nombre'
-                        placeholderTextColor="#666666"
-                        autoCorrect={false}
-                        style={styles.textInput}
+                    <Image 
+                        style={styles.bgimagen} 
+                        source={images.avatar_2}
                     />
-               </View>
+                <View style={styles.bottomContainer}>
+                    <Image
+                        style={styles.profile}
+                        source={UsuarioInfo?.genero === 'Masculino' ?images.avatar_3 :images.avatar_6}
+                    />
+
+                    <View style={styles.action}>
+                        <FontAwesome name="vcard" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
+                        <TextInput
+                            defaultValue={UsuarioInfo?.nombres}
+                            onChangeText={setNombres}
+                            placeholder= 'Nombre'
+                            placeholderTextColor="#666666"
+                            autoCorrect={false}
+                            style={styles.textInput}
+                        />
+                    </View>
 
                <View style={styles.action}>
                    <FontAwesome name="vcard" color="black" size={20} style={{paddingLeft: 15, paddingTop: 12}}/>
@@ -271,14 +271,14 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroM(true), setEstadoGeneroF(false), setGenero('Masculino')}}>
                 <FontAwesome
                     name= "male"
-                    color= {EstadoGeneroM ?"#FF6347" :"white"}
+                    color= {EstadoGeneroM ?"#273E5C" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroF(true), setEstadoGeneroM(false), setGenero('Femenino')}}>
                 <FontAwesome
                     name= "female"
-                    color= {EstadoGeneroF ?"#FF6347" :"white"}
+                    color= {EstadoGeneroF ?"#273E5C" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>
@@ -296,21 +296,18 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
     return (
         
         <SafeAreaView style={styles.container}>
-            <StatusBar
-            translucent = {false}
-            backgroundColor= "white"
-            barStyle= "dark-content"
-            />
             {renderHeader()}
             {renderProfile()}
         </SafeAreaView>
     )
 }
 
+const {width,height} = Dimensions.get('window')
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: "white"
+        backgroundColor: "#E6EEF9"
     },
     bgimagen: {
        flex: 1,
@@ -323,9 +320,8 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingHorizontal: 75,
         borderRadius: 10, 
-        backgroundColor: '#FF6347',
+        backgroundColor: '#273E5C',
         alignItems: 'center',
-        marginTop: 10,
         marginBottom: 10,
     },
 
@@ -351,9 +347,10 @@ const styles = StyleSheet.create({
     action: {
         flexDirection: 'row',
         marginTop: 5,
-        marginBottom: 10,
+        marginBottom: 5,
         borderBottomWidth: 1,
-        borderBottomColor: '#f2f2f2',
+        borderBottomColor: '#737373',
+        top: -50
     },
     
     actionError: {
@@ -367,15 +364,15 @@ const styles = StyleSheet.create({
     textInput: {
         flex: 1,
         paddingLeft: 10,
-        color: '#05375a',
+        color: 'black',
         fontSize: 18,
     },
 
     bottomContainer: {
-        marginTop: "25%",
-        height:"90%",
+        marginTop: '25%',
+        height: "90%",
         width: "100%",
-        backgroundColor: '#bbe3ed',
+        backgroundColor: '#E6EEF9',
         borderTopStartRadius: 50,
         borderTopEndRadius: 50,
         alignItems: 'center',

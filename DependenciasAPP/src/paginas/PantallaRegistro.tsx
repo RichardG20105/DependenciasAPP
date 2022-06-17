@@ -95,14 +95,14 @@ const PantallaRegistro = (props:any) => {
     <View style={styles.bottomView}>
         {/* Wellcom View */}
         <View style={{padding: 40}}>
-            <Text style={{color: '#FF6347', fontSize: 30}}>Registrate</Text>
+            <Text style={{color: '#3498DB', fontSize: 30}}>Registrate</Text>
             <Text style={{color: 'black', top: 10}}>Llena los campos solicitados para Registrarte
             </Text>
             {/* Form Inputs View */}    
             <View style={styles.action}>
                 <FontAwesome
                     name= "address-card"
-                    color= "#05375a"
+                    color= "black"
                     size= {23}
                 />
                 <TextInput
@@ -116,7 +116,7 @@ const PantallaRegistro = (props:any) => {
             <View style={styles.action}>
                 <FontAwesome
                     name= "address-card"
-                    color= "#05375a"
+                    color= "black"
                     size= {23}
                 />
                 <TextInput
@@ -130,7 +130,7 @@ const PantallaRegistro = (props:any) => {
             <View style={styles.action}>
                 <FontAwesome
                     name= "user"
-                    color= "#05375a"
+                    color= "black"
                     size= {23}
                 />
                 <TextInput
@@ -144,7 +144,7 @@ const PantallaRegistro = (props:any) => {
             <View style={styles.action}>
                 <FontAwesome
                     name= "lock"
-                    color= "#05375a"
+                    color= "black"
                     size= {23}
                 />
                 <TextInput
@@ -170,7 +170,7 @@ const PantallaRegistro = (props:any) => {
             <View style={styles.action}>
                 <FontAwesome
                     name= "envelope"
-                    color= "#05375a"
+                    color= "black"
                     size= {23}
                 />
                 <TextInput
@@ -183,18 +183,18 @@ const PantallaRegistro = (props:any) => {
                 />
             </View>
             <View style={[styles.action,{alignItems: 'center'}]}>
-                <Text style={{color:'black'}}>Genero</Text> 
+                <Text style={{color:'#05375a', fontSize: 17, }}>Genero</Text> 
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroM(true), setEstadoGeneroF(false), setGenero('Masculino')}}>
                 <FontAwesome
                     name= "male"
-                    color= {EstadoGeneroM ?"#FF6347" :"white"}
+                    color= {EstadoGeneroM ?"#273E5C" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.botonGenero} onPress={() => {setEstadoGeneroF(true), setEstadoGeneroM(false), setGenero('Femenino')}}>
                 <FontAwesome
                     name= "female"
-                    color= {EstadoGeneroF ?"#FF6347" :"white"}
+                    color= {EstadoGeneroF ?"#273E5C" :"white"}
                     size= {30}
                 />
                 </TouchableOpacity>
@@ -270,7 +270,7 @@ const styles = StyleSheet.create({
         paddingBottom: 15,
         paddingHorizontal: 100,
         borderRadius: 10, 
-        backgroundColor: '#FF6347',
+        backgroundColor: '#273E5C',
         alignItems: 'center',
         marginTop: 30,
         marginBottom: 10,
