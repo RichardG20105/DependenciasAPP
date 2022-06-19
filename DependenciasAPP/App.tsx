@@ -26,7 +26,7 @@ const App = () => {
   }, [])
   
   useEffect(() => {
-    setTimeout(() =>{setEstadoCarga(false)},2000)
+    setTimeout(() =>{setEstadoCarga(false)},1500)
   }, [EstadoCarga])
   
   return (

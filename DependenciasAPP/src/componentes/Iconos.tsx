@@ -39,34 +39,43 @@ export const getIconoMapa = (id:number) => {
     switch(id){
         case 1:
             return require(path+'Auditorio.png')
-            break;
+            
         case 2:
             return require(path+'Baño.png')
-            break;
+           
         case 3:
             return require(path+'Estadio.png')
-            break;
+            
         case 4: 
             return require(path+'Cancha.png');
-            break;
+            
         case 5:
             return require(path+'Parqueadero.png')
-            break;
+            
         case 6:
             return require(path+'Facultad.png')
-            break;
+            
         case 7:
             return require(path+'Biblioteca.png')
-            break;
+            
         case 8:
             return require(path+'Cafeteria.png')
-            break;
+            
         case 9:
             return require(path+'Administrativo.png')
-            break;
+        case 10:
+            return require(path+'Piscina.png')
+        case 11:
+            return require(path+'Coliseo.png')
+        case 12:
+            return require(path+'Gimnasio.png')
+        case 13:
+            return require(path+'UnidadAcademica.png')
+        case 14:
+            return require(path+'CentroMedico.png')
         default:
             return require(path+'Pin.png')
-            break;
+            
     }
 }
 

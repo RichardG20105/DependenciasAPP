@@ -1,11 +1,11 @@
 import React, { useEffect, useRef } from 'react'
 import PantallaMapa from '../paginas/PantallaMapa';
 import PantallaFavoritos from '../paginas/PantallaFavoritos';
-import { BottomTabBarButtonProps, createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/Ionicons';
 import PantallaInicio from '../paginas/PantallaInicio';
 import PantallaUsuario from '../paginas/PantallaUsuario';
-import { StyleSheet, Text, TouchableOpacity, View, } from 'react-native';
+import { StyleSheet, TouchableOpacity, View, } from 'react-native';
 
 import * as Animatable from 'react-native-animatable'
 

@@ -17,6 +17,7 @@ export const TiposDependenciaUso = () => {
 
     return {
         TiposDependencia,
+        setTiposDependencia,
         CargarTiposDependencia,
     }
 }

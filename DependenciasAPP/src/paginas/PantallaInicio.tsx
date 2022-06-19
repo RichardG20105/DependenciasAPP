@@ -1,4 +1,4 @@
-import React ,{useEffect, useState} from 'react'
+import React ,{useEffect} from 'react'
 import {
     SafeAreaView,
     View,
@@ -8,7 +8,6 @@ import {
     Image,
     FlatList,
     StatusBar,
-    ActivityIndicator
 } from "react-native"
 
 import  Carousel  from '../componentes/Carousel'
@@ -28,31 +27,18 @@ import { getIconoInicio } from '../componentes/Iconos';
 
 type RootStackParamList = {
     Inicio: undefined;
-    Lista: undefined;
+    Lista: {idTipoDep:number};
     Dependencia: {idDependencia: number};
     Buscador: undefined;
 };
 
 const {width, height} = Dimensions.get('window')
+const Stack = createStackNavigator();   
+
+type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
 
 const PantallaInicio = () => {
-    const {BaseURL} = Apis();
-    const Stack = createStackNavigator();
-
-    const { TiposDependencia, CargarTiposDependencia} = TiposDependenciaUso();
-    const { Dependencias, Recomendados } = DependenciaUso();
-
-    const [IdTipo, setIdTipo] = useState(0);
-
-    useEffect(() => {
-      CargarTiposDependencia();
-    }, [])
-
     
-    
-
-    type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;    
-
     function renderHeader(){
         const navigation = useNavigation<homeScreenProp>();
         return (
@@ -118,6 +104,12 @@ const PantallaInicio = () => {
     
     function  renderMainCategories(){
         const navigation = useNavigation<homeScreenProp>();
+
+        const { TiposDependencia, CargarTiposDependencia} = TiposDependenciaUso();
+
+        useEffect(() => {
+            CargarTiposDependencia();
+        }, [])
         return(
             <View style={{ padding: 7 * 2, paddingBottom: 4}}>
                 <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 21, fontWeight: 'bold' }}> Categorías </Text>
@@ -141,7 +133,7 @@ const PantallaInicio = () => {
                                     
                                     ...style.shadow
                                 }}
-                                onPress={() => {setIdTipo(item.idTipoDependencia),navigation.navigate('Lista')}}
+                                onPress={() => {navigation.navigate('Lista',{idTipoDep: item.idTipoDependencia})}}
                             >
                                 <View   
                                     style={{
@@ -181,11 +173,19 @@ const PantallaInicio = () => {
             </View>   
         )
     }
-    function ListaScreen(){
+    function ListaScreen(props:any){
+        const {BaseURL} = Apis();
         const navigation = useNavigation<homeScreenProp>();
+        const {DependenciasTipo,CargarDependenciasTipo} = DependenciaUso();
+        
         const Regreso = () =>{
             navigation.goBack()
         }
+
+        useEffect(() => {
+            CargarDependenciasTipo(props.route.params.idTipoDep);
+        },[])
+        
 
         return(
             <SafeAreaView style={style.container}>
@@ -231,11 +231,9 @@ const PantallaInicio = () => {
             </View>
                 <View style={style.Lista}>
                     <FlatList
-                        data={Dependencias}
+                        data={DependenciasTipo}
                         showsVerticalScrollIndicator={false}
-                        keyExtractor={item => `${item.idDependencia}`}
                         renderItem={({item}) => {
-                            if(item.idTipoDependencia === IdTipo){
                                 return(
                                     <TouchableOpacity
                                         style={{
@@ -256,12 +254,8 @@ const PantallaInicio = () => {
                                         </View>
                                     </TouchableOpacity>
                                 )
-                            }else{
-                                return(
-                                    <></>
-                                )
-                            }
                         }}
+                        keyExtractor={item => `${item.idDependencia}`}
                     />
                 </View>
             </SafeAreaView>
@@ -270,6 +264,12 @@ const PantallaInicio = () => {
 
     function rendermainCards(){
         const navigation = useNavigation<homeScreenProp>();
+        const { Recomendados, CargarRecomendados } = DependenciaUso();
+
+        useEffect(() => {
+          CargarRecomendados()
+        }, [])
+        
 
         return(
             <>
@@ -329,8 +329,6 @@ const PantallaInicio = () => {
     )
 }
 
-const VentanaWidth = Dimensions.get('window').width;
-const VentanaHeight = Dimensions.get('window').height;
 
 const style = StyleSheet.create({
     container: {
@@ -359,20 +357,21 @@ const style = StyleSheet.create({
     },
     ContenedorLista:{
         flex: 1,
-        height: VentanaHeight
+        height: height
     },
     Lista:{
-        width: VentanaWidth * 0.95,
+        width: width * 0.95,
         marginHorizontal: 10,
         marginVertical: 20,
         borderRadius: 10,
         padding: 0,
+        marginBottom: height * 0.20,
     },
     Imagen:{
         padding: 0,
         margin: 0,
         width: '100%',
-        height: VentanaHeight * 0.20,
+        height: height * 0.20,
         borderTopRightRadius: 10,
         borderTopLeftRadius: 10,
     },

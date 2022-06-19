@@ -8,6 +8,7 @@ export const DependenciaUso = () => {
     const [Dependencia, setDependencia] = useState<Dependencia>();
 
     const [DependenciasSugerida,setDependenciasSugerida] = useState<Dependencia[]>([]);
+    const [DependenciasTipo, setDependenciasTipo] = useState<Dependencia[]>([])
     
     const [Recomendados, setRecomendados] = useState<Dependencia[]>([])
 
@@ -29,6 +30,15 @@ export const DependenciaUso = () => {
         }
     }
 
+    const CargarDependenciasTipo = async(idTipoDep:number) => {
+        try{
+            const resp = await DependenciasApi.get<Dependencia[]>(BaseURL+'/Dependencia/Tipo/'+idTipoDep);
+            setDependenciasTipo(resp.data)
+        }catch(error){
+            console.log(error)
+        }
+    }
+
     const BuscarDependencia = async (idDep:number) => {
         try {
             const resp = await DependenciasApi.get<Dependencia>(BaseURL+'/Dependencia/ID/'+idDep);
@@ -46,19 +56,22 @@ export const DependenciaUso = () => {
             console.log(error)
         }
     }
-    
+
     useEffect(() => {
-        CargarDependencias();
-        CargarRecomendados();
+      CargarDependencias()
     }, [])
+    
 
     return{
         Dependencias,
         Dependencia,
         Recomendados,
         DependenciasSugerida,
+        DependenciasTipo,
         BuscarDependencia,
         BuscarDependenciaSugerida,
         CargarDependencias,
+        CargarDependenciasTipo,
+        CargarRecomendados,
     }
 }
