@@ -6,13 +6,12 @@ import { DependenciaUso } from '../hooks/DependendeciasUso';
 import MapViewDirections, { MapViewDirectionsMode } from 'react-native-maps-directions';
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
 import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
-import {Svg, Image as ImageSvg} from 'react-native-svg';
+import {Svg} from 'react-native-svg';
 import { BaseURL} from '../api/Apis';
-import { Boton } from './Boton';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { getIconoMapa, getColorLetras } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect, useIsFocused } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
