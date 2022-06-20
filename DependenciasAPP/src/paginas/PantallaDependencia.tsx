@@ -134,26 +134,25 @@ const PantallaDependencia = (props: any) => {
                             </View>
                         </View> 
                         
-                        <View style={{ flexDirection: 'row', 
-                                            }}>
-                                <Icon name="place" size={25} color="blue" style={{marginLeft: 10, marginTop: -10}}/>
-                                <Text 
-                                    style={{
-                                        marginTop: -10,
-                                        marginLeft: 2, 
-                                        fontSize: 18, 
-                                        fontWeight: 'bold', 
-                                        color:"blue"
-                                    }}
-                                > 
-                                    Espoch 
-                                </Text>
-                        </View>
-                        <ScrollView style={{paddingBottom: 275}}>
+                        <ScrollView style={{paddingBottom: WIDTH * 0.60}}>
+                            <View style={{ flexDirection: 'row', }}>
+                                    <Icon name="place" size={25} color="blue" style={{marginLeft: 10, marginTop: 5}}/>
+                                    <Text 
+                                        style={{
+                                            marginTop: 5,
+                                            marginLeft: 2, 
+                                            fontSize: 18, 
+                                            fontWeight: 'bold', 
+                                            color:"blue"
+                                        }}
+                                    > 
+                                        Espoch 
+                                    </Text>
+                            </View>
                             <Text style={{color: "black", marginTop: 10, fontWeight: 'bold', fontSize: 20, marginLeft: 15}}>
                                 Acerca de
                             </Text>
-                            <Text style={{color: "black", marginTop: 15, lineHeight: 22, marginLeft: 15}}>
+                            <Text style={{color: "black", marginTop: 15,lineHeight: 22, marginLeft: 15, marginRight: 15, textAlign: 'justify'}}>
                             {Dependencia?.descripcionDependencia}
                             </Text>
                         </ScrollView>
@@ -170,7 +169,7 @@ const styles = StyleSheet.create({
     },
 
     detailsContainer: {
-        top: -45,
+        top: -32,
         borderTopLeftRadius: 35,
         borderTopRightRadius: 35,
         paddingVertical: 38,

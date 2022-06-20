@@ -234,7 +234,7 @@ export const Mapa = ({navigation}:any) => {
                     longitudeDelta: 0.00421,
                 }}
                 ref={mapRef}
-                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), Keyboard.dismiss()]}
+                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false),Keyboard.dismiss()]}
                 maxZoomLevel={19}
                 minZoomLevel={17}
 
@@ -302,7 +302,7 @@ export const Mapa = ({navigation}:any) => {
                         renderItem={({item}) => {
                         return(
                             <TouchableOpacity style={styles.ListaTocar}
-                                onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia)}}
+                                onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia), MarkerClic(item.idDependencia,item.latitud, item.longitud)}}
                             >
                                 <Text style={styles.TextoLista} numberOfLines={1}>{item.nombreDependencia}</Text>
                             </TouchableOpacity>

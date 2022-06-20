@@ -170,9 +170,11 @@ const styles = StyleSheet.create({
     textname: {
         fontSize: 15,
         marginLeft: 10,
+        marginRight: 60,
         fontWeight: "600",
         color: 'black',
-        top: 11
+        top: 11,
+        textAlign: 'justify'
     },
 
     textlocation: {
