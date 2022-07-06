@@ -154,7 +154,7 @@ const InicioSesion = (props:any) => {
                   <Text style={styles.TextoCarga}>LODES - ESPOCH</Text>
                 <ActivityIndicator
                 size={50}
-                color="#FF6347"
+                color='#273E5C'
                 />
               </View>}
               
