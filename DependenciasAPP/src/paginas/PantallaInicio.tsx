@@ -46,10 +46,9 @@ const PantallaInicio = () => {
                 <View
                     style={{
                         width: 50,
-                        paddingLeft: 20,
+                        paddingLeft: 18,
                         justifyContent: 'center',
                         marginTop: 15,
-                        left: 2
                     }}
                 >
                     <Image
@@ -72,7 +71,7 @@ const PantallaInicio = () => {
                             justifyContent: 'center',
                             borderRadius: 30,
                             marginTop: 20,
-                            left: 8
+                            right: 5
                         }}
                     >
                         <Text style={{ color: "#295074", fontFamily: "Roboto-Bold", fontSize: 20, lineHeight: 26, fontWeight: 'bold' }}>LODES - ESPOCH</Text>
@@ -81,10 +80,10 @@ const PantallaInicio = () => {
 
                 <TouchableOpacity
                     style={{
-                        width: 50,
-                        
+                        width: 30,
                         justifyContent: 'center',
-                        marginTop: 20
+                        marginTop: 20,
+                        right: 22
                     }}
                     onPress={() => {navigation.navigate('Buscador')}}
                 >
