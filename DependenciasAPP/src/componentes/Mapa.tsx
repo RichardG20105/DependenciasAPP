@@ -225,7 +225,7 @@ export const Mapa = ({navigation}:any) => {
                 showsMyLocationButton={false}
                 showsUserLocation
                 toolbarEnabled={false}
-                rotateEnabled={false}
+                scrollDuringRotateOrZoomEnabled={false}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
