@@ -147,6 +147,11 @@ export const Mapa = ({navigation}:any) => {
             }
         })
     }
+
+    const PosicionarCompas =async () => {
+        mapRef.current?.animateCamera({heading: 0})
+    }
+
     const PosicionarBusquedaSugerida = async(busqueda: string) => {
         BuscarDependenciaSugerida(busqueda);
         DependenciasSugerida.map(elemento => {
@@ -159,10 +164,6 @@ export const Mapa = ({navigation}:any) => {
                 });
             }
         })
-    }
-
-    const PosicionarCompas =async () => {
-        mapRef.current?.animateCamera({heading: 0})
     }
 
     const BusquedaSugerida = async(busqueda: string) => {
@@ -292,6 +293,7 @@ export const Mapa = ({navigation}:any) => {
                         value={ getTexto()}
                         style={styles.InputBuscador}
                         onChangeText={busqueda => BusquedaSugerida(busqueda)}
+                        placeholderTextColor={'grey'}
                     />
                     <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {if(getTexto()) {setTexto(''),setEstadoBusqueda(false)}}}>
                         <Icon name='close' color='grey' size={30} />
@@ -338,7 +340,7 @@ export const Mapa = ({navigation}:any) => {
                     :<View/>
             }
             
-            <Fab NombreIcono="locate" Color='grey' BGColor='white'
+            <Fab NombreIcono="locate" Color='#43699C' BGColor='white'
                 onPress={() => PosicionCentral()}
                 style={{
                     bottom: DispositvoHeight * .60,
@@ -346,10 +348,10 @@ export const Mapa = ({navigation}:any) => {
                 }}
             />
 
-            <Fab NombreIcono="compass" Color='grey' BGColor='white'
+            <Fab NombreIcono="compass" Color='#43699C' BGColor='white'
                 onPress={() => PosicionarCompas()}
                 style={{
-                    bottom: DispositvoHeight * .80,
+                    bottom: DispositvoHeight * .75,
                     right: -DispositivoWidth *.84 
                 }}
             />
