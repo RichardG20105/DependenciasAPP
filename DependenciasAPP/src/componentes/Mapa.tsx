@@ -92,6 +92,7 @@ export const Mapa = ({navigation}:any) => {
         Reposicionar()
     })
     
+    
 
     const Reposicionar = async() => {
         const Repo = await AsyncStorage.getItem('DependenciaRepo')
@@ -160,6 +161,10 @@ export const Mapa = ({navigation}:any) => {
         })
     }
 
+    const PosicionarCompas =async () => {
+        mapRef.current?.animateCamera({heading: 0})
+    }
+
     const BusquedaSugerida = async(busqueda: string) => {
         if(busqueda === ''){
             setEstadoBusqueda(false); 
@@ -223,6 +228,10 @@ export const Mapa = ({navigation}:any) => {
             <MapView
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
+                showsCompass={false}
+                showsPointsOfInterest={false}
+                showsTraffic={false}
+                showsBuildings={false}
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
@@ -328,13 +337,23 @@ export const Mapa = ({navigation}:any) => {
                     </View>
                     :<View/>
             }
-                <Fab   NombreIcono="locate" Color='grey' BGColor='white'
-                    onPress={() => PosicionCentral()}
-                    style={{
-                        bottom: DispositvoHeight * .60,
-                        right: -DispositivoWidth *.84 
-                    }}
-                />
+            
+            <Fab NombreIcono="locate" Color='grey' BGColor='white'
+                onPress={() => PosicionCentral()}
+                style={{
+                    bottom: DispositvoHeight * .60,
+                    right: -DispositivoWidth *.84 
+                }}
+            />
+
+            <Fab NombreIcono="compass" Color='grey' BGColor='white'
+                onPress={() => PosicionarCompas()}
+                style={{
+                    bottom: DispositvoHeight * .80,
+                    right: -DispositivoWidth *.84 
+                }}
+            />
+
             { Ruta && <View style={styles.CuadroRuta}>
                 { (Dependencia?.fotos.length != 0)
                     ?<Image style={styles.ImagenRuta} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}} resizeMode={'stretch'} />

@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Image, NativeScrollEvent } from  'react-native'
 
-const path = '../assets/Carousel'
 const images = [
     require('../assets/Carousel/fondo1.jpg'),
     require('../assets/Carousel/fondo2.jpg'),
@@ -17,15 +16,18 @@ const HEIGHT = Dimensions.get('window').height;
 const Carousel = () => {
     const [imgActive, setimgActive] = useState(0);
 
+    const [EstadoCarusel, setEstadoCarusel] = useState(false)
+
     const onchange = (nativeEvent: NativeScrollEvent) => {
         if(nativeEvent) {
-            const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
-            if(slide != imgActive){
+            const slide = Math.round(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
+            if(slide !== imgActive){
                 setimgActive(slide);
             }
         }
     }
-
+    
+    
     return (
         <SafeAreaView style={styles.container}>
             <View style={[styles.wrap, {elevation: 12}]}>
@@ -38,7 +40,7 @@ const Carousel = () => {
                     style = {styles.wrap}
                 >
                     {
-                        images.map((e, index) => 
+                        images.map((e) => 
                             <Image
                                 key={e}
                                 resizeMode= 'cover'
@@ -49,11 +51,10 @@ const Carousel = () => {
                     }
                 </ScrollView>
                 <View style={styles.wrapDot}>
-                    {
-                        images.map((e, index) =>
+                    {images.map((e, index) => 
                             <Text
                                 key = {e}
-                                style = { imgActive == index ? styles.dotActive : styles.dot }
+                                style = {imgActive === index ? styles.dotActive : styles.dot }
                             >
                                 ●
                             </Text>
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 30
     },
-
     dot: {
         margin: 4,
         color: 'white',

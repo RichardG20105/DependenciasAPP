@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { 
     StyleSheet,
     SafeAreaView,
-    StatusBar,
     View, 
     Text,
     TextInput,
@@ -11,9 +10,8 @@ import {
     Image,
     Dimensions,
     Alert} from 'react-native'
-    import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-    import FontAwesome from 'react-native-vector-icons/FontAwesome'
-    import Feather from 'react-native-vector-icons/Feather'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {images, icons} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso'
 import { Usuario } from '../interfaces/appinterfaces';
@@ -294,7 +292,6 @@ export const PantallaModificarUsuario = ({navigation}:any) => {
     }
     
     return (
-        
         <SafeAreaView style={styles.container}>
             {renderHeader()}
             {renderProfile()}

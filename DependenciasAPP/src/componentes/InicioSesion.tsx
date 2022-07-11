@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, Image, StyleSheet,
-         useWindowDimensions, TextInput, TouchableOpacity,
+         TextInput, TouchableOpacity,
          Dimensions, Alert, ImageBackground, ScrollView, ActivityIndicator } from 'react-native';
 import Feather from 'react-native-vector-icons/Feather';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';

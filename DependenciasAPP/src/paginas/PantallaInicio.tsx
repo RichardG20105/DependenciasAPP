@@ -39,6 +39,16 @@ type homeScreenProp = StackNavigationProp<RootStackParamList, 'Inicio'>;
 
 const PantallaInicio = () => {
     
+    const { TiposDependencia, CargarTiposDependencia} = TiposDependenciaUso();
+    
+    const { Recomendados, CargarRecomendados } = DependenciaUso();
+
+
+    useEffect(() => {
+        CargarTiposDependencia()
+        CargarRecomendados()
+    }, [])
+
     function renderHeader(){
         const navigation = useNavigation<homeScreenProp>();
         return (
@@ -104,11 +114,8 @@ const PantallaInicio = () => {
     function  renderMainCategories(){
         const navigation = useNavigation<homeScreenProp>();
 
-        const { TiposDependencia, CargarTiposDependencia} = TiposDependenciaUso();
 
-        useEffect(() => {
-            CargarTiposDependencia();
-        }, [])
+        
         return(
             <View style={{ padding: 7 * 2, paddingBottom: 4}}>
                 <Text style={{ color: "#295074", fontFamily: "Roboto-Black", fontSize: 17, lineHeight: 21, fontWeight: 'bold' }}> Categorías </Text>
@@ -262,12 +269,7 @@ const PantallaInicio = () => {
     }
 
     function rendermainCards(){
-        const navigation = useNavigation<homeScreenProp>();
-        const { Recomendados, CargarRecomendados } = DependenciaUso();
-
-        useEffect(() => {
-          CargarRecomendados()
-        }, [])
+        const navigation = useNavigation<homeScreenProp>()
         
 
         return(
