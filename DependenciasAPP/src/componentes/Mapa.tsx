@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Marker } from 'react-native-maps'
+import MapView, { Marker, Polyline } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
@@ -236,6 +236,7 @@ export const Mapa = ({navigation}:any) => {
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
+                mapType={'terrain'}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
@@ -279,6 +280,7 @@ export const Mapa = ({navigation}:any) => {
                         region='ec'
                         resetOnChange={false}
                         optimizeWaypoints={true}
+                        precision='high'
                         onReady={result => {
                             Tiempo(result.duration, result.distance)
                         }}
@@ -332,15 +334,15 @@ export const Mapa = ({navigation}:any) => {
                             <Text style={styles.Titulo}>{Dependencia?.nombreDependencia}</Text>
                             </View>
                         </Svg>
-                        <Fab NombreIcono="arrow-redo-outline" onPress={() => TrazarRuta()} Color='white' BGColor='#273E5C'
+                        <Fab NombreIcono="arrow-redo-outline" PLeft={0} onPress={() => TrazarRuta()} Color='white' BGColor='#273E5C' IconSize={35}
                                 style={{position: 'absolute',bottom: 20, right:10}}/>
-                        <Fab NombreIcono="information-outline" onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#273E5C'
+                        <Fab NombreIcono="information-outline" PLeft={0} onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#273E5C' IconSize={35}
                                 style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
                     :<View/>
             }
             
-            <Fab NombreIcono="locate" Color='#43699C' BGColor='white'
+            <Fab NombreIcono="locate" Color='#43699C' BGColor='white' PLeft={0} IconSize={43}
                 onPress={() => PosicionCentral()}
                 style={{
                     bottom: DispositvoHeight * .60,
@@ -348,7 +350,7 @@ export const Mapa = ({navigation}:any) => {
                 }}
             />
 
-            <Fab NombreIcono="compass" Color='#43699C' BGColor='white'
+            <Fab NombreIcono="compass" Color='#43699C' BGColor='white' PLeft={1.5} IconSize={43}
                 onPress={() => PosicionarCompas()}
                 style={{
                     bottom: DispositvoHeight * .75,
@@ -369,8 +371,8 @@ export const Mapa = ({navigation}:any) => {
                             <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
                             <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
                         </View>
-                        <Fab   NombreIcono="walk" Color={Forma === 'WALKING' ?'#35A800' :'grey'} BGColor='#EAECEE'
-                            onPress={() => CambiarDeModo('WALKING')}
+                        <Fab NombreIcono="walk" Color={Forma === 'WALKING' ?'#35A800' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
+                            onPress={() => CambiarDeModo('WALKING')} 
                             style={{
                                 position: 'absolute',
                                 bottom: 7,
@@ -378,7 +380,7 @@ export const Mapa = ({navigation}:any) => {
                             }}
                         />
 
-                        <Fab   NombreIcono="car" Color={Forma === 'DRIVING' ?'#FF6347' :'grey'} BGColor='#EAECEE'
+                        <Fab NombreIcono="car" Color={Forma === 'DRIVING' ?'#FF6347' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
                             onPress={() => CambiarDeModo('DRIVING')}
                             style={{
                                 position: 'absolute',
