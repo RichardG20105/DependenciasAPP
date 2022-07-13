@@ -7,7 +7,7 @@ import MapViewDirections, { MapViewDirectionsMode } from 'react-native-maps-dire
 import { GOOGLE_API_KEY } from '../hooks/API_KEY';
 import { Dimensions, Image, Keyboard, StyleSheet, Text, View, TouchableOpacity, Alert } from 'react-native';
 import {Svg} from 'react-native-svg';
-import { BaseURL} from '../api/Apis';
+import Apis, { BaseURL, MapJSON } from '../api/Apis';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { getIconoMapa, getColorLetras } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -148,8 +148,17 @@ export const Mapa = ({navigation}:any) => {
         })
     }
 
-    const PosicionarCompas =async () => {
-        mapRef.current?.animateCamera({heading: 0})
+    const PosicionarDependenciaRuta =async () => {
+        if(setSeguirUsuario)
+            setSeguirUsuario(false)
+        if(Dependencia){
+            mapRef.current?.animateCamera({
+                center:{
+                    latitude: Dependencia.latitud,
+                    longitude: Dependencia.longitud
+                }
+            })
+        }
     }
 
     const PosicionarBusquedaSugerida = async(busqueda: string) => {
@@ -201,6 +210,14 @@ export const Mapa = ({navigation}:any) => {
         setDestino({LocalizacionDestino:{latitude: 0, longitude: 0}});
     }
 
+    const MensajeLlegada = (Distancia: number) => {
+        if(Distancia <= 0.001){
+            Alert.alert('Llegaste a',Dependencia?.nombreDependencia,[
+                {text: 'Aceptar',onPress: () => CancelarRuta()}
+            ])
+        }
+    }
+
     const getTexto = ():string =>{
         return Texto;
     }
@@ -230,13 +247,12 @@ export const Mapa = ({navigation}:any) => {
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
                 showsCompass={false}
-                showsPointsOfInterest={false}
                 showsTraffic={false}
-                showsBuildings={false}
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
-                mapType={'terrain'}
+                rotateEnabled={false}
+                customMapStyle={MapJSON}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
@@ -258,19 +274,22 @@ export const Mapa = ({navigation}:any) => {
                                 key={val.idDependencia}
                                 coordinate={{
                                     latitude:val.latitud,
-                                    longitude:val.longitud
+                                    longitude:val.longitud,
+
                                 }}
                                 onPress={() => !Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}])}
-                                style={{width: 75,height: 70,justifyContent: 'center'}}
-                            >
                                 
-                                <Image source={ getIconoMapa(val.idTipoDependencia) } style={[styles.Marcador,{width: MarcadorTam(), height: MarcadorTam()}]} resizeMode='stretch' />
-                                <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                            >
+                                <View>
+                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={[styles.Marcador,{width: MarcadorTam(), height: MarcadorTam()}]} resizeMode='contain'/>
+                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                </View>
                             </Marker>
                         )
                     })
                 }
-                { Ruta && <MapViewDirections
+                { Ruta && 
+                    <MapViewDirections
                         origin={Origen.LocalizacionUsuario}
                         destination={Destino.LocalizacionDestino}
                         apikey={GOOGLE_API_KEY}
@@ -282,9 +301,8 @@ export const Mapa = ({navigation}:any) => {
                         optimizeWaypoints={true}
                         precision='high'
                         onReady={result => {
-                            Tiempo(result.duration, result.distance)
+                            Tiempo(result.duration, result.distance), MensajeLlegada(result.distance)
                         }}
-                        
                     />
                 }
             </MapView>
@@ -350,13 +368,15 @@ export const Mapa = ({navigation}:any) => {
                 }}
             />
 
-            <Fab NombreIcono="compass" Color='#43699C' BGColor='white' PLeft={1.5} IconSize={43}
-                onPress={() => PosicionarCompas()}
-                style={{
-                    bottom: DispositvoHeight * .75,
-                    right: -DispositivoWidth *.84 
-                }}
-            />
+            {Ruta && 
+                <Fab NombreIcono="business" Color='#43699C' BGColor='white' PLeft={1.5} IconSize={30}
+                    onPress={() => PosicionarDependenciaRuta()}
+                    style={{
+                        bottom: DispositvoHeight * .75,
+                        right: -DispositivoWidth *.84 
+                    }}
+                />
+            }
 
             { Ruta && <View style={styles.CuadroRuta}>
                 { (Dependencia?.fotos.length != 0)
