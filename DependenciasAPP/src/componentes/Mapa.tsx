@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Circle, Marker, Polyline } from 'react-native-maps'
+import MapView, { Camera, Circle, Marker, Polyline } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
@@ -29,6 +29,14 @@ export const Mapa = ({navigation}:any) => {
     } = DependenciaUso();
 
     let mapRef = useRef<MapView>(null)
+
+    const CameraInicial: Camera = {
+        center: {latitude: PosicionInicial.latitud, longitude: PosicionInicial.longitud},
+        heading: 300,
+        pitch: 0,
+        zoom: 18,
+        altitude: 2873,
+    }
     
     const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
 
@@ -272,8 +280,10 @@ export const Mapa = ({navigation}:any) => {
                 }}
                 ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false),Keyboard.dismiss()]}
-                maxZoomLevel={19}
+                maxZoomLevel={20}
                 minZoomLevel={17}
+                initialCamera={CameraInicial}
+                
 
                 /* Permitira Calcular los puntos*/
                 onRegionChangeComplete={(cambio) => {setLongDelta(cambio.longitudeDelta)}}
