@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Marker, Polyline } from 'react-native-maps'
+import MapView, { Circle, Marker, Polyline } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
@@ -66,6 +66,11 @@ export const Mapa = ({navigation}:any) => {
     const [DistanciaTiempo, setDistanciaTiempo] = useState({
         tiempo: 0,
         distancia: 0,
+    })
+
+    const [UltimoValor, setUltimoValor] = useState({
+        latitude: 0,
+        longitude: 0
     })
     
     useEffect(() => {
@@ -208,6 +213,7 @@ export const Mapa = ({navigation}:any) => {
         setRuta(false);
         setOrigen({LocalizacionUsuario:{latitude: 0, longitude: 0}});
         setDestino({LocalizacionDestino:{latitude: 0, longitude: 0}});
+        setUltimoValor({latitude: 0, longitude: 0})
     }
 
     const MensajeLlegada = (Distancia: number) => {
@@ -241,13 +247,18 @@ export const Mapa = ({navigation}:any) => {
         }
     }
 
+    const CalcularUltimoValor = (coordenadas:any[]) => {
+        let Lat: any = 'latitude'
+        let Long: any = 'longitude'
+        setUltimoValor({latitude: coordenadas[Lat],longitude: coordenadas[Long]})
+    }
+
     return (
         <>
             <MapView
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
                 showsCompass={false}
-                showsTraffic={false}
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
@@ -288,6 +299,9 @@ export const Mapa = ({navigation}:any) => {
                         )
                     })
                 }
+                { Ruta &&
+                    <Circle center={UltimoValor} radius={2.5} fillColor={'#43699C'} strokeColor={'black'} zIndex={99} />
+                }
                 { Ruta && 
                     <MapViewDirections
                         origin={Origen.LocalizacionUsuario}
@@ -298,13 +312,14 @@ export const Mapa = ({navigation}:any) => {
                         mode={Forma}
                         region='ec'
                         resetOnChange={false}
-                        optimizeWaypoints={true}
                         precision='high'
-                        onReady={result => {
+                        onReady={result => { 
+                            if(UltimoValor.latitude === 0) {CalcularUltimoValor(result.coordinates[result.coordinates.length - 1])}
                             Tiempo(result.duration, result.distance), MensajeLlegada(result.distance)
                         }}
                     />
                 }
+                
             </MapView>
             <View style={styles.BuscadorCuadro}>
                 <View style={styles.Buscador}>
