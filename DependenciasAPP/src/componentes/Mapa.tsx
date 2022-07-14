@@ -271,6 +271,7 @@ export const Mapa = ({navigation}:any) => {
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
                 rotateEnabled={false}
+                pitchEnabled={false}
                 customMapStyle={MapJSON}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
