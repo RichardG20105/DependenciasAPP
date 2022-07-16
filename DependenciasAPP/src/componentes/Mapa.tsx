@@ -46,6 +46,8 @@ export const Mapa = ({navigation}:any) => {
 
     const [Ruta, setRuta] = useState(false)
 
+    const [DependenciaSeleccion, setDependenciaSeleccion] = useState(false);
+
     const [TocarDependencia, setTocarDependencia] = useState<Boolean>(false);
 
     const [LongDelta, setLongDelta] = useState<number>(0.00421)
@@ -204,6 +206,7 @@ export const Mapa = ({navigation}:any) => {
         BuscarDependencia(IdDep);
         setDestino({LocalizacionDestino:{latitude,longitude}});
         setTocarDependencia(true);
+        setDependenciaSeleccion(true)
     }
 
     const TrazarRuta = () => {
@@ -246,7 +249,7 @@ export const Mapa = ({navigation}:any) => {
     }
 
     const LetraTam = () => {
-        return ((-160.77*LongDelta)+8.18)
+        return ((-160.77 * LongDelta) + 8.18)
     }
 
     const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
@@ -281,7 +284,7 @@ export const Mapa = ({navigation}:any) => {
                     longitudeDelta: 0.00421,
                 }}
                 ref={mapRef}
-                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false),Keyboard.dismiss()]}
+                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setDependenciaSeleccion(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
                 maxZoomLevel={20}
                 minZoomLevel={17}
                 initialCamera={CameraInicial}
@@ -300,12 +303,13 @@ export const Mapa = ({navigation}:any) => {
                                     longitude:val.longitud,
 
                                 }}
-                                onPress={() => !Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}])}
-                                
+                                onPress={() => {
+                                    (!Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}]))
+                                }}
                             >
-                                <View>
-                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={[styles.Marcador,{width: MarcadorTam(), height: MarcadorTam()}]} resizeMode='contain'/>
-                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
+                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+5, height: MarcadorTam()+5} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
+                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: (TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?(LetraTam()-1) :LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
                                 </View>
                             </Marker>
                         )
@@ -534,11 +538,6 @@ const styles = StyleSheet.create({
         elevation: 7,
         fontWeight: '600',
         textShadowColor: 'white'
-    },
-    Marcador:{
-        position: 'relative',
-        top: 0,
-        left: 20
     },
     BuscadorCuadro:{
         position: 'absolute',
