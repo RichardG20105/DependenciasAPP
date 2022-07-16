@@ -113,16 +113,17 @@ export const UsuarioInformacion = ({navigation}:any) => {
                         </TouchableOpacity>
             </View>
             }
-            {!Mostrar && <View style ={{
-                    top: 250,
-              }}>
-                  <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
-                  <Text style={styles.TextoCarga}>LODES - ESPOCH</Text>
-                <ActivityIndicator
-                size={50}
-                color="#FF6347"
-                />
-              </View>
+            {!Mostrar && 
+                <View style ={{height: height, backgroundColor: 'black'}}>
+                    <View style={{top: width * 0.7,justifyContent: 'center', alignItems: 'center', alignContent: 'center'}}>
+                        <Image style={{width: 100, height: 150, marginBottom: 10}} source={require('../assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
+                        <Text style={styles.TextoCarga}>LODES - ESPOCH</Text>
+                        <ActivityIndicator
+                            size={50}
+                            color='#273E5C'
+                        />
+                    </View>
+                </View>
             }
         </View>
     )
