@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import MapView, { Camera, Circle, Marker, Polyline } from 'react-native-maps'
+import MapView, { Camera, Circle, Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps'
 import { LocalizacionUso } from '../hooks/LocalizacionUso';
 import { Fab } from './Fab';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
@@ -264,6 +264,7 @@ export const Mapa = ({navigation}:any) => {
     return (
         <>
             <MapView
+                provider={'google'}
                 style={{width:'100%', height:'100%'}}
                 showsMyLocationButton={false}
                 showsCompass={false}
@@ -311,7 +312,7 @@ export const Mapa = ({navigation}:any) => {
                     })
                 }
                 { Ruta &&
-                    <Circle center={UltimoValor} radius={2.5} fillColor={'#43699C'} strokeColor={'black'} zIndex={99} />
+                    <Circle center={UltimoValor} radius={2.5} fillColor={'#43699C'} strokeColor={'black'} zIndex={99999} />
                 }
                 { Ruta && 
                     <MapViewDirections

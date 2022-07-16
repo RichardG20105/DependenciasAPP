@@ -5,6 +5,8 @@ import Navegador from './src/navegador/Navegador';
 import { ProveedorPermisos } from './src/contexto/ContextoPermisos';
 import { ActivityIndicator, Image, LogBox, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { ProovedorSesion } from './src/contexto/ContextoSesion';
+import SplashScreen from 'react-native-splash-screen';
+import { DependenciaUso } from './src/hooks/DependendeciasUso';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 LogBox.ignoreAllLogs();
@@ -20,14 +22,16 @@ const EstadoApp = ({ children}:any)=>{
 
 const App = () => {
   const [EstadoCarga, setEstadoCarga] = useState(false)
-
-  useEffect(() => {
-    setEstadoCarga(true)
-  }, [])
+  const {Recomendados} = DependenciaUso()
   
   useEffect(() => {
     setTimeout(() =>{setEstadoCarga(false)},1500)
   }, [EstadoCarga])
+
+  useEffect(() => {
+    SplashScreen.hide()
+    setEstadoCarga(true)
+  }, [Recomendados])
   
   return (
     <NavigationContainer>
@@ -37,7 +41,7 @@ const App = () => {
       
           { EstadoCarga && 
             <View style ={{height: height, backgroundColor: 'black'}}>
-              <View style={{top: 250}}>
+              <View style={{top: width * 0.7}}>
                 <Image style={{width: 100, height: 150, left:width*0.35, marginBottom: 10}} source={require('./src/assets/InicioSesion/LogoSesion.png')} resizeMode={'stretch'}/>
                 <Text style={style.TextoCarga}>LODES - ESPOCH</Text>
                 <ActivityIndicator
@@ -58,7 +62,7 @@ const style = StyleSheet.create({
   TextoCarga: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
     fontFamily: 'Roboto',
     fontWeight: 'bold',
     paddingBottom: 20
