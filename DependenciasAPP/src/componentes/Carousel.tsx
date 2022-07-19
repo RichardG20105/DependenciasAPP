@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { SafeAreaView, StyleSheet, ScrollView, View, Text, Dimensions, Image, NativeScrollEvent } from  'react-native'
 
 const images = [
@@ -16,8 +16,6 @@ const HEIGHT = Dimensions.get('window').height;
 const Carousel = () => {
     const [imgActive, setimgActive] = useState(0);
 
-    const [EstadoCarusel, setEstadoCarusel] = useState(false)
-
     const onchange = (nativeEvent: NativeScrollEvent) => {
         if(nativeEvent) {
             const slide = Math.round(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width);
@@ -25,8 +23,7 @@ const Carousel = () => {
                 setimgActive(slide);
             }
         }
-    }
-    
+    }  
     
     return (
         <SafeAreaView style={styles.container}>
@@ -36,7 +33,6 @@ const Carousel = () => {
                     showsHorizontalScrollIndicator={false}
                     pagingEnabled
                     horizontal
-                    
                     style = {styles.wrap}
                 >
                     {

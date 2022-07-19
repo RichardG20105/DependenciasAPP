@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react'
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import Navegador from './src/navegador/Navegador';
 import { ProveedorPermisos } from './src/contexto/ContextoPermisos';
 import { ActivityIndicator, Image, LogBox, Text, View, StyleSheet, Dimensions } from 'react-native';
@@ -31,7 +31,7 @@ const App = () => {
   useEffect(() => {
     SplashScreen.hide()
     setEstadoCarga(true)
-  }, [Recomendados])
+  }, [Recomendados.length > 0])
   
   return (
     <NavigationContainer>

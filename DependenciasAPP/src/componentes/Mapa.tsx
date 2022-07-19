@@ -34,7 +34,7 @@ export const Mapa = ({navigation}:any) => {
         center: {latitude: PosicionInicial.latitud, longitude: PosicionInicial.longitud},
         heading: 300,
         pitch: 0,
-        zoom: 18,
+        zoom: 19,
         altitude: 2873,
     }
     
@@ -45,8 +45,6 @@ export const Mapa = ({navigation}:any) => {
     const [EstadoBusqueda, setEstadoBusqueda] = useState<Boolean>(false);
 
     const [Ruta, setRuta] = useState(false)
-
-    const [DependenciaSeleccion, setDependenciaSeleccion] = useState(false);
 
     const [TocarDependencia, setTocarDependencia] = useState<Boolean>(false);
 
@@ -112,7 +110,6 @@ export const Mapa = ({navigation}:any) => {
     const Reposicionar = async() => {
         const Repo = await AsyncStorage.getItem('DependenciaRepo')
         if(Repo !== null){
-
             if(TocarDependencia){
                 setTocarDependencia(false)
             }
@@ -127,7 +124,9 @@ export const Mapa = ({navigation}:any) => {
                         mapRef.current?.animateCamera({
                             center:{latitude:Reposicion.latitude,longitude:Reposicion.longitude}
                         });
-                        MarkerClic(ElementDep.idDependencia, ElementDep.latitud, ElementDep.longitud)
+                        if(!Ruta){
+                            MarkerClic(ElementDep.idDependencia, ElementDep.latitud, ElementDep.longitud)
+                        }
                         BorrarReposicion()
                     }
                 }
@@ -206,7 +205,6 @@ export const Mapa = ({navigation}:any) => {
         BuscarDependencia(IdDep);
         setDestino({LocalizacionDestino:{latitude,longitude}});
         setTocarDependencia(true);
-        setDependenciaSeleccion(true)
     }
 
     const TrazarRuta = () => {
@@ -284,9 +282,9 @@ export const Mapa = ({navigation}:any) => {
                     longitudeDelta: 0.00421,
                 }}
                 ref={mapRef}
-                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setDependenciaSeleccion(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
-                maxZoomLevel={20}
-                minZoomLevel={17}
+                onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
+                maxZoomLevel={30}
+                minZoomLevel={18}
                 initialCamera={CameraInicial}
                 
 
@@ -307,8 +305,8 @@ export const Mapa = ({navigation}:any) => {
                                     (!Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}]))
                                 }}
                             >
-                                <View style={{justifyContent: 'center', alignContent: 'center', alignItems: 'center'}}>
-                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+5, height: MarcadorTam()+5} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
+                                <View style={{alignContent: 'center', alignItems: 'center'}}>
+                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
                                     <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: (TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?(LetraTam()-1) :LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
                                 </View>
                             </Marker>
@@ -316,7 +314,7 @@ export const Mapa = ({navigation}:any) => {
                     })
                 }
                 { Ruta &&
-                    <Circle center={UltimoValor} radius={2.5} fillColor={'#43699C'} strokeColor={'black'} zIndex={99999} />
+                    <Circle center={UltimoValor} radius={3} fillColor={'#43699C'} strokeColor={'black'} zIndex={99999} />
                 }
                 { Ruta && 
                     <MapViewDirections
@@ -372,8 +370,8 @@ export const Mapa = ({navigation}:any) => {
                     />
                 }
             </View>
-            { TocarDependencia 
-                ?<View style={styles.Carta}>
+            { TocarDependencia &&
+                <View style={styles.Carta}>
                         <Svg>
                             { (Dependencia?.fotos.length != 0)
                                 ?<Image style={styles.CartaContenido} source={{uri: `${BaseURL}/imagenes/${Dependencia?.fotos[0].nombreFoto}`}}/>
@@ -388,7 +386,6 @@ export const Mapa = ({navigation}:any) => {
                         <Fab NombreIcono="information-outline" PLeft={0} onPress={() => {navigation.navigate('Dependencias',{idDependencia:Dependencia!.idDependencia,idEstado:2})}} Color='white' BGColor='#273E5C' IconSize={35}
                                 style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
-                    :<View/>
             }
             
             <Fab NombreIcono="locate" Color='#43699C' BGColor='white' PLeft={0} IconSize={43}
