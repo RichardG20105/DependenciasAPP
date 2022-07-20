@@ -4,7 +4,7 @@ import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 
 import org.devio.rn.splashscreen.SplashScreen; // here
-
+import com.marcshilling.idletimer.IdleTimerPackage; // This
 
 public class MainActivity extends ReactActivity {
 

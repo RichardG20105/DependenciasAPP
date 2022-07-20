@@ -13,6 +13,7 @@ import { getIconoMapa, getColorLetras } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import IdleTimerManager from 'react-native-idle-timer';
 
 
 export const Mapa = ({navigation}:any) => {
@@ -212,6 +213,7 @@ export const Mapa = ({navigation}:any) => {
         LocalizacionTiempoReal()
         setRuta(true)
         setTocarDependencia(false)
+        IdleTimerManager.setIdleTimerDisabled(true);
     }
 
     const Tiempo = (tiempo: number, distancia: number) => {
@@ -223,6 +225,7 @@ export const Mapa = ({navigation}:any) => {
         setOrigen({LocalizacionUsuario:{latitude: 0, longitude: 0}});
         setDestino({LocalizacionDestino:{latitude: 0, longitude: 0}});
         setUltimoValor({latitude: 0, longitude: 0})
+        IdleTimerManager.setIdleTimerDisabled(false);
     }
 
     const MensajeLlegada = (Distancia: number) => {
