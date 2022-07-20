@@ -306,8 +306,8 @@ export const Mapa = ({navigation}:any) => {
                                 }}
                             >
                                 <View style={{alignContent: 'center', alignItems: 'center'}}>
-                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
-                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5,fontSize: (TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?(LetraTam()-1) :LetraTam(), width: 75, textAlign: 'center'}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11, zIndex: 9999} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
+                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center'},(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{fontSize: (LetraTam()-1), zIndex: 9999} :{fontSize:LetraTam()}]} numberOfLines={2}>{val.nombreDependencia}</Text>
                                 </View>
                             </Marker>
                         )
@@ -335,41 +335,45 @@ export const Mapa = ({navigation}:any) => {
                 }
                 
             </MapView>
-            <View style={styles.BuscadorCuadro}>
-                <View style={styles.Buscador}>
-                    <TextInput 
-                        placeholder='Buscador...'
-                        value={ getTexto()}
-                        style={styles.InputBuscador}
-                        onChangeText={busqueda => BusquedaSugerida(busqueda)}
-                        placeholderTextColor={'grey'}
-                    />
-                    <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {if(getTexto()) {setTexto(''),setEstadoBusqueda(false)}}}>
-                        <Icon name='close' color='grey' size={30} />
-                    </TouchableOpacity>
-                </View>
-                { EstadoBusqueda && <FlatList
-                        style={styles.ListaSugerida} 
-                        data={DependenciasSugerida} 
-                        getItemLayout={(data, index) => {
-                            return{
-                                length: 30,
-                                offset: 30 * index,
-                                index
-                            }
-                        }}
-                        renderItem={({item}) => {
-                        return(
-                            <TouchableOpacity style={styles.ListaTocar}
-                                onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia), MarkerClic(item.idDependencia,item.latitud, item.longitud)}}
-                            >
-                                <Text style={styles.TextoLista} numberOfLines={1}>{item.nombreDependencia}</Text>
+            { !Ruta &&
+                <View style={styles.BuscadorCuadro}>
+                    <View style={styles.Buscador}>
+                        <TextInput 
+                            placeholder='Buscador...'
+                            value={ getTexto()}
+                            style={styles.InputBuscador}
+                            onChangeText={busqueda => BusquedaSugerida(busqueda)}
+                            placeholderTextColor={'grey'}
+                        />
+                        {(getTexto() !== '') &&
+                            <TouchableOpacity style={{height: 30,width: 30,position: 'absolute', right: 10, top: 9}} onPress={() => {setTexto(''),setEstadoBusqueda(false)}}>
+                                <Icon name='close' color='grey' size={30} />
                             </TouchableOpacity>
-                        )
-                        }} 
-                    />
-                }
-            </View>
+                        }
+                    </View>
+                    { EstadoBusqueda && <FlatList
+                            style={styles.ListaSugerida} 
+                            data={DependenciasSugerida} 
+                            getItemLayout={(data, index) => {
+                                return{
+                                    length: 30,
+                                    offset: 30 * index,
+                                    index
+                                }
+                            }}
+                            renderItem={({item}) => {
+                            return(
+                                <TouchableOpacity style={styles.ListaTocar}
+                                    onPress={() => {setSeguirUsuario(false), PosicionarBusquedaSugerida(item.nombreDependencia), MarkerClic(item.idDependencia,item.latitud, item.longitud)}}
+                                >
+                                    <Text style={styles.TextoLista} numberOfLines={1}>{item.nombreDependencia}</Text>
+                                </TouchableOpacity>
+                            )
+                            }} 
+                        />
+                    }
+                </View>
+            }
             { TocarDependencia &&
                 <View style={styles.Carta}>
                         <Svg>
@@ -414,32 +418,33 @@ export const Mapa = ({navigation}:any) => {
                 <TouchableOpacity onPress={() => CancelarRuta()} style={{position: 'absolute', right: 10, top: 10, backgroundColor:'rgba(0,0,0,0.4)', borderRadius: 50}}>
                     <Icon name='close' color={'white'} size={30}/>
                 </TouchableOpacity>
-                        <View style={styles.CuadroContenido}>
-                            <Text style={{textAlign:'center',fontSize: 18, fontWeight:'bold', color:'black', paddingBottom:7}}>Ruta</Text>
-                            <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
-                            <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
-                        </View>
-                        <Fab NombreIcono="walk" Color={Forma === 'WALKING' ?'#35A800' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
-                            onPress={() => CambiarDeModo('WALKING')} 
-                            style={{
-                                position: 'absolute',
-                                bottom: 7,
-                                right: 160,
-                            }}
-                        />
+                
+                <View style={styles.CuadroContenido}>
+                    <Text style={{textAlign:'center',fontSize: 18, fontWeight:'bold', color:'black', paddingBottom:7}}>Ruta</Text>
+                    <Text style={styles.Texto}>Tiempo de Llegada: <Text style={{fontWeight:'normal'}}> {DistanciaTiempo.tiempo.toFixed(0)}.min</Text></Text>
+                    <Text style={styles.Texto}>Km Aproximados: <Text style={{fontWeight: 'normal'}}>{DistanciaTiempo.distancia.toFixed(1)}.km</Text></Text>
+                </View>
+                <Fab NombreIcono="walk" Color={Forma === 'WALKING' ?'#35A800' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
+                    onPress={() => CambiarDeModo('WALKING')} 
+                    style={{
+                        position: 'absolute',
+                        bottom: 7,
+                        right: 160,
+                    }}
+                />
 
-                        <Fab NombreIcono="car" Color={Forma === 'DRIVING' ?'#FF6347' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
-                            onPress={() => CambiarDeModo('DRIVING')}
-                            style={{
-                                position: 'absolute',
-                                bottom: 7,
-                                right: 90,
-                            }}
-                        />
-                        <View style={{justifyContent: 'center',position:'absolute', top: 95, right: 100}}>
-                            
-                        </View>
-                    </View>
+                <Fab NombreIcono="car" Color={Forma === 'DRIVING' ?'#FF6347' :'grey'} BGColor='#EAECEE' PLeft={0} IconSize={35}
+                    onPress={() => CambiarDeModo('DRIVING')}
+                    style={{
+                        position: 'absolute',
+                        bottom: 7,
+                        right: 90,
+                    }}
+                />
+                <View style={{justifyContent: 'center',position:'absolute', top: 95, right: 100}}>
+                    
+                </View>
+            </View>
             }
         </>
     )
