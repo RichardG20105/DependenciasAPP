@@ -5,7 +5,6 @@ import Apis from '../api/Apis';
 import axios from 'axios';
 import { Alert } from 'react-native';
 import { ContextoSesion } from '../contexto/ContextoSesion';
-import { request } from 'react-native-permissions';
 
 export const UsuarioUso = () => {    
 

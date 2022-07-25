@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, View, TouchableOpacity, Animated, StatusBar } from 'react-native';
+import React, { useEffect } from 'react'
+import { Dimensions, Image, StyleSheet, Text, View, TouchableOpacity, Animated, StatusBar } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
 import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
-import { Icon } from 'react-native-vector-icons/Icon';
 
 const {width, height} = Dimensions.get('window')
 const BG_IMG = require('../assets/BgFavoritos.jpg')
@@ -92,12 +91,13 @@ const Favoritos = ({navigation}:any) => {
                 </TouchableOpacity>
               )
               }}
-        /> ||
-        <View>
-          <Text style={styles.textoNoFavoritos}>No existen Dependencias agregadas a Favoritos</Text>
-          
-        </View>
-          }
+        /> 
+        }
+        { !Favoritos &&  
+          <View>
+            <Text style={styles.textoNoFavoritos}>No existen Dependencias agregadas a Favoritos</Text>
+          </View>
+        }
     </View>
   )
 }

@@ -35,7 +35,7 @@ export const Mapa = ({navigation}:any) => {
         center: {latitude: PosicionInicial.latitud, longitude: PosicionInicial.longitud},
         heading: 300,
         pitch: 0,
-        zoom: 19,
+        zoom: 18,
         altitude: 2873,
     }
     
@@ -286,7 +286,7 @@ export const Mapa = ({navigation}:any) => {
                 }}
                 ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
-                maxZoomLevel={30}
+                maxZoomLevel={21}
                 minZoomLevel={18}
                 initialCamera={CameraInicial}
                 
