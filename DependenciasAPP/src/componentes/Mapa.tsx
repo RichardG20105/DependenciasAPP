@@ -11,9 +11,9 @@ import Apis, { BaseURL, MapJSON } from '../api/Apis';
 import { FlatList, TextInput } from 'react-native-gesture-handler';
 import { getIconoMapa, getColorLetras } from './Iconos';
 import Icon from 'react-native-vector-icons/Ionicons';
-import { useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import IdleTimerManager from 'react-native-idle-timer';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export const Mapa = ({navigation}:any) => {

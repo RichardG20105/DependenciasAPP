@@ -11,9 +11,9 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import {images} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useIsFocused } from '@react-navigation/native';
 import { useEffect } from 'react';
 import { Dimensions } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window')
 

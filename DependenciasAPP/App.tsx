@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react'
-import { NavigationContainer } from '@react-navigation/native';
 import Navegador from './src/navegador/Navegador';
 import { ProveedorPermisos } from './src/contexto/ContextoPermisos';
 import { ActivityIndicator, Image, LogBox, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { ProovedorSesion } from './src/contexto/ContextoSesion';
 import SplashScreen from 'react-native-splash-screen';
 import { DependenciaUso } from './src/hooks/DependendeciasUso';
+import { NavigationContainer } from '@react-navigation/native';
 
 LogBox.ignoreLogs(['new NativeEventEmitter']);
 LogBox.ignoreAllLogs();

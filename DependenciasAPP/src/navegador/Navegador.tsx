@@ -84,7 +84,7 @@ const Navegador = () => {
                   options={{
                     
                     tabBarShowLabel: false,
-                    tabBarButton: (props) => <TabButton {...props} item={item} />
+                    tabBarButton: (props: any) => <TabButton {...props} item={item} />
                     
                   }}
               />

@@ -13,7 +13,6 @@ import {
 import  Carousel  from '../componentes/Carousel'
 import {icons} from '../../constants'
 import { TiposDependenciaUso } from '../hooks/TiposDependenciaUso';
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator, StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { DependenciaUso } from '../hooks/DependendeciasUso';
@@ -23,6 +22,7 @@ import PantallaDependencia from './PantallaDependencia';
 import Apis from '../api/Apis';
 import BuscadorDependencias from '../componentes/BuscadorDependencias';
 import { getIconoInicio } from '../componentes/Iconos';
+import { useNavigation } from '@react-navigation/native';
 
 
 type RootStackParamList = {

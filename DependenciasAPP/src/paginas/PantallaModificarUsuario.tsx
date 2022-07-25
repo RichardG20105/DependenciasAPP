@@ -15,7 +15,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome'
 import {images, icons} from '../../constants'
 import { UsuarioUso } from '../hooks/UsuarioUso'
 import { Usuario } from '../interfaces/appinterfaces';
-import { useFocusEffect } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native'
 
 export const PantallaModificarUsuario = ({navigation}:any) => {
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { Dimensions, Image, StyleSheet, Text, View, TouchableOpacity, Animated, StatusBar } from 'react-native';
 import { UsuarioUso } from '../hooks/UsuarioUso';
-import { useIsFocused } from '@react-navigation/native';
 import { BaseURL } from '../api/Apis';
+import { useIsFocused } from '@react-navigation/native';
 
 const {width, height} = Dimensions.get('window')
 const BG_IMG = require('../assets/BgFavoritos.jpg')
