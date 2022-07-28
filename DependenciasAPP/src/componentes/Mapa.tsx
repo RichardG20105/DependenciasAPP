@@ -31,13 +31,6 @@ export const Mapa = ({navigation}:any) => {
 
     let mapRef = useRef<MapView>(null)
 
-    const CameraInicial: Camera = {
-        center: {latitude: PosicionInicial.latitud, longitude: PosicionInicial.longitud},
-        heading: 300,
-        pitch: 0,
-        zoom: 18,
-        altitude: 2873,
-    }
     
     const [SeguirUsuario, setSeguirUsuario ]= useState<Boolean>(true);
 
@@ -184,7 +177,7 @@ export const Mapa = ({navigation}:any) => {
                 setTexto(busqueda);
                 mapRef.current?.animateCamera({
                     center:{latitude:elemento.latitud,longitude:elemento.longitud},
-                    zoom: 18,
+                    zoom: 19,
                 });
             }
         })
@@ -275,7 +268,7 @@ export const Mapa = ({navigation}:any) => {
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
-                rotateEnabled={false}
+                
                 pitchEnabled={false}
                 customMapStyle={MapJSON}
                 initialRegion={{
@@ -286,9 +279,8 @@ export const Mapa = ({navigation}:any) => {
                 }}
                 ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
-                maxZoomLevel={21}
-                minZoomLevel={18}
-                initialCamera={CameraInicial}
+                maxZoomLevel={22}
+                minZoomLevel={19}
                 
 
                 /* Permitira Calcular los puntos*/
@@ -307,10 +299,15 @@ export const Mapa = ({navigation}:any) => {
                                 onPress={() => {
                                     (!Ruta ?MarkerClic(val.idDependencia,val.latitud, val.longitud) :Alert.alert('Error','Para seleccionar una Dependencia debe cancelar la ruta primero',[{text: 'Aceptar'}]))
                                 }}
+                                
                             >
-                                <View style={{alignContent: 'center', alignItems: 'center'}}>
-                                    <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11, zIndex: 9999} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/>
-                                    <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center'},(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{fontSize: (LetraTam()-1), zIndex: 9999} :{fontSize:LetraTam()}]} numberOfLines={2}>{val.nombreDependencia}</Text>
+                                <View style={{flexDirection: 'column-reverse'}}>
+                                    <View style={{alignContent: 'center', alignItems: 'center', margin: 5}}>
+                                        <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11, zIndex: 9999} :{width: 39, height: 39}} resizeMode='contain'/> 
+                                    </View>
+                                    <View style={{alignContent: 'center', alignItems: 'center'}}>
+                                        <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center'},(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{fontSize: (LetraTam()+1), zIndex: 9999} :{fontSize:9}]} numberOfLines={3}>{val.nombreDependencia}</Text>
+                                    </View>
                                 </View>
                             </Marker>
                         )
