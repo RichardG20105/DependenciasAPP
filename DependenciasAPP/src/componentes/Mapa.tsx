@@ -234,16 +234,11 @@ export const Mapa = ({navigation}:any) => {
     }
 
     const MarcadorTam = () => {
-        const calculo =  0.1263 / LongDelta
-        const maximo = 37
-        if(calculo < maximo){
-            return calculo
-        }
-        return maximo
+        return ((-6666.67 * LongDelta) + 46.33)
     }
 
     const LetraTam = () => {
-        return ((-160.77 * LongDelta) + 8.18)
+        return ((-3333.33 * LongDelta) + 12.67)
     }
 
     const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
@@ -275,7 +270,7 @@ export const Mapa = ({navigation}:any) => {
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
                     latitudeDelta: 0.00922,
-                    longitudeDelta: 0.00421,
+                    longitudeDelta: 0.0024,
                 }}
                 ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
@@ -284,7 +279,7 @@ export const Mapa = ({navigation}:any) => {
                 
 
                 /* Permitira Calcular los puntos*/
-                onRegionChangeComplete={(cambio) => {setLongDelta(cambio.longitudeDelta)}}
+                onRegionChangeComplete={(cambio) => {setLongDelta(cambio.longitudeDelta), console.log(cambio.longitudeDelta)}}
             >
                 {
                     Dependencias.map((val) => {
@@ -303,10 +298,10 @@ export const Mapa = ({navigation}:any) => {
                             >
                                 <View style={{flexDirection: 'column-reverse'}}>
                                     <View style={{alignContent: 'center', alignItems: 'center', margin: 5}}>
-                                        <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11, zIndex: 9999} :{width: 39, height: 39}} resizeMode='contain'/> 
+                                        <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+6, height: MarcadorTam()+6, zIndex: 9999} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/> 
                                     </View>
                                     <View style={{alignContent: 'center', alignItems: 'center'}}>
-                                        <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center'},(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{fontSize: (LetraTam()+1), zIndex: 9999} :{fontSize:9}]} numberOfLines={3}>{val.nombreDependencia}</Text>
+                                        <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center',fontSize:LetraTam()}]} numberOfLines={3}>{val.nombreDependencia}</Text>
                                     </View>
                                 </View>
                             </Marker>
