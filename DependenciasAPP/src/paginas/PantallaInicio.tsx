@@ -127,53 +127,56 @@ const PantallaInicio = () => {
                     keyExtractor={item => `${item.idTipoDependencia}`}
                     renderItem = { ({item}) => {
                         return (
-                            <TouchableOpacity
+                            <View
                                 style={{
                                     padding: 7,
                                     paddingBottom: 4 * 2,
-                                    backgroundColor: "#649DE8",
+                                    backgroundColor: "#E6EEF9",
                                     borderRadius: 15,
                                     alignItems: "center",
                                     justifyContent: "center",
-                                    marginRight: 6.5,
+                                    marginRight: 2, 
                                     
-                                    ...style.shadow
                                 }}
-                                onPress={() => {navigation.navigate('Lista',{idTipoDep: item.idTipoDependencia})}}
                             >
-                                <View   
+                                <TouchableOpacity   
+                                    onPress={() => {navigation.navigate('Lista',{idTipoDep: item.idTipoDependencia})}}
                                     style={{
-                                        width: 50,
-                                        height: 48,
-                                        borderRadius: 25,
+                                        width: 70,
+                                        height: 70,
+                                        borderRadius: 23,
                                         alignItems: "center",
                                         justifyContent: "center",
-                                        backgroundColor: "#FFFFFF"
+                                        backgroundColor: "#88C2FC",
+                                        ...style.shadow
                                     }}
                                 >
                                     <Image
                                         source={getIconoInicio(item.idTipoDependencia)}
                                         resizeMode="contain"
                                         style={{
-                                            width: 30,
-                                            height: 30
+                                            width: 40,
+                                            height: 40,
                                         }}
                                     />
-                                </View>
+                                </TouchableOpacity>
                                 <Text
                                     style={{
-                                        marginTop: 0,
-                                        color: "#FFFFFF",
-                                        fontFamily: "Roboto-Regular", fontSize: 12, lineHeight: 22,
+                                        marginTop: 5,
+                                        color: "#295074",
+                                        fontFamily: "Roboto-Regular", 
+                                        fontSize: 14, 
+                                        lineHeight: 22,
+                                        fontWeight: '700',
                                         textAlign: 'justify'
                                     }}
                                 >
                                     {item.nombreTipoDependencia}
                                 </Text>
-                            </TouchableOpacity>
+                            </View>
                         )
                     }}  
-                    contentContainerStyle={{ paddingVertical: 2 * 2 }}
+                    contentContainerStyle={{ paddingVertical: 1 * 2 }}
                 />
 
             </View>   
@@ -281,7 +284,7 @@ const PantallaInicio = () => {
                 renderItem = { ({item}) => {
                     return (
                         <TouchableOpacity 
-                            style={{marginBottom: 5 * 2}}
+                            style={{marginBottom: 3 * 2}}
                             onPress={() => navigation.navigate('Dependencia',{idDependencia: item.idDependencia})}
                         >  
                             <Card 
@@ -339,12 +342,12 @@ const style = StyleSheet.create({
     shadow: {
         shadowColor: "#000",
         shadowOffset: {
-            width: 0,
-            height: 3,
+            width: 0.5,
+            height: 0.5,
         },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 3,
+        shadowOpacity: 0.5,
+        shadowRadius: 2,
+        elevation: 5,
     },
     contenedorBoton:{
         width: 35
