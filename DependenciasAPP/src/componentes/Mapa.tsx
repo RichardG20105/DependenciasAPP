@@ -187,8 +187,6 @@ export const Mapa = ({navigation}:any) => {
         mapRef.current?.animateCamera({heading: 0})
     }
 
-
-
     const BusquedaSugerida = async(busqueda: string) => {
         if(busqueda === ''){
             setEstadoBusqueda(false); 
