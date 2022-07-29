@@ -183,6 +183,12 @@ export const Mapa = ({navigation}:any) => {
         })
     }
 
+    const PosicionarMapa = () => {
+        mapRef.current?.animateCamera({heading: 0})
+    }
+
+
+
     const BusquedaSugerida = async(busqueda: string) => {
         if(busqueda === ''){
             setEstadoBusqueda(false); 
@@ -234,16 +240,11 @@ export const Mapa = ({navigation}:any) => {
     }
 
     const MarcadorTam = () => {
-        const calculo =  0.1263 / LongDelta
-        const maximo = 37
-        if(calculo < maximo){
-            return calculo
-        }
-        return maximo
+        return ((-6666.67 * LongDelta) + 46.33)
     }
 
     const LetraTam = () => {
-        return ((-160.77 * LongDelta) + 8.18)
+        return ((-3333.33 * LongDelta) + 12.67)
     }
 
     const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
@@ -268,7 +269,6 @@ export const Mapa = ({navigation}:any) => {
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
-                
                 pitchEnabled={false}
                 customMapStyle={MapJSON}
                 initialRegion={{
@@ -303,10 +303,10 @@ export const Mapa = ({navigation}:any) => {
                             >
                                 <View style={{flexDirection: 'column-reverse'}}>
                                     <View style={{alignContent: 'center', alignItems: 'center', margin: 5}}>
-                                        <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+11, height: MarcadorTam()+11, zIndex: 9999} :{width: 39, height: 39}} resizeMode='contain'/> 
+                                        <Image source={ getIconoMapa(val.idTipoDependencia) } style={(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{width: MarcadorTam()+6, height: MarcadorTam()+6, zIndex: 9999} :{width: MarcadorTam(), height: MarcadorTam()}} resizeMode='contain'/> 
                                     </View>
                                     <View style={{alignContent: 'center', alignItems: 'center'}}>
-                                        <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center'},(TocarDependencia && val.idDependencia === Dependencia?.idDependencia) ?{fontSize: (LetraTam()+1), zIndex: 9999} :{fontSize:9}]} numberOfLines={3}>{val.nombreDependencia}</Text>
+                                        <Text style={[styles.TextoMarcador,{color: getColorLetras(val.idTipoDependencia),marginTop: 5, width: 75, textAlign: 'center',fontSize:LetraTam()}]} numberOfLines={3}>{val.nombreDependencia}</Text>
                                     </View>
                                 </View>
                             </Marker>
@@ -391,6 +391,14 @@ export const Mapa = ({navigation}:any) => {
                                 style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
             }
+
+            <Fab NombreIcono="compass-outline" Color='#43699C' BGColor='white' PLeft={2} IconSize={43}
+                onPress={() => PosicionarMapa()}
+                style={{
+                    bottom: DispositvoHeight * .90,
+                    right: -DispositivoWidth *.84 
+                }}
+            />
             
             <Fab NombreIcono="locate" Color='#43699C' BGColor='white' PLeft={0} IconSize={43}
                 onPress={() => PosicionCentral()}
