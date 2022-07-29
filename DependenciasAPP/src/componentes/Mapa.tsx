@@ -240,11 +240,17 @@ export const Mapa = ({navigation}:any) => {
     }
 
     const MarcadorTam = () => {
-        return ((-6666.67 * LongDelta) + 46.33)
+        const MarcadorTamanio = ((-6666.67 * LongDelta) + 46.33)
+        if(MarcadorTamanio < 39)
+            return 39
+        return MarcadorTamanio
     }
 
     const LetraTam = () => {
-        return ((-3333.33 * LongDelta) + 12.67)
+        const Letra = ((-3333.33 * LongDelta) + 12.67)
+        if(Letra < 9)
+            return 9
+        return Letra
     }
 
     const CambiarDeModo = (Modo: MapViewDirectionsMode) => {
