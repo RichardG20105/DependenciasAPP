@@ -183,6 +183,12 @@ export const Mapa = ({navigation}:any) => {
         })
     }
 
+    const PosicionarMapa = () => {
+        mapRef.current?.animateCamera({heading: 0})
+    }
+
+
+
     const BusquedaSugerida = async(busqueda: string) => {
         if(busqueda === ''){
             setEstadoBusqueda(false); 
@@ -263,14 +269,13 @@ export const Mapa = ({navigation}:any) => {
                 showsUserLocation
                 toolbarEnabled={false}
                 scrollDuringRotateOrZoomEnabled={false}
-                
                 pitchEnabled={false}
                 customMapStyle={MapJSON}
                 initialRegion={{
                     latitude: PosicionInicial.latitud,
                     longitude: PosicionInicial.longitud,
                     latitudeDelta: 0.00922,
-                    longitudeDelta: 0.0024,
+                    longitudeDelta: 0.00421,
                 }}
                 ref={mapRef}
                 onTouchStart={ () => [setSeguirUsuario(false), setTocarDependencia(false), setEstadoBusqueda(false), Keyboard.dismiss()]}
@@ -279,7 +284,7 @@ export const Mapa = ({navigation}:any) => {
                 
 
                 /* Permitira Calcular los puntos*/
-                onRegionChangeComplete={(cambio) => {setLongDelta(cambio.longitudeDelta), console.log(cambio.longitudeDelta)}}
+                onRegionChangeComplete={(cambio) => {setLongDelta(cambio.longitudeDelta)}}
             >
                 {
                     Dependencias.map((val) => {
@@ -386,6 +391,14 @@ export const Mapa = ({navigation}:any) => {
                                 style={{position: 'absolute',bottom: 20, right: 70}}/>
                     </View>
             }
+
+            <Fab NombreIcono="compass-outline" Color='#43699C' BGColor='white' PLeft={2} IconSize={43}
+                onPress={() => PosicionarMapa()}
+                style={{
+                    bottom: DispositvoHeight * .90,
+                    right: -DispositivoWidth *.84 
+                }}
+            />
             
             <Fab NombreIcono="locate" Color='#43699C' BGColor='white' PLeft={0} IconSize={43}
                 onPress={() => PosicionCentral()}
